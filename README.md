@@ -49,3 +49,7 @@ personalized recommendations.
 ## External Systems and Dependencies
 - **Listing Providers:** Real estate websites and agencies providing house listings.
 - **Map Services:** Services like Google Maps for geolocation and mapping.
+
+![img.png](img.png)
+![img_1.png](img_1.png)
+![img_2.png](img_2.png)
