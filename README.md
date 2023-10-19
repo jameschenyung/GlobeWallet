@@ -42,6 +42,9 @@ a Cross-Currency Banking System which provides functions like foreign exchange a
 ## Link to API
 (https://polygon.io/docs/forex/get_v1_conversion__from___to)
 
+## Sample Usage 
+<img width="1412" alt="Screenshot 2023-10-19 at 17 22 38" src="https://github.com/jameschenyung/csc207project/assets/78540611/eb95fa00-185e-47f7-8b97-a48fe0c467f1">
+
 ## Example output of our java code
 ```
 200
