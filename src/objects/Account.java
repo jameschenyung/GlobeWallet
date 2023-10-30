@@ -36,6 +36,18 @@ class Account {
         }
         return false;
     }
+
+    public void transfer(Account sender, Account receiver, double amount) {
+        if (sender != null && receiver != null && sender.balance >= amount) {
+            sender.withdraw(amount);
+            receiver.deposit(amount);
+
+            System.out.println("Transfer Success");
+        }
+        else {
+            System.out.println("Transfer Fail");
+        }
+    }
 }
 
 class CheckingAccount extends Account {
