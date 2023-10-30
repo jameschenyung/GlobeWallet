@@ -5,8 +5,8 @@ import java.net.http.HttpResponse;
 
 public class APITesting {
 
-    private static final String API_URL = "https://api.gateway.attomdata.com/propertyapi/v1.0.0/sale/detail?address1=468%20SEQUOIA%20DR&address2=SMYRNA%2C%20DE";
-    private static final String API_KEY = "5b395326789c91adb16a62e1ca7b81bc";
+    private static final String API_URL = "https://api.polygon.io/v1/conversion/AUD/USD?amount=100&precision=2&apiKey=VVwYnnZxhA5RY3nC6Uc0BQrM5trKZWtz";
+    private static final String API_KEY = "VVwYnnZxhA5RY3nC6Uc0BQrM5trKZWtz";
 
     public static void main(String[] args) {
         HttpClient client = HttpClient.newHttpClient();
