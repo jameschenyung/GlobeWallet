@@ -1,3 +1,5 @@
+package objects;
+
 class Account {
     private String accountId;
     private User owner;

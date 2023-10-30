@@ -1,3 +1,5 @@
+package objects;
+
 public class main {
     public static void main(String[] args) {
         User user = new User("12345", "John", "Doe", "johndoe", "password123");
