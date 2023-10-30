@@ -2,7 +2,7 @@ package objects;
 
 public class main {
     public static void main(String[] args) {
-        User user = new User("12345", "John", "Doe", "johndoe", "password123");
+        User user = new User(1234, "John", "Doe", "johndoe", "password123");
         CheckingAccount checkingAccount = new CheckingAccount("C1001", user);
         SavingsAccount savingsAccount = new SavingsAccount("S2001", user);
 

@@ -3,14 +3,14 @@ package objects;
 import java.util.*;
 
 public class User {
-    private String userId;
+    private int userId;
     private String firstName;
     private String lastName;
     private String username;
     private String password;
     private List<Account> accounts;
 
-    public User(String userId, String firstName, String lastName, String username, String password) {
+    public User(int userId, String firstName, String lastName, String username, String password) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -19,7 +19,7 @@ public class User {
         this.accounts = new ArrayList<>();
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
