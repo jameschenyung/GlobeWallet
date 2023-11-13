@@ -1,6 +1,6 @@
 package objects;
 
-class Account {
+public class Account {
     private String accountId;
     private User owner;
     private double balance;
