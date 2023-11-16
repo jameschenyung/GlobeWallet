@@ -1,5 +1,7 @@
 package use_case.login;
 
+import objects.User;
+
 public class LoginInteractor implements LoginInputBoundary {
     final LoginOutputBoundary outputBoundary;
     final LoginUserDataAccessInterface userDataAccess;
@@ -11,7 +13,7 @@ public class LoginInteractor implements LoginInputBoundary {
 
     @Override
     public void requestLogin(LoginInputData inputData) {
-        User user = userDataAccess.getUserByAccountID(inputData.getAccountID());
+        User user = userDataAccess.getUserByUsername(inputData.getUsername());
         if (user != null && user.getPassword().equals(inputData.getPassword())) {
             outputBoundary.presentLoginResult(new LoginOutputData(true, "Login successful"));
         } else {
