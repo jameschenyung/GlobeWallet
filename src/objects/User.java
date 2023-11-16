@@ -58,4 +58,6 @@ public class User {
     public List<Account> getAccounts() {
         return accounts;
     }
+
+    public Object getPassword() {return getPassword();}
 }
