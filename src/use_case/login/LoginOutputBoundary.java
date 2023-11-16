@@ -1,4 +1,4 @@
 package use_case.login;
 
-public class LoginOutputBoundary {
+public interface LoginOutputBoundary {
 }

@@ -8,7 +8,7 @@ import java.sql.*;
 import objects.User;
 import objects.Account;
 
-public class DataAccessObject {
+public class DataAccessObject implements use_case.login.LoginUserDataAccessInterface{
     private static final String DB_URL = "jdbc:sqlite:bank.db";
 
     // Establish database connection
@@ -103,5 +103,43 @@ public class DataAccessObject {
             }
         }
         return null; // Or throw an exception
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        String sql = "SELECT * FROM users WHERE username = ?";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                // Assuming User class has a constructor that matches this data
+                return new User(rs.getInt("id"), rs.getString("firstName"),
+                        rs.getString("lastName"), rs.getString("username"),
+                        rs.getString("password"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean validatePassword(String username, String password) {
+        // This method should validate the password, possibly using hashing and salt
+        // In this example, we're just checking plaintext passwords which is insecure
+        String sql = "SELECT password FROM users WHERE username = ?";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                String storedPassword = rs.getString("password");
+                return storedPassword.equals(password); // In real-world, compare hashed passwords
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
