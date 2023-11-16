@@ -4,8 +4,8 @@ public class LoginInputData {
     private String username;
     private String password;
 
-    public LoginInputData(String accountID, String password) {
-        this.username = accountID;
+    public LoginInputData(String username, String password) {
+        this.username = username;
         this.password = password;
     }
     
