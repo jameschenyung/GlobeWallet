@@ -133,24 +133,35 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
 
     @Override
     public User createUser(String firstName, String lastName, String username, String password) {
-        String sql = "INSERT INTO users (firstName, lastName, username, password) VALUES (?, ?, ?, ?)";
-        try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, firstName);
-            pstmt.setString(2, lastName);
-            pstmt.setString(3, username);
-            pstmt.setString(4, password);
+        String sqlInsertUser = "INSERT INTO users (id, firstName, lastName, username, password) VALUES (?, ?, ?, ?, ?)";
+        String sqlCheckId = "SELECT COUNT(id) FROM users WHERE id = ?";
+        int randomId;
 
-            int affectedRows = pstmt.executeUpdate();
+        try (Connection conn = this.connect();
+             PreparedStatement checkStmt = conn.prepareStatement(sqlCheckId);
+             PreparedStatement insertStmt = conn.prepareStatement(sqlInsertUser)) {
+
+            do {
+                randomId = (int) ((Math.random() * (99999999 - 10000000)) + 10000000); // Generate 8-digit ID
+                checkStmt.setInt(1, randomId);
+                try (ResultSet rs = checkStmt.executeQuery()) {
+                    if (rs.next() && rs.getInt(1) == 0) {
+                        break; // ID is not taken, exit loop
+                    }
+                }
+            } while (true); // Keep looping until an unused ID is found
+
+            insertStmt.setInt(1, randomId);
+            insertStmt.setString(2, firstName);
+            insertStmt.setString(3, lastName);
+            insertStmt.setString(4, username);
+            insertStmt.setString(5, password);
+
+            int affectedRows = insertStmt.executeUpdate();
 
             // Check the affected rows
             if (affectedRows > 0) {
-                // Assuming User class has a constructor that matches this data
-                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        return new User(generatedKeys.getInt(1), firstName, lastName, username, password);
-                    }
-                }
+                return new User(randomId, firstName, lastName, username, password);
             }
         } catch (SQLException e) {
             e.printStackTrace();
