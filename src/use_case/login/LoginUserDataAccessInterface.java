@@ -17,16 +17,4 @@ public interface LoginUserDataAccessInterface {
      * @return true if the password is correct, false otherwise
      */
     boolean validatePassword(String username, String password);
-
-    /**
-     * Logs a failed login attempt for the user.
-     * @param userId the unique identifier of the user
-     */
-    void logFailedLoginAttempt(String userId);
-
-    /**
-     * Resets the failed login attempt counter for the user.
-     * @param userId the unique identifier of the user
-     */
-    void resetFailedLoginCounter(String userId);
 }
