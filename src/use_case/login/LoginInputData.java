@@ -1,8 +1,8 @@
 package use_case.login;
 
 public class LoginInputData {
-    private String accountID;
-    private String password;
+    final private String accountID;
+    final private String password;
 
     public LoginInputData(String accountID, String password) {
         this.accountID = accountID;
