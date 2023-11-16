@@ -1,10 +1,14 @@
-
+package Notification;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/**
+ * This class represents a notification frame for displaying messages.
+ */
 public class NotificationFrame extends JFrame {
-
     private JTextArea messageArea;
 
     public NotificationFrame() {
@@ -28,6 +32,10 @@ public class NotificationFrame extends JFrame {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Displays a given message in the notification frame.
+     * @param message the message to be displayed
+     */
     public void showMessage(String message) {
         messageArea.setText(message);
         setLocationRelativeTo(null);
@@ -36,12 +44,19 @@ public class NotificationFrame extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            Bank user = new Bank("ABC", 100);
-            user.receiveMoney(50);
+            try {
+                Bank user = new Bank("ABC", 100);
+                user.receiveMoney(50);
+            } catch (Exception e) {
+                Logger.getLogger(NotificationFrame.class.getName()).log(Level.SEVERE, null, e);
+            }
         });
     }
 }
 
+/**
+ * This class represents a bank account with basic functionalities.
+ */
 class Bank {
     private String userName;
     private double balance;
@@ -53,9 +68,17 @@ class Bank {
         this.notifier = new NotificationFrame();
     }
 
+    /**
+     * Processes the reception of money and updates the balance.
+     * @param amount the amount of money received
+     */
     public void receiveMoney(double amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Amount cannot be negative.");
+        }
+
         balance += amount;
-        String message = "Hello " + userName + " !" + "\n\nYou have received a transfer of $" + amount + ".\nYour new balance is $" + balance + ".";
+        String message = "Hello " + userName + "!\n\nYou have received a transfer of $" + amount + ".\nYour new balance is $" + balance + ".";
         notifier.showMessage(message);
     }
 }
