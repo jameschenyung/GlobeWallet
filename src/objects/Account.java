@@ -4,11 +4,13 @@ public class Account {
     private String accountId;
     private User owner;
     private double balance;
+    private String CurrencyType;
 
-    public Account(String accountId, User owner) {
+    public Account(String accountId, User owner, double balance, String CurrencyType) {
         this.accountId = accountId;
         this.owner = owner;
         this.balance = 0.0;
+        this.CurrencyType = CurrencyType;
     }
 
     public String getAccountId() {
@@ -47,17 +49,5 @@ public class Account {
         else {
             System.out.println("Transfer Fail");
         }
-    }
-}
-
-class CheckingAccount extends Account {
-    public CheckingAccount(String accountId, User owner) {
-        super(accountId, owner);
-    }
-}
-
-class SavingsAccount extends Account {
-    public SavingsAccount(String accountId, User owner) {
-        super(accountId, owner);
     }
 }

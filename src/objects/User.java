@@ -9,14 +9,18 @@ public class User {
     private String username;
     private String password;
     private List<Account> accounts;
+    private String CurrencyType;
 
-    public User(int userId, String firstName, String lastName, String username, String password) {
+
+
+    public User(int userId, String firstName, String lastName, String username, String password, String CurType) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.accounts = new ArrayList<>();
+        this.CurrencyType = CurType;
     }
 
     public Boolean passwordChecker(String pass) {

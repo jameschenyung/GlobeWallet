@@ -9,7 +9,7 @@ import objects.User;
 import objects.Account;
 
 public class DataAccessObject implements use_case.login.LoginUserDataAccessInterface,
-        use_case.signup.SignupUserDataAccessInterface{
+        use_case.signup.SignupUserDataAccessInterface, use_case.converter.converterDataAccessInterface{
     private static final String DB_URL = "jdbc:sqlite:bank.db";
 
     // Establish database connection
@@ -68,7 +68,8 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
                         rs.getString("firstName"),
                         rs.getString("lastName"),
                         rs.getString("username"),
-                        rs.getString("password")
+                        rs.getString("password"),
+                        rs.getString("CurrencyType")
                 );
             }
         }
@@ -86,7 +87,9 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             if (rs.next()) {
                 return new Account(
                         rs.getString("accountId"),
-                        getUser(rs.getInt("userId"))
+                        getUser(rs.getInt("userId")),
+                        rs.getDouble("balance"),
+                        rs.getString("CurrencyType")
                 );
             }
         }
@@ -104,7 +107,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
                 // Assuming User class has a constructor that matches this data
                 return new User(rs.getInt("id"), rs.getString("firstName"),
                         rs.getString("lastName"), rs.getString("username"),
-                        rs.getString("password"));
+                        rs.getString("password"), rs.getString("CurrencyType"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -132,8 +135,8 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
     }
 
     @Override
-    public User createUser(String firstName, String lastName, String username, String password) {
-        String sqlInsertUser = "INSERT INTO users (id, firstName, lastName, username, password) VALUES (?, ?, ?, ?, ?)";
+    public User createUser(String firstName, String lastName, String username, String password, String CurrencyType) {
+        String sqlInsertUser = "INSERT INTO users (id, firstName, lastName, username, password, CurrencyType) VALUES (?, ?, ?, ?, ?, ?)";
         String sqlCheckId = "SELECT COUNT(id) FROM users WHERE id = ?";
         int randomId;
 
@@ -156,12 +159,13 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             insertStmt.setString(3, lastName);
             insertStmt.setString(4, username);
             insertStmt.setString(5, password);
+            insertStmt.setString(6, CurrencyType);
 
             int affectedRows = insertStmt.executeUpdate();
 
             // Check the affected rows
             if (affectedRows > 0) {
-                return new User(randomId, firstName, lastName, username, password);
+                return new User(randomId, firstName, lastName, username, password, CurrencyType);
             }
         } catch (SQLException e) {
             e.printStackTrace();
