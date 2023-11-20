@@ -116,7 +116,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
     }
 
     @Override
-    public boolean validatePassword(String username, String password) {
+    public boolean checkPassword(String username, String password) {
         // This method should validate the password, possibly using hashing and salt
         // In this example, we're just checking plaintext passwords which is insecure
         String sql = "SELECT password FROM users WHERE username = ?";
