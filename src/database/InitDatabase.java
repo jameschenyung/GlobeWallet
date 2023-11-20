@@ -32,6 +32,17 @@ public class InitDatabase {
                     ")";
             stmt.execute(createAccountTable);
 
+            // Create Transection table
+            String createTransactionTable = "CREATE TABLE IF NOT EXISTS transactions (" +
+                    "transactionId TEXT PRIMARY KEY," +
+                    "senderId TEXT NOT NULL," +
+                    "receiverId TEXT NOT NULL," +
+                    "securityCode INTEGER NOT NULL," +
+                    "FOREIGN KEY (senderId) REFERENCES users(id)," +
+                    "FOREIGN KEY (receiverId) REFERENCES users(id)" +
+                    ")";
+            stmt.execute(createTransactionTable);
+
             System.out.println("Database and tables initialized.");
 
         } catch (Exception e) {
