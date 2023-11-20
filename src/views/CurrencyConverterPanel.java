@@ -1,10 +1,13 @@
 package views;
 
-import com.sun.tools.javac.Main;
-
 import javax.swing.*;
 
 public class CurrencyConverterPanel extends JPanel{
-    private MainFrame frame;
-    public CurrencyConverterPanel(MainFrame frame){}
+    
+//    private void addBackButton() {
+//        JButton backButton = new JButton("Back");
+//        MainFrame frame;
+//        backButton.addActionListener(e -> frame.switchtoPanel(new HomePanel(frame)));
+//        add(backButton);
+//    }
 }
