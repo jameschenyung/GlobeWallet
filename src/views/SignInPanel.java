@@ -19,7 +19,7 @@ public class SignInPanel extends JPanel implements ActionListener {
         this.frame = frame;
         setLayout(null);
 
-        signinLabel = new JLabel("LOG IN");
+        signinLabel = new JLabel("SIGN IN");
         signinLabel.setBounds(10, 20, 100, 25);
         add(signinLabel);
 
@@ -59,7 +59,7 @@ public class SignInPanel extends JPanel implements ActionListener {
         String user = userText.getText();
         String password = new String(passwordText.getPassword());
 
-        if (user.equals("test") && password.equals("Test1234")) {
+        if (user.equals("test") && password.equals("test1234")) {
             success.setText("Login successful!");
             frame.switchToPanel(new HomePanel(frame));
         } else {
