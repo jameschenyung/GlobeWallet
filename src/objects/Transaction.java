@@ -1,20 +1,20 @@
 package objects;
 
-public class Transection {
+public class Transaction {
     private String SenderId;
     private String ReceiverId;
-    private String TransectionId;
+    private String TransactionId;
     private Integer SecurityCode;
 
-    public Transection(String TransectionId, String SenderId, String ReceiverId, Integer SecurityCode){
-        this.TransectionId = TransectionId;
+    public Transaction(String TransactionId, String SenderId, String ReceiverId, Integer SecurityCode){
+        this.TransactionId = TransactionId;
         this.SenderId = SenderId;
         this.ReceiverId = ReceiverId;
         this.SecurityCode = SecurityCode;
     }
 
-    public String getTransectionId(){
-        return TransectionId;
+    public String getTransactionId(){
+        return TransactionId;
     }
 
     public String getSenderId(){
