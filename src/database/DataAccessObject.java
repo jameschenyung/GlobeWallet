@@ -9,7 +9,7 @@ import objects.User;
 import objects.Account;
 
 public class DataAccessObject implements use_case.login.LoginUserDataAccessInterface,
-        use_case.signup.SignupUserDataAccessInterface, use_case.converter.converterDataAccessInterface{
+        use_case.signup.SignupUserDataAccessInterface{
     private static final String DB_URL = "jdbc:sqlite:bank.db";
 
     // Establish database connection
