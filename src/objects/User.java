@@ -9,14 +9,42 @@ public class User {
     private String username;
     private String password;
     private List<Account> accounts;
+    private String CurrencyType;
 
-    public User(int userId, String firstName, String lastName, String username, String password) {
+
+
+    public User(int userId, String firstName, String lastName, String username, String password, String CurType) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.accounts = new ArrayList<>();
+        this.CurrencyType = CurType;
+    }
+
+    public Boolean passwordChecker(String pass) {
+        boolean upper = false;
+        boolean lower = false;
+        boolean number = false;
+
+        for (int i = 0; i < pass.length(); i++) {
+            char element = pass.charAt(i);
+            if (Character.isUpperCase(element)) {
+                upper = true;
+            }
+            else if (Character.isLowerCase(element)) {
+                lower = true;
+            }
+            else if (Character.isDigit(element)) {
+                number = true;
+            }
+
+            if (upper && lower && number) {
+                break;
+            }
+        }
+        return (pass.length() >= 8) && upper && lower && number;
     }
 
     public int getUserId() {
@@ -34,4 +62,6 @@ public class User {
     public List<Account> getAccounts() {
         return accounts;
     }
+
+    public Object getPassword() {return getPassword();}
 }
