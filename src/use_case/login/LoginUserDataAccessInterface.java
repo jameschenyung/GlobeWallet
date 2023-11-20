@@ -16,5 +16,5 @@ public interface LoginUserDataAccessInterface {
      * @param password the password to validate
      * @return true if the password is correct, false otherwise
      */
-    boolean validatePassword(String username, String password);
+    boolean checkPassword(String username, String password);
 }
