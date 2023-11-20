@@ -1,6 +1,7 @@
 package views;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,6 +14,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
     private JLabel userLabel;
     private JTextField userText;
     private JLabel passwordLabel;
+    private JLabel passwordReqLabel;
     private JPasswordField passwordText;
     private JLabel rePasswordLabel;
     private JPasswordField rePasswordText;
@@ -53,7 +55,7 @@ public class RegisterPanel extends JPanel implements ActionListener {
         userText.setBounds(10, 150, 200, 25);
         add(userText);
 
-        passwordLabel = new JLabel("Password (8 or more characters)");
+        passwordLabel = new JLabel("Password");
         passwordLabel.setBounds(10, 170, 300, 25);
         add(passwordLabel);
 
@@ -61,25 +63,33 @@ public class RegisterPanel extends JPanel implements ActionListener {
         passwordText.setBounds(10, 190, 200, 25);
         add(passwordText);
 
+        passwordReqLabel = new JLabel("<html>- At least 8 characters<br>" +
+                "- At least 1 lowercase character<br>" +
+                "- At least 1 uppercase character<br>" +
+                "- At least 1 number</html>");
+        passwordReqLabel.setBounds(10, 210, 250, 100);
+        passwordReqLabel.setForeground(Color.GRAY);
+        add(passwordReqLabel);
+
         rePasswordLabel = new JLabel("Repeat Password");
-        rePasswordLabel.setBounds(10, 210, 200, 25);
+        rePasswordLabel.setBounds(10, 300, 200, 25);
         add(rePasswordLabel);
 
         rePasswordText = new JPasswordField();
-        rePasswordText.setBounds(10, 230, 200, 25);
+        rePasswordText.setBounds(10, 320, 200, 25);
         add(rePasswordText);
 
         registerButton = new JButton("Register");
-        registerButton.setBounds(10, 260, 80, 25);
+        registerButton.setBounds(10, 360, 80, 25);
         registerButton.addActionListener(this);
         add(registerButton);
 
         success = new JLabel("");
-        success.setBounds(10, 290, 200, 25);
+        success.setBounds(10, 380, 200, 25);
         add(success);
 
         JButton backButton = new JButton("Back");
-        backButton.setBounds(10, 330, 80, 25);
+        backButton.setBounds(10, 420, 80, 25);
         backButton.addActionListener(e -> frame.switchToPanel(new InitPanel(frame)));
         add(backButton);
     }
@@ -91,8 +101,18 @@ public class RegisterPanel extends JPanel implements ActionListener {
         String password = passwordText.getText();
         String repassword = rePasswordText.getText();
 
-        if (user.equals("test") && (password.equals("test1234")) && (repassword.equals(password))) {
+        if (!password.equals(repassword)) {
+            success.setText("Passwords do not match!");
+            return;
+        }
+        if (user.equals("test") && (password.equals("Test1234")) && (repassword.equals(password))) {
             success.setText("Register successful!");
+
+            Timer timer = new Timer(2000, event -> {
+                frame.switchToPanel(new SignInPanel(frame));
+            });
+            timer.setRepeats(false);
+            timer.start();
         }
     }
 }

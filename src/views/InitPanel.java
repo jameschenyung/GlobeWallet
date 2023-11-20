@@ -10,7 +10,7 @@ public class InitPanel extends JPanel {
     public InitPanel(MainFrame frame) {
         this.frame = frame;
 
-        JButton signInButton = new JButton("Sign In");
+        JButton signInButton = new JButton("Log In");
         signInButton.addActionListener(e -> frame.switchToPanel(new SignInPanel(frame)));
         add(signInButton);
 
