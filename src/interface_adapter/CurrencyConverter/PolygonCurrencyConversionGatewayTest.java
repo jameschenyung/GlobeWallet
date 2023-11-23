@@ -1,6 +1,6 @@
 package interface_adapter;
 
-import interface_adapter.PolygonCurrencyConversionGateway;
+import interface_adapter.CurrencyConverter.PolygonCurrencyConversionGateway;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
