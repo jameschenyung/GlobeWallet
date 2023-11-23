@@ -1,19 +1,12 @@
-package interface_adapter;
+package interface_adapter.CurrencyConverter;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Scanner;
+
+import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
 import org.json.JSONObject;
-
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
 public class PolygonCurrencyConversionGateway implements CurrencyConversionGateway {
     private static final String POLYGON_API_BASE_URL = "https://api.polygon.io/v1/conversion";
