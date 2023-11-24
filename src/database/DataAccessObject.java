@@ -69,7 +69,8 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
                         rs.getString("lastName"),
                         rs.getString("username"),
                         rs.getString("password"),
-                        rs.getString("CurrencyType")
+                        rs.getString("CurrencyType"),
+                        rs.getString("email")
                 );
             }
         }
@@ -107,7 +108,8 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
                 // Assuming User class has a constructor that matches this data
                 return new User(rs.getInt("id"), rs.getString("firstName"),
                         rs.getString("lastName"), rs.getString("username"),
-                        rs.getString("password"), rs.getString("CurrencyType"));
+                        rs.getString("password"), rs.getString("CurrencyType"),
+                        rs.getString("email"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -135,7 +137,8 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
     }
 
     @Override
-    public User createUser(String firstName, String lastName, String username, String password, String CurrencyType) {
+    public User createUser(String firstName, String lastName, String username, String password, String CurrencyType,
+                           String email) {
         String sqlInsertUser = "INSERT INTO users (id, firstName, lastName, username, password, CurrencyType) VALUES (?, ?, ?, ?, ?, ?)";
         String sqlCheckId = "SELECT COUNT(id) FROM users WHERE id = ?";
         int randomId;
@@ -165,7 +168,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
 
             // Check the affected rows
             if (affectedRows > 0) {
-                return new User(randomId, firstName, lastName, username, password, CurrencyType);
+                return new User(randomId, firstName, lastName, username, password, CurrencyType, email);
             }
         } catch (SQLException e) {
             e.printStackTrace();

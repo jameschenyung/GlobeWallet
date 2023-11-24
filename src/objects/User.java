@@ -10,10 +10,12 @@ public class User {
     private String password;
     private List<Account> accounts;
     private String CurrencyType;
+    private String email;
 
 
 
-    public User(int userId, String firstName, String lastName, String username, String password, String CurType) {
+    public User(int userId, String firstName, String lastName, String username, String password,
+                String CurType, String email) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -21,6 +23,7 @@ public class User {
         this.password = password;
         this.accounts = new ArrayList<>();
         this.CurrencyType = CurType;
+        this.email = email;
     }
 
     public Boolean passwordChecker(String pass) {

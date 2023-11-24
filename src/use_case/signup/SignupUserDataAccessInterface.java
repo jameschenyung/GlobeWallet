@@ -9,7 +9,8 @@ public interface SignupUserDataAccessInterface {
      * @param password the password for the user
      * @return the User object if creation is successful, null otherwise
      */
-    User createUser(String firstName, String lastName, String username, String password, String CurrencyType);
+    User createUser(String firstName, String lastName, String username, String password, String CurrencyType,
+                    String email);
 
     /**
      * Checks if the username is already taken.
