@@ -1,5 +1,7 @@
 package views;
 
+import presenter.MyDetailsPresenter;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,17 +14,21 @@ public class AccountPanel extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
+        JLabel myAccountLabel = new JLabel("MY ACCOUNT");
+        myAccountLabel.setFont(new Font(myAccountLabel.getFont().getName(), Font.PLAIN, 18));
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.NORTH;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        add(myAccountLabel, gbc);
+
+        gbc.gridy++;
 
         JButton detailsButton = new JButton("My Details");
         detailsButton.addActionListener(e -> showDetailsPanel());
-        gbc.gridx = 0;
-        gbc.gridy = 0;
         add(detailsButton, gbc);
 
-        JButton bankAccountsButton = new JButton("Bank Acounts");
+        JButton bankAccountsButton = new JButton("Bank Accounts");
         bankAccountsButton.addActionListener(e -> bankAccountsPanel());
         gbc.gridy++;
         add(bankAccountsButton, gbc);
@@ -37,21 +43,8 @@ public class AccountPanel extends JPanel {
         gbc.gridy++;
         add(backButton, gbc);
 
-        // This extra component stretches to take all the space the buttons don't use
-        gbc.weighty = 1; // Give row weight to push components to the top
-        add(Box.createGlue(), gbc); // Invisible component
-
-//        myAccountLabel = new JLabel("My Account");
-//        myAccountLabel.setBounds(10, 20, 200, 25);
-//        Font myAccFont = myAccountLabel.getFont();
-//        float newSize = 18.0f;
-//        myAccountLabel.setFont(myAccFont.deriveFont(newSize));
-//        add(myAccountLabel);
-//
-//        JButton signOutButton = new JButton("Sign Out");
-//        signOutButton.setBounds(10, 50, 100, 25);
-//        signOutButton.addActionListener(e -> signOut());
-//        add(signOutButton);
+        gbc.weighty = 1;
+        add(Box.createGlue(), gbc);
     }
 
     private void showDetailsPanel() {
@@ -64,8 +57,8 @@ public class AccountPanel extends JPanel {
 
     private void signOut() {
         int response = JOptionPane.showConfirmDialog(frame,
-                "Are you sure you want to sign out?",
-                "Sign Out",
+                "Are you sure you want to log out?",
+                "Log Out",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
