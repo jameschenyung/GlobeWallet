@@ -18,7 +18,7 @@ public class InitDatabase {
                     "lastName TEXT NOT NULL," +
                     "username TEXT NOT NULL UNIQUE," +
                     "password TEXT NOT NULL," +
-                    "currencyType TEXT NOT NULL" + // Added currencyType column
+                    "currencyType TEXT NOT NULL," + // Added currencyType column
                     "email TEXT NOT NULL" + // added email column
                     ")";
             stmt.execute(createUserTable);
