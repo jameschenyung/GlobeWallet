@@ -38,9 +38,10 @@ public class InitDatabase {
                     "transactionId TEXT PRIMARY KEY," +
                     "senderId TEXT NOT NULL," +
                     "receiverId TEXT NOT NULL," +
+                    "amount DOUBLE NOT NULL," +
                     "securityCode INTEGER NOT NULL," +
-                    "FOREIGN KEY (senderId) REFERENCES users(id)," +
-                    "FOREIGN KEY (receiverId) REFERENCES users(id)" +
+                    "FOREIGN KEY (senderId) REFERENCES accounts(id)," +
+                    "FOREIGN KEY (receiverId) REFERENCES accounts(id)" +
                     ")";
             stmt.execute(createTransactionTable);
 
