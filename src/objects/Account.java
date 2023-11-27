@@ -2,13 +2,13 @@ package objects;
 
 public class Account {
     private String accountId;
-    private User owner;
+    private Integer userid;
     private double balance;
     private String CurrencyType;
 
-    public Account(String accountId, User owner, double balance, String CurrencyType) {
+    public Account(String accountId, Integer userid, double balance, String CurrencyType) {
         this.accountId = accountId;
-        this.owner = owner;
+        this.userid = userid;
         this.balance = 0.0;
         this.CurrencyType = CurrencyType;
     }
@@ -17,8 +17,8 @@ public class Account {
         return accountId;
     }
 
-    public User getOwner() {
-        return owner;
+    public Integer getUserid() {
+        return userid;
     }
 
     public double getBalance() {

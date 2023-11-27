@@ -7,10 +7,14 @@ import java.sql.SQLException;
 import java.sql.*;
 import objects.User;
 import objects.Account;
+
+import java.util.Currency;
 import java.util.Random;
+import java.util.Set;
 
 public class DataAccessObject implements use_case.login.LoginUserDataAccessInterface,
-        use_case.signup.SignupUserDataAccessInterface{
+        use_case.signup.SignupUserDataAccessInterface,
+        use_case.sendmoneytransfer.SendMoneyUserDataAccessInterface{
     private static final String DB_URL = "jdbc:sqlite:bank.db";
 
     // Establish database connection
@@ -44,6 +48,27 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         }
     }
 
+    @Override
+    public Account getAccountById(Integer accountId) {
+        String sql = "SELECT * FROM accounts WHERE accountId = ?";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, accountId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                // Assuming the Account class has a constructor that takes these fields
+                return new Account(
+                        rs.getString("accountId"),
+                        rs.getInt("userId"),
+                        rs.getDouble("balance"),
+                        rs.getString("currencyType")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Or handle accordingly
+    }
     // Update account balance
     public void updateAccountBalance(String accountId, double newBalance) throws SQLException {
         String sql = "UPDATE accounts SET balance = ? WHERE accountId = ?";
@@ -53,6 +78,33 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             pstmt.setString(2, accountId);
             pstmt.executeUpdate();
         }
+    }
+    // validate currency
+    @Override
+    public boolean isValidCurrency(String currency) {
+        Set<Currency> availableCurrencies = Currency.getAvailableCurrencies();
+        for (Currency currencies : availableCurrencies) {
+            if (currencies.getCurrencyCode().equalsIgnoreCase(currency)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isValidAccount(Integer accountId) {
+        String sql = "SELECT COUNT(1) FROM accounts WHERE accountId = ?";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, accountId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     // Get user data
@@ -89,7 +141,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             if (rs.next()) {
                 return new Account(
                         rs.getString("accountId"),
-                        getUser(rs.getInt("userId")),
+                        rs.getInt("userId"),
                         rs.getDouble("balance"),
                         rs.getString("CurrencyType")
                 );
@@ -135,6 +187,19 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public void setCurrentUser(String username, Integer userid) {
+        String sql = "INSERT OR REPLACE INTO current_user (id, userId, username) VALUES (1, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userid);
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private int generateUniqueId() {

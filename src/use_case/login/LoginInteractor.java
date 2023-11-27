@@ -21,6 +21,8 @@ public class LoginInteractor implements LoginInputBoundary {
             outputBoundary.prepareFailView("Invalid username or password.");
         }
         else {
+            userDataAccess.setCurrentUser(inputData.getUsername(),
+                    userDataAccess.getUserByUsername(inputData.getUsername()).getUserId());
             outputBoundary.prepareSuccessView(new LoginOutputData(true, "Log in successful."));
         }
     }

@@ -45,6 +45,17 @@ public class InitDatabase {
                     ")";
             stmt.execute(createTransactionTable);
 
+            // Create CurrentUser table
+            String createCurrentUserTable = "CREATE TABLE IF NOT EXISTS current_user (" +
+                    "id INTEGER PRIMARY KEY CHECK (id = 1)," +
+                    "userId INTEGER," +
+                    "username TEXT NOT NULL," +
+                    "FOREIGN KEY (userId) REFERENCES users(id)," +
+                    "FOREIGN KEY (username) REFERENCES users(username)" +
+                    ")";
+            stmt.execute(createCurrentUserTable);
+
+
             System.out.println("Database and tables initialized.");
 
         } catch (Exception e) {
