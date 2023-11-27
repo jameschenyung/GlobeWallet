@@ -4,12 +4,16 @@ import objects.User;
 public class SignupInteractor implements SignupInputBoundary{
 
     private final SignupUserDataAccessInterface userDataAccess;
-    private final SignupOutputBoundary signupOutputBoundary;
+    private SignupOutputBoundary signupOutputBoundary;
 
     public SignupInteractor(SignupUserDataAccessInterface userDataAccess,
                             SignupOutputBoundary signupOutputBoundary) {
         this.userDataAccess = userDataAccess;
         this.signupOutputBoundary = signupOutputBoundary;
+    }
+
+    public void setOutputBoundary(SignupOutputBoundary outputBoundary) {
+        this.signupOutputBoundary = outputBoundary;
     }
 
     @Override

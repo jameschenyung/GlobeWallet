@@ -1,5 +1,10 @@
 package views;
 
+import database.DataAccessObject;
+import presenter.SignupPresenter;
+import use_case.signup.SignupInteractor;
+import use_case.signup.SignupUserDataAccessInterface;
+
 import javax.swing.JPanel;
 import javax.swing.JButton;
 
@@ -15,7 +20,7 @@ public class InitPanel extends JPanel {
         add(signInButton);
 
         JButton registerButton = new JButton("Register");
-        registerButton.addActionListener(e -> frame.switchToPanel(new RegisterPanel(frame)));
+        registerButton.addActionListener(e -> frame.switchToSignupView());
         add(registerButton);
     }
 }
