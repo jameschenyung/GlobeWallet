@@ -81,3 +81,4 @@ public class SignupView extends JPanel {
         JOptionPane.showMessageDialog(this, errorMessage, "Signup Error", JOptionPane.ERROR_MESSAGE);
     }
 }
+

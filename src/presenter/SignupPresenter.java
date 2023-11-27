@@ -1,16 +1,19 @@
 package presenter;
 
 import use_case.signup.*;
+import views.MainFrame;
 import views.SignupView;
 
 import javax.swing.*;
 
 public class SignupPresenter implements SignupOutputBoundary {
     private final SignupView view;
+    private MainFrame frame;
     private SignupInteractor interactor;
 
-    public SignupPresenter(SignupView view, SignupUserDataAccessInterface userDataAccess) {
+    public SignupPresenter(SignupView view, MainFrame frame, SignupUserDataAccessInterface userDataAccess) {
         this.view = view;
+        this.frame = frame;
         this.interactor = new SignupInteractor(userDataAccess, this);
         this.view.setPresenter(this);
     }
@@ -27,6 +30,12 @@ public class SignupPresenter implements SignupOutputBoundary {
     @Override
     public void prepareSuccessView(SignupOutputData data) {
         SwingUtilities.invokeLater(() -> view.showSuccess(data.getMessage()));
+        Timer timer = new Timer(2000, e -> {
+            // Assuming you have a method in MainFrame to switch to the SignInView
+            frame.switchToSignInView();
+        });
+        timer.setRepeats(false); // The timer should only run once
+        timer.start(); // Start the timer
     }
 
     @Override
@@ -34,3 +43,4 @@ public class SignupPresenter implements SignupOutputBoundary {
         SwingUtilities.invokeLater(() -> view.showError(error));
     }
 }
+

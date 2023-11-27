@@ -35,14 +35,19 @@ public class MainFrame extends JFrame {
 
     public void switchToSignupView() {
         SignupView signupView = new SignupView(this);
-        SignupPresenter signupPresenter = new SignupPresenter(signupView, userDataAccess);
+        SignupPresenter signupPresenter = new SignupPresenter(signupView, this, userDataAccess);
         signupView.setPresenter(signupPresenter);
         SignupInteractor signupInteractor = new SignupInteractor(userDataAccess, signupPresenter);
         signupPresenter.setInteractor(signupInteractor);
         switchToPanel(signupView);
     }
 
+    public void switchToSignInView() {
+        SignInPanel signInView = new SignInPanel(this);
+        switchToPanel(signInView);
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainFrame().setVisible(true));
     }
 }
+
