@@ -12,25 +12,16 @@ public class LoginInteractor implements LoginInputBoundary {
     }
 
     @Override
-    public void requestLogin(LoginInputData inputData) {
+    public void execute(LoginInputData inputData) {
         if (inputData == null || inputData.getUsername() == null || inputData.getPassword() == null) {
-            outputBoundary.presentLoginResult(new LoginOutputData(false, "Invalid input data"));
-            return;
+            outputBoundary.prepareFailView("Invalid input.");
         }
-
-        try {
-            User user = userDataAccess.getUserByUsername(inputData.getUsername());
-            if (user != null && checkPassword(user, inputData.getPassword())) {
-                outputBoundary.presentLoginResult(new LoginOutputData(true, "Login successful"));
-            } else {
-                outputBoundary.presentLoginResult(new LoginOutputData(false, "Invalid credentials"));
-            }
-        } catch (Exception e) {
-            outputBoundary.presentLoginResult(new LoginOutputData(false, "Login failed due to system error"));
+        else if (userDataAccess.getUserByUsername(inputData.getUsername()) == null ||
+                !userDataAccess.checkPassword(inputData.getUsername(), inputData.getPassword())) {
+            outputBoundary.prepareFailView("Invalid username or password.");
         }
-    }
-
-    private boolean checkPassword(User user, String inputPassword) {
-        return user.getPassword().equals(inputPassword);
+        else {
+            outputBoundary.prepareSuccessView(new LoginOutputData(true, "Log in successful."));
+        }
     }
 }

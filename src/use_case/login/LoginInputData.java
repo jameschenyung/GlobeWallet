@@ -18,16 +18,10 @@ public class LoginInputData {
     }
 
     public void setUsername(String username) {
-        if (username == null || username.trim().isEmpty()) {
-            throw new IllegalArgumentException("Username cannot be null or empty");
-        }
         this.username = username;
     }
 
     public void setPassword(String password) {
-        if (password == null || password.length() < 8) {
-            throw new IllegalArgumentException("Password cannot be null and must be at least 8 characters long");
-        }
         this.password = password;
     }
 }
