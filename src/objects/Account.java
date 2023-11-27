@@ -1,19 +1,19 @@
 package objects;
 
 public class Account {
-    private String accountId;
+    private Integer accountId;
     private Integer userid;
     private double balance;
     private String CurrencyType;
 
-    public Account(String accountId, Integer userid, double balance, String CurrencyType) {
+    public Account(Integer accountId, Integer userid, double balance, String CurrencyType) {
         this.accountId = accountId;
         this.userid = userid;
         this.balance = 0.0;
         this.CurrencyType = CurrencyType;
     }
 
-    public String getAccountId() {
+    public Integer getAccountId() {
         return accountId;
     }
 

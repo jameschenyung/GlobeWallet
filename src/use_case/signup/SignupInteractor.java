@@ -1,5 +1,4 @@
 package use_case.signup;
-import objects.User;
 
 public class SignupInteractor implements SignupInputBoundary{
 

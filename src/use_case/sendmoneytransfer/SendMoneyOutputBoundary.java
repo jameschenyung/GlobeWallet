@@ -1,5 +1,8 @@
 package use_case.sendmoneytransfer;
 
 public interface SendMoneyOutputBoundary {
-    void presentSendMoneyResponse(SendMoneyOutputData outputData);
+    void prepareSuccessCheckBalance(SendMoneyOutputData outputData);
+    void prepareSuccessConvert(SendMoneyOutputData outputData);
+    void prepareSuccessTransfer(SendMoneyOutputData outputData);
+    void prepareFailView(String message);
 }
