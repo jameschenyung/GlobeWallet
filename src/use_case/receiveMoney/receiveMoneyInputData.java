@@ -1,4 +1,5 @@
-package use_case.receiveMoney;
-
-public class receiveMoneyInputData {
-}
+//package use_case.receiveMoney;
+//
+//public class receiveMoneyInputData {
+//    private
+//}
