@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.*;
 import objects.User;
 import objects.Account;
+import java.util.Random;
 
 public class DataAccessObject implements use_case.login.LoginUserDataAccessInterface,
         use_case.signup.SignupUserDataAccessInterface{
@@ -136,44 +137,57 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return false;
     }
 
-    @Override
-    public User createUser(String firstName, String lastName, String username, String password, String CurrencyType,
-                           String email) {
-        String sqlInsertUser = "INSERT INTO users (id, firstName, lastName, username, password, CurrencyType) VALUES (?, ?, ?, ?, ?, ?)";
-        String sqlCheckId = "SELECT COUNT(id) FROM users WHERE id = ?";
+    private int generateUniqueId() {
+        Random rand = new Random();
         int randomId;
+        String sqlCheckId = "SELECT COUNT(id) FROM users WHERE id = ?";
 
         try (Connection conn = this.connect();
-             PreparedStatement checkStmt = conn.prepareStatement(sqlCheckId);
-             PreparedStatement insertStmt = conn.prepareStatement(sqlInsertUser)) {
+             PreparedStatement checkStmt = conn.prepareStatement(sqlCheckId)) {
 
-            do {
-                randomId = (int) ((Math.random() * (99999999 - 10000000)) + 10000000); // Generate 8-digit ID
+            while (true) {
+                randomId = 10000000 + rand.nextInt(90000000); // Generate 8-digit ID
                 checkStmt.setInt(1, randomId);
+
                 try (ResultSet rs = checkStmt.executeQuery()) {
                     if (rs.next() && rs.getInt(1) == 0) {
-                        break; // ID is not taken, exit loop
+                        return randomId; // ID is not taken, return this ID
                     }
                 }
-            } while (true); // Keep looping until an unused ID is found
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error checking for unique ID", e);
+        }
+    }
+
+    public User createUser(String firstName, String lastName, String username, String password, String currencyType, String email) {
+        String sqlInsertUser = "INSERT INTO users (id, firstName, lastName, username, password, currencyType, email) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement insertStmt = conn.prepareStatement(sqlInsertUser)) {
+
+            int randomId = generateUniqueId(); // Separate method to generate unique ID
 
             insertStmt.setInt(1, randomId);
             insertStmt.setString(2, firstName);
             insertStmt.setString(3, lastName);
             insertStmt.setString(4, username);
             insertStmt.setString(5, password);
-            insertStmt.setString(6, CurrencyType);
+            insertStmt.setString(6, currencyType);
+            insertStmt.setString(7, email);
 
             int affectedRows = insertStmt.executeUpdate();
 
-            // Check the affected rows
             if (affectedRows > 0) {
-                return new User(randomId, firstName, lastName, username, password, CurrencyType, email);
+                return new User(randomId, firstName, lastName, username, password, currencyType, email);
+            } else {
+                throw new SQLException("Creating user failed, no rows affected.");
             }
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            // Consider a custom exception class if you want to handle database exceptions in a specific way
+            throw new RuntimeException("Database operation failed", e);
         }
-        return null;
     }
 
     @Override
