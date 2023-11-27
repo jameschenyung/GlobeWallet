@@ -31,11 +31,10 @@ public class SignupPresenter implements SignupOutputBoundary {
     public void prepareSuccessView(SignupOutputData data) {
         SwingUtilities.invokeLater(() -> view.showSuccess(data.getMessage()));
         Timer timer = new Timer(2000, e -> {
-            // Assuming you have a method in MainFrame to switch to the SignInView
             frame.switchToSignInView();
         });
-        timer.setRepeats(false); // The timer should only run once
-        timer.start(); // Start the timer
+        timer.setRepeats(false);
+        timer.start();
     }
 
     @Override

@@ -5,6 +5,9 @@ import javax.swing.*;
 import com.sun.tools.javac.Main;
 import database.DataAccessObject;
 import objects.User;
+import presenter.LoginPresenter;
+import use_case.login.LoginInteractor;
+import use_case.login.LoginUserDataAccessInterface;
 import use_case.signup.SignUpInputData;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
@@ -12,9 +15,8 @@ import use_case.signup.SignupUserDataAccessInterface;
 import presenter.SignupPresenter;
 
 public class MainFrame extends JFrame {
-
-    // Assuming DataAccessObject implements SignupUserDataAccessInterface
     private SignupUserDataAccessInterface userDataAccess = new DataAccessObject();
+    private LoginUserDataAccessInterface loginUserDataAccess = new DataAccessObject();
     private SignupPresenter signupPresenter;
 
     public MainFrame() {
@@ -44,7 +46,16 @@ public class MainFrame extends JFrame {
 
     public void switchToSignInView() {
         SignInPanel signInView = new SignInPanel(this);
+        LoginPresenter loginPresenter = new LoginPresenter(signInView, this, loginUserDataAccess);
+        signInView.setPresenter(loginPresenter);
+        LoginInteractor loginInteractor = new LoginInteractor(loginPresenter, loginUserDataAccess);
+        loginPresenter.setInteractor(loginInteractor);
         switchToPanel(signInView);
+    }
+
+    public void switchToHomePanel() {
+        HomePanel homePanel = new HomePanel(this);
+        switchToPanel(homePanel);
     }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainFrame().setVisible(true));

@@ -17,7 +17,7 @@ public class SignupView extends JPanel {
     private JButton backButton;
 
     public SignupView(MainFrame frame) {
-        setLayout(new GridLayout(0, 2)); // Use GridLayout for simplicity
+        setLayout(new GridLayout(0, 2));
 
         firstNameField = new JTextField();
         lastNameField = new JTextField();
@@ -31,7 +31,6 @@ public class SignupView extends JPanel {
         backButton = new JButton("Back");
         backButton.addActionListener(e -> frame.switchToPanel(new InitPanel(frame)));
 
-        // Add components to the panel
         add(new JLabel("First Name:"));
         add(firstNameField);
         add(new JLabel("Last Name:"));
@@ -50,7 +49,6 @@ public class SignupView extends JPanel {
         add(errorLabel);
         add(backButton);
 
-        // Setup button action
         signupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
