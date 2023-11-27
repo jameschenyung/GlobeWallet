@@ -1,8 +1,6 @@
 package presenter;
 
 import use_case.login.*;
-import use_case.signup.SignupInteractor;
-import use_case.signup.SignupOutputData;
 import views.MainFrame;
 import views.SignInPanel;
 

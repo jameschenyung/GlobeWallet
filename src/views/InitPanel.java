@@ -16,7 +16,7 @@ public class InitPanel extends JPanel {
         this.frame = frame;
 
         JButton signInButton = new JButton("Log In");
-        signInButton.addActionListener(e -> frame.switchToPanel(new SignInPanel(frame)));
+        signInButton.addActionListener(e -> frame.switchToSignInView());
         add(signInButton);
 
         JButton registerButton = new JButton("Register");
