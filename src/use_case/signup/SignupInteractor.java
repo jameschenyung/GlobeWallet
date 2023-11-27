@@ -18,24 +18,34 @@ public class SignupInteractor implements SignupInputBoundary{
             signupOutputBoundary.prepareFailView("Passwords don't match.");
         }
 
-        if (!signupInputData.getEmail().equals(signupInputData.getRepeatEmail())) {
+        else if (!signupInputData.getEmail().equals(signupInputData.getRepeatEmail())) {
             signupOutputBoundary.prepareFailView("Emails don't match.");
         }
 
-        if (userDataAccess.isUsernameTaken(signupInputData.getUsername())) {
+        else if (userDataAccess.isUsernameTaken(signupInputData.getUsername())) {
             // Handle the case where username is already taken
             signupOutputBoundary.prepareFailView("User already exists.");
         }
 
-        if (!userDataAccess.validatePassword(signupInputData.getPassword())) {
+        else if (!userDataAccess.validatePassword(signupInputData.getPassword())) {
             // Handle the case where the password does not meet the policy
             signupOutputBoundary.prepareFailView("Invalid password.");
         }
 
         // Assuming the createUser method handles email within the User object creation
         else{
-            userDataAccess.createUser(signupInputData.getFirstName(), signupInputData.getLastName(),
-                signupInputData.getUsername(), signupInputData.getPassword(), "UNDEFINED" ,signupInputData.getEmail());
+            User UserCreated = userDataAccess.createUser(signupInputData.getFirstName(), signupInputData.getLastName(),
+                    signupInputData.getUsername(), signupInputData.getPassword(), "UNDEFINED",
+                    signupInputData.getEmail());
+            if (UserCreated != null) {
+                signupOutputBoundary.prepareSuccessView(new SignupOutputData(
+                        true,
+                        "Sign up successful!",
+                        UserCreated.getUserId()
+                ));
+            } else {
+                signupOutputBoundary.prepareFailView("User creation failed.");
+            }
         }
     }
 }
