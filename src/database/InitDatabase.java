@@ -25,7 +25,7 @@ public class InitDatabase {
 
             // Create accounts table with an additional column for CurrencyType
             String createAccountTable = "CREATE TABLE IF NOT EXISTS accounts (" +
-                    "accountId TEXT PRIMARY KEY," +
+                    "accountId INTEGER PRIMARY KEY," +
                     "userId INTEGER," +
                     "balance DOUBLE DEFAULT 0," +
                     "currencyType TEXT NOT NULL," + // Added currencyType column

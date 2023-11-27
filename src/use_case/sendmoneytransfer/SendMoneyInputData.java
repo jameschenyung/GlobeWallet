@@ -1,57 +1,47 @@
 package use_case.sendmoneytransfer;
 
 public class SendMoneyInputData {
-        private String senderId;
-        private String receiverId;
-        private double amount;
-        private String currency;
-        private Integer securityCode;
+    private Integer senderId;
+    private Integer receiverId;
+    private double amount;
+    private Integer securityCode;
 
-        public SendMoneyInputData(String senderId, String receiverId, double amount, String currency, Integer securityCode) {
-            this.senderId = senderId;
-            this.receiverId = receiverId;
-            this.amount = amount;
-            this.currency = currency;
-            this.securityCode = securityCode;
-        }
+    public SendMoneyInputData(Integer senderId, Integer receiverId, double amount, Integer securityCode) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.amount = amount;
+        this.securityCode = securityCode;
+    }
 
-        public String getSenderId() {
+    public Integer getSenderId() {
             return senderId;
         }
 
-        public void setSenderId(String senderId) {
+    public void setSenderId(Integer senderId) {
             this.senderId = senderId;
         }
 
-        public String getReceiverId() {
+    public Integer getReceiverId() {
             return receiverId;
         }
 
-        public void setReceiverId(String receiverId) {
+    public void setReceiverId(Integer receiverId) {
             this.receiverId = receiverId;
         }
 
-        public double getAmount() {
+    public double getAmount() {
             return amount;
         }
 
-        public void setAmount(double amount) {
+    public void setAmount(double amount) {
             this.amount = amount;
         }
 
-        public String getCurrency() {
-            return currency;
-        }
-
-        public void setCurrency(String currency) {
-            this.currency = currency;
-        }
-
-        public Integer getSecurityCode() {
+    public Integer getSecurityCode() {
             return securityCode;
         }
 
-        public void setSecurityCode(Integer securityCode) {
+    public void setSecurityCode(Integer securityCode) {
             this.securityCode = securityCode;
         }
     }

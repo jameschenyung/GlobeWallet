@@ -1,76 +1,71 @@
 package use_case.sendmoneytransfer;
 
-// import dataaccess.SendMoneyUserDataAccessInterface;
-// import objects.Transaction;
-// import presentation.SendMoneyOutputBoundary;
-
-import java.util.UUID; // For generating unique transaction IDs
+import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
 
 public class SendMoneyInteractor implements SendMoneyInputBoundary {
     private final SendMoneyUserDataAccessInterface userDataAccess;
     private final SendMoneyOutputBoundary outputBoundary;
+    private final CurrencyConversionGateway conversionGateway;
 
-    public SendMoneyInteractor(SendMoneyUserDataAccessInterface userDataAccess, SendMoneyOutputBoundary outputBoundary) {
+    public SendMoneyInteractor(SendMoneyUserDataAccessInterface userDataAccess,
+                               SendMoneyOutputBoundary outputBoundary,
+                               CurrencyConversionGateway conversionGateway) {
         this.userDataAccess = userDataAccess;
         this.outputBoundary = outputBoundary;
+        this.conversionGateway = conversionGateway;
     }
 
     @Override
-    public void sendMoney(SendMoneyInputData inputData) {
-        // Generate a unique transaction ID
-        String transactionId = UUID.randomUUID().toString();
+    public void checkAccount(SendMoneyInputData sendMoneyInputData) {
 
-        Transaction transaction = new Transaction(transactionId, inputData.getSenderId(), inputData.getReceiverId(), inputData.getSecurityCode());
-
-        boolean isSuccessful = processTransaction(transaction, inputData.getAmount());
-
-        if (isSuccessful) {
-            outputBoundary.presentSendMoneyResponse(new SendMoneyOutputData(true, "Transaction successful", transaction.getTransectionId()));
+        if (userDataAccess.getAccountById(sendMoneyInputData.getSenderId()) == null ||
+                userDataAccess.getAccountById(sendMoneyInputData.getReceiverId()) == null) {
+            outputBoundary.prepareFailView("One of the accounts is invalid.");
         } else {
-            outputBoundary.presentSendMoneyResponse(new SendMoneyOutputData(false, "Transaction failed", null));
+            String senderCurrency = userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId());
+            String receiverCurrency = userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId());
+            outputBoundary.prepareSuccessCheckBalance(new SendMoneyOutputData(true, "Account check successful.",
+                    sendMoneyInputData.getSenderId(), senderCurrency,
+                    sendMoneyInputData.getReceiverId(), receiverCurrency,
+                    null, sendMoneyInputData.getAmount()));
         }
-    }
-
-    private boolean processTransaction(Transaction transaction, double amount) {
-        // Verify the sender's account
-        Account senderAccount = userDataAccess.findAccountById(transaction.getSenderId());
-        if (senderAccount == null || isAccountValid(senderAccount)) {
-            return false; // Sender's account not found or invalid
-        }
-        // Check if the sender has sufficient balance
-        if (senderAccount.getBalance() < amount) {
-            return false; // Insufficient funds
-        }
-        // Verify the receiver's account
-        Account receiverAccount = userDataAccess.findAccountById(transaction.getReceiverId());
-        if (receiverAccount == null || isAccountValid(receiverAccount)) {
-            return false; // Receiver's account not found or invalid
-        }
-        // Update the sender's and receiver's account balances
-        updateAccountBalances(senderAccount, receiverAccount, amount);
-        // Log the transaction (you would typically save the transaction to a database)
-        userDataAccess.saveTransaction(transaction);
-
-        return true; // Transaction processed successfully
-    }
-
-    private boolean isAccountValid(Account account) {
-        // Placeholder for account validation logic
-        return false;
-    }
-
-    private void updateAccountBalances(Account sender, Account receiver, double amount) {
-        // Deduct the amount from the sender's account
-        double newSenderBalance = sender.getBalance() - amount;
-        userDataAccess.updateAccountBalance(sender.getAccountId(), newSenderBalance);
-
-        // Add the amount to the receiver's account
-        double newReceiverBalance = receiver.getBalance() + amount;
-        userDataAccess.updateAccountBalance(receiver.getAccountId(), newReceiverBalance);
     }
 
     @Override
-    public void login(SendMoneyInputData sendMoneyInputData) {
+    public void convert(SendMoneyInputData sendMoneyInputData) {
+        double amountToSend = conversionGateway.convertCurrency(
+                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
+                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
+                sendMoneyInputData.getAmount()
+        );
 
+        if (userDataAccess.getAccountBalance(sendMoneyInputData.getSenderId()) < amountToSend) {
+            outputBoundary.prepareFailView("Insufficient funds for the transfer.");
+        } else {
+            outputBoundary.prepareSuccessConvert(new SendMoneyOutputData(true, "Conversion successful.",
+                    sendMoneyInputData.getSenderId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
+                    sendMoneyInputData.getReceiverId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
+                    amountToSend, sendMoneyInputData.getAmount()));
+        }
+    }
+
+    @Override
+    public void transfer(SendMoneyInputData sendMoneyInputData) {
+        double convertedAmount = conversionGateway.convertCurrency(
+                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
+                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
+                sendMoneyInputData.getAmount()
+        );
+
+        try {
+            userDataAccess.updateAccountBalance(sendMoneyInputData.getSenderId(),
+                    userDataAccess.getAccountBalance(sendMoneyInputData.getSenderId()) - convertedAmount);
+            outputBoundary.prepareSuccessTransfer(new SendMoneyOutputData(true, "Transfer successful.",
+                    sendMoneyInputData.getSenderId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
+                    sendMoneyInputData.getReceiverId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
+                    convertedAmount, sendMoneyInputData.getAmount()));
+        } catch (Exception e) {
+            outputBoundary.prepareFailView("Transfer failed due to an error.");
+        }
     }
 }

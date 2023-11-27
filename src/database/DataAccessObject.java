@@ -58,7 +58,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             if (rs.next()) {
                 // Assuming the Account class has a constructor that takes these fields
                 return new Account(
-                        rs.getString("accountId"),
+                        rs.getInt("accountId"),
                         rs.getInt("userId"),
                         rs.getDouble("balance"),
                         rs.getString("currencyType")
@@ -70,12 +70,12 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return null; // Or handle accordingly
     }
     // Update account balance
-    public void updateAccountBalance(String accountId, double newBalance) throws SQLException {
+    public void updateAccountBalance(Integer accountId, double newBalance) throws SQLException {
         String sql = "UPDATE accounts SET balance = ? WHERE accountId = ?";
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setDouble(1, newBalance);
-            pstmt.setString(2, accountId);
+            pstmt.setInt(2, accountId);
             pstmt.executeUpdate();
         }
     }
@@ -105,6 +105,38 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public String getCurrencyByAccount(Integer accountId) {
+        String sql = "SELECT currencyType FROM accounts WHERE accountId = ?";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, accountId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("currencyType");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Double getAccountBalance(Integer accountId) {
+        String sql = "SELECT balance FROM accounts WHERE accountId = ?";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, accountId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("balance");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // Get user data
@@ -140,7 +172,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 return new Account(
-                        rs.getString("accountId"),
+                        rs.getInt("accountId"),
                         rs.getInt("userId"),
                         rs.getDouble("balance"),
                         rs.getString("CurrencyType")
