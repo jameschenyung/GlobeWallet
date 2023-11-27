@@ -1,4 +1,4 @@
-package interface_adapter;
+package interface_adapter.CurrencyConverter;
 
 import interface_adapter.CurrencyConverter.PolygonCurrencyConversionGateway;
 import org.junit.jupiter.api.Test;
