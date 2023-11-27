@@ -34,18 +34,13 @@ public class SignupInteractor implements SignupInputBoundary{
 
         // Assuming the createUser method handles email within the User object creation
         else{
-            User UserCreated = userDataAccess.createUser(signupInputData.getFirstName(), signupInputData.getLastName(),
+            userDataAccess.createUser(signupInputData.getFirstName(), signupInputData.getLastName(),
                     signupInputData.getUsername(), signupInputData.getPassword(), "UNDEFINED",
                     signupInputData.getEmail());
-            if (UserCreated != null) {
-                signupOutputBoundary.prepareSuccessView(new SignupOutputData(
-                        true,
-                        "Sign up successful!",
-                        UserCreated.getUserId()
-                ));
-            } else {
-                signupOutputBoundary.prepareFailView("User creation failed.");
-            }
+            signupOutputBoundary.prepareSuccessView(new SignupOutputData(
+                    true,
+                    "Sign up successful!",
+                    userDataAccess.getUserByUsername(signupInputData.getUsername()).getUserId()));
         }
     }
 }

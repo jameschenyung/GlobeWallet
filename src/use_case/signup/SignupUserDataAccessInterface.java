@@ -25,4 +25,6 @@ public interface SignupUserDataAccessInterface {
      * @return true if the password meets the policy, false otherwise
      */
     boolean validatePassword(String password);
+
+    User getUserByUsername(String username);
 }
