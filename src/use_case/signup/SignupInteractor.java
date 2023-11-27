@@ -12,10 +12,6 @@ public class SignupInteractor implements SignupInputBoundary{
         this.signupOutputBoundary = signupOutputBoundary;
     }
 
-    public void setOutputBoundary(SignupOutputBoundary outputBoundary) {
-        this.signupOutputBoundary = outputBoundary;
-    }
-
     @Override
     public void execute(SignUpInputData signupInputData) {
         if (!signupInputData.getRepeatPassword().equals(signupInputData.getPassword())) {
