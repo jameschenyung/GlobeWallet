@@ -26,10 +26,18 @@ public class HomePanel extends JPanel{
             e.printStackTrace();
         }
 
-        JButton moneyTransferButton = new JButton("Money Transfer");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        JButton moneyTransferButton = new JButton("Send Money");
         moneyTransferButton.setBounds(20, 200, 50, 10);
         moneyTransferButton.addActionListener(e -> frame.switchToPanel(new MoneyTransferPanel(frame)));
         add(moneyTransferButton, gbc);
+
+        gbc.gridy = 1;
+        JButton receiveMoneyButton = new JButton("Receive Money");
+        receiveMoneyButton.setBounds(20, 400, 50, 10);
+        receiveMoneyButton.addActionListener(e -> frame.switchToPanel(new ReceiveMoneyPanel(frame)));
+        add(receiveMoneyButton, gbc);
 
         ImageIcon myAccount = new ImageIcon("MyAccount.png");
         Image accimage = myAccount.getImage();

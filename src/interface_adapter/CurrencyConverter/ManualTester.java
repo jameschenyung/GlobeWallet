@@ -1,6 +1,5 @@
 package interface_adapter.CurrencyConverter;
 
-import interface_adapter.PolygonCurrencyConversionGateway;
 
 public class ManualTester {
     public static void main(String[] args) {
