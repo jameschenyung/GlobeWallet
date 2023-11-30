@@ -1,31 +1,34 @@
 package objects;
 
 public class Transaction {
-    private String SenderId;
-    private String ReceiverId;
-    private String TransactionId;
+    private Integer SenderId;
+    private Integer ReceiverId;
+    private Integer TransactionId;
     private Double amount;
     private Integer SecurityCode;
+    private Integer received;
 
-    public Transaction(String TransactionId, String SenderId, String ReceiverId,
-                       Double amount, Integer SecurityCode){
+    public Transaction(Integer TransactionId, Integer SenderId, Integer ReceiverId,
+                       Double amount, Integer SecurityCode, Integer received){
         this.TransactionId = TransactionId;
         this.SenderId = SenderId;
         this.ReceiverId = ReceiverId;
         this.amount = amount;
         this.SecurityCode = SecurityCode;
+        this.received = received;
     }
 
-    public String getTransactionId(){
+    public Integer getTransactionId(){
         return TransactionId;
     }
-
-    public String getSenderId(){
+    public Integer getSenderId(){
         return SenderId;
     }
-
-    public String getReceiverId(){
+    public Integer getReceiverId(){
         return ReceiverId;
     }
     public Double getAmount(){return amount;}
+    public Integer isReceived() {
+        return received;
+    }
 }

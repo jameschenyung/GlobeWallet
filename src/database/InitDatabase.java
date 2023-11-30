@@ -33,13 +33,14 @@ public class InitDatabase {
                     ")";
             stmt.execute(createAccountTable);
 
-            // Create Transection table
+            // Create Transaction table
             String createTransactionTable = "CREATE TABLE IF NOT EXISTS transactions (" +
-                    "transactionId TEXT PRIMARY KEY," +
-                    "senderId TEXT NOT NULL," +
-                    "receiverId TEXT NOT NULL," +
+                    "transactionId INTEGER PRIMARY KEY," +
+                    "senderId INTEGER NOT NULL," +
+                    "receiverId INTEGER NOT NULL," +
                     "amount DOUBLE NOT NULL," +
                     "securityCode INTEGER NOT NULL," +
+                    "received INTEGER NOT NULL," +
                     "FOREIGN KEY (senderId) REFERENCES accounts(id)," +
                     "FOREIGN KEY (receiverId) REFERENCES accounts(id)" +
                     ")";
