@@ -38,5 +38,19 @@ public interface SendMoneyUserDataAccessInterface {
      */
     String getCurrencyByAccount(Integer accountId);
 
+    /**
+     * return account balance
+     * @param accountId account id
+     * @return account balance of this accountId
+     */
     Double getAccountBalance(Integer accountId);
+
+    /**
+     * create one Transaction and assign it with a unique id then insert it to the Transaction table
+     * @param SendId sender id
+     * @param ReceiverId receiver id
+     * @param amount transferred amount
+     * @param SecurityCode Security code
+     */
+    void createTransaction(Integer SendId, Integer ReceiverId, Double amount, Integer SecurityCode, Integer received);
 }

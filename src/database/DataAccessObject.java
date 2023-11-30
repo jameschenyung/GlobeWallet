@@ -139,6 +139,48 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return null;
     }
 
+    @Override
+    public void createTransaction(Integer SendId, Integer ReceiverId, Double amount, Integer SecurityCode,
+                                  Integer received) {
+        String sql = "INSERT INTO transactions (senderId, receiverId, amount, securityCode, received) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            int transactionId = generateUniqueTransactionId();
+            pstmt.setInt(1, transactionId);
+            pstmt.setInt(2, SendId);
+            pstmt.setInt(3, ReceiverId);
+            pstmt.setDouble(4, amount);
+            pstmt.setInt(5, SecurityCode);
+            pstmt.setInt(6, received);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private int generateUniqueTransactionId() {
+        Random rand = new Random();
+        int randomId;
+        String sqlCheckId = "SELECT COUNT(transactionId) FROM transactions WHERE transactionId = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement checkStmt = conn.prepareStatement(sqlCheckId)) {
+
+            while (true) {
+                randomId = rand.nextInt(Integer.MAX_VALUE); // Generate a random ID
+                checkStmt.setInt(1, randomId);
+
+                try (ResultSet rs = checkStmt.executeQuery()) {
+                    if (rs.next() && rs.getInt(1) == 0) {
+                        return randomId; // ID is not taken, return this ID
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error checking for unique transaction ID", e);
+        }
+    }
+
     // Get user data
     public User getUser(int userId) throws SQLException {
         String sql = "SELECT * FROM users WHERE id = ?";
