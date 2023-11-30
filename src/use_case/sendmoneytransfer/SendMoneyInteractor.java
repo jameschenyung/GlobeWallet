@@ -63,9 +63,9 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
             outputBoundary.prepareSuccessTransfer(new SendMoneyOutputData(true, "Transfer successful.",
                     sendMoneyInputData.getSenderId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
                     sendMoneyInputData.getReceiverId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
-                    convertedAmount, sendMoneyInputData.getAmount()));
+                    sendMoneyInputData.getAmount(), sendMoneyInputData.getAmount()));
             userDataAccess.createTransaction(sendMoneyInputData.getSenderId(), sendMoneyInputData.getReceiverId(),
-                    convertedAmount, sendMoneyInputData.getSecurityCode(), 0);
+                    sendMoneyInputData.getAmount(), sendMoneyInputData.getSecurityCode(), 0);
         } catch (Exception e) {
             outputBoundary.prepareFailView("Transfer failed due to an error.");
         }
