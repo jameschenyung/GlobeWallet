@@ -98,6 +98,22 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return null; // Or throw an exception
     }
 
+    public String getEmail(int userId) {
+        String sql = "SELECT email FROM users WHERE id = ?";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("email");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Or throw an exception
+    }
+
     @Override
     public User getUserByUsername(String username) {
         String sql = "SELECT * FROM users WHERE username = ?";
