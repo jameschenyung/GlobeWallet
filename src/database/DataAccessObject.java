@@ -140,12 +140,11 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
     }
 
     @Override
-    public void createTransaction(Integer SendId, Integer ReceiverId, Double amount, Integer SecurityCode,
+    public void createTransaction(Integer transactionId, Integer SendId, Integer ReceiverId, Double amount, Integer SecurityCode,
                                   Integer received) {
-        String sql = "INSERT INTO transactions (senderId, receiverId, amount, securityCode, received) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO transactions (transactionId, senderId, receiverId, amount, securityCode, received) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            int transactionId = generateUniqueTransactionId();
             pstmt.setInt(1, transactionId);
             pstmt.setInt(2, SendId);
             pstmt.setInt(3, ReceiverId);
@@ -158,7 +157,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         }
     }
 
-    private int generateUniqueTransactionId() {
+    public int generateUniqueTransactionId() {
         Random rand = new Random();
         int randomId;
         String sqlCheckId = "SELECT COUNT(transactionId) FROM transactions WHERE transactionId = ?";

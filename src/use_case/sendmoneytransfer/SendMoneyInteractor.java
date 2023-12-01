@@ -27,7 +27,7 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
             outputBoundary.prepareSuccessCheckBalance(new SendMoneyOutputData(true, "Account check successful.",
                     sendMoneyInputData.getSenderId(), senderCurrency,
                     sendMoneyInputData.getReceiverId(), receiverCurrency,
-                    null, sendMoneyInputData.getAmount()));
+                    null, sendMoneyInputData.getAmount(), null));
         }
     }
 
@@ -45,7 +45,7 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
             outputBoundary.prepareSuccessConvert(new SendMoneyOutputData(true, "Conversion successful.",
                     sendMoneyInputData.getSenderId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
                     sendMoneyInputData.getReceiverId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
-                    amountToSend, sendMoneyInputData.getAmount()));
+                    amountToSend, sendMoneyInputData.getAmount(), null));
         }
     }
 
@@ -60,12 +60,13 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
         try {
             userDataAccess.updateAccountBalance(sendMoneyInputData.getSenderId(),
                     userDataAccess.getAccountBalance(sendMoneyInputData.getSenderId()) - convertedAmount);
+            Integer id = userDataAccess.generateUniqueTransactionId();
+            userDataAccess.createTransaction(id, sendMoneyInputData.getSenderId(), sendMoneyInputData.getReceiverId(),
+                    sendMoneyInputData.getAmount(), sendMoneyInputData.getSecurityCode(), 0);
             outputBoundary.prepareSuccessTransfer(new SendMoneyOutputData(true, "Transfer successful.",
                     sendMoneyInputData.getSenderId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
                     sendMoneyInputData.getReceiverId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
-                    sendMoneyInputData.getAmount(), sendMoneyInputData.getAmount()));
-            userDataAccess.createTransaction(sendMoneyInputData.getSenderId(), sendMoneyInputData.getReceiverId(),
-                    sendMoneyInputData.getAmount(), sendMoneyInputData.getSecurityCode(), 0);
+                    sendMoneyInputData.getAmount(), sendMoneyInputData.getAmount(), id));
         } catch (Exception e) {
             outputBoundary.prepareFailView("Transfer failed due to an error.");
         }

@@ -9,10 +9,11 @@ public class SendMoneyOutputData {
     private final String receiverCurrencyType;
     private final Double sendSendsAmount;
     private final Double receiverReceivesAmount;
+    private final Integer transactionId;
 
     public SendMoneyOutputData(boolean success, String message, Integer senderId,
                                String senderCurrencyType, Integer receiverId, String receiverCurrencyType,
-                               Double sendSendsAmount, Double receiverReceivesAmount) {
+                               Double sendSendsAmount, Double receiverReceivesAmount, Integer transactionId) {
         this.success = success;
         this.message = message;
         this.senderId = senderId;
@@ -21,6 +22,7 @@ public class SendMoneyOutputData {
         this.receiverCurrencyType = receiverCurrencyType;
         this.sendSendsAmount = sendSendsAmount;
         this.receiverReceivesAmount = receiverReceivesAmount;
+        this.transactionId = transactionId;
     }
 
     public Integer getSenderId() {
@@ -49,5 +51,9 @@ public class SendMoneyOutputData {
 
     public Double getReceiverReceivesAmount() {
         return receiverReceivesAmount;
+    }
+
+    public Integer getTransactionId() {
+        return transactionId;
     }
 }
