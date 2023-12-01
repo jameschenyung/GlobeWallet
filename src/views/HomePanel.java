@@ -6,9 +6,18 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
+import presenter.SendMoneyPresenter;
+import use_case.sendmoneytransfer.SendMoneyInteractor;
+import use_case.sendmoneytransfer.SendMoneyOutputBoundary;
+import use_case.sendmoneytransfer.SendMoneyUserDataAccessInterface;
+
 public class HomePanel extends JPanel{
     private MainFrame frame;
     private Image backgroundImage;
+    private SendMoneyUserDataAccessInterface sendMoneyUserDataAccess;
+    private SendMoneyOutputBoundary sendMoneyOutputBoundary;
+    private CurrencyConversionGateway currencyConversionGateway;
 
     public HomePanel(MainFrame frame) {
         this.frame = frame;
@@ -29,14 +38,18 @@ public class HomePanel extends JPanel{
         gbc.gridx = 0;
         gbc.gridy = 0;
         JButton moneyTransferButton = new JButton("Send Money");
-        moneyTransferButton.setBounds(20, 200, 50, 10);
-        moneyTransferButton.addActionListener(e -> frame.switchToPanel(new MoneyTransferPanel(frame)));
+        moneyTransferButton.addActionListener(e -> {
+            SendMoneyInteractor sendMoneyInteractor = new SendMoneyInteractor(sendMoneyUserDataAccess, sendMoneyOutputBoundary, currencyConversionGateway);
+            MoneyTransferPanel moneyTransferPanel = new MoneyTransferPanel(frame, null);
+            SendMoneyPresenter sendMoneyPresenter = new SendMoneyPresenter(moneyTransferPanel, frame, sendMoneyInteractor);
+            moneyTransferPanel.setPresenter(sendMoneyPresenter);
+            frame.switchToPanel(moneyTransferPanel);
+        });
         add(moneyTransferButton, gbc);
+
 
         gbc.gridy = 1;
         JButton receiveMoneyButton = new JButton("Receive Money");
-        receiveMoneyButton.setBounds(20, 400, 50, 10);
-        receiveMoneyButton.addActionListener(e -> frame.switchToPanel(new ReceiveMoneyPanel(frame)));
         add(receiveMoneyButton, gbc);
 
         ImageIcon myAccount = new ImageIcon("MyAccount.png");
@@ -57,14 +70,5 @@ public class HomePanel extends JPanel{
 //        accountButton.setOpaque(false);
 //        accountButton.setContentAreaFilled(false);
 //        accountButton.setBorderPainted(false);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        // Draw the background image
-        if (backgroundImage != null) {
-            g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
-        }
     }
 }
