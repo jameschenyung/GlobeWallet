@@ -22,4 +22,32 @@ public class SendMoneyOutputData {
         this.sendSendsAmount = sendSendsAmount;
         this.receiverReceivesAmount = receiverReceivesAmount;
     }
+
+    public Integer getSenderId() {
+        return senderId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Integer getReceiverId() {
+        return receiverId;
+    }
+
+    public String getSenderCurrencyType() {
+        return senderCurrencyType;
+    }
+
+    public String getReceiverCurrencyType() {
+        return receiverCurrencyType;
+    }
+
+    public Double getSendSendsAmount() {
+        return sendSendsAmount;
+    }
+
+    public Double getReceiverReceivesAmount() {
+        return receiverReceivesAmount;
+    }
 }
