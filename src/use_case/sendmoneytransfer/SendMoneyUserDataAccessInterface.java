@@ -52,5 +52,11 @@ public interface SendMoneyUserDataAccessInterface {
      * @param amount transferred amount
      * @param SecurityCode Security code
      */
-    void createTransaction(Integer SendId, Integer ReceiverId, Double amount, Integer SecurityCode, Integer received);
+    void createTransaction(Integer transactionId, Integer SendId, Integer ReceiverId, Double amount, Integer SecurityCode, Integer received);
+
+    /**
+     * return a random id for transaction
+     * @return random id
+     */
+    int generateUniqueTransactionId();
 }
