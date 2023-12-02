@@ -32,6 +32,8 @@ public class MainFrame extends JFrame {
     private SignupPresenter signupPresenter;
     private SendMoneyOutputBoundary sendMoneyOutputBoundary;
     private ReceiveMoneyPresenter receiveMoneyPresenter;
+    private receiveMoneyInteractor receiveMoneyInteractor;
+    private receiveMoneyDataAccessInterface receiveMoneyDataAccess = new DataAccessObject();
     private final DataAccessObject dataAccess = new DataAccessObject();
     private final CurrencyConversionGateway currencyConversionGateway = new PolygonCurrencyConversionGateway();
 
@@ -85,11 +87,10 @@ public class MainFrame extends JFrame {
     }
 
     public void switchToReceiveMoneyPanel() {
-        receiveMoneyDataAccessInterface dataAccess = new DataAccessObject();
+        ReceiveMoneyPanel receiveMoneyPanel = new ReceiveMoneyPanel(this, receiveMoneyPresenter);
         receiveMoneyOutputBoundary presenterOutputBoundary = new ReceiveMoneyPresenter(null, null);
 
         receiveMoneyInteractor interactor = new receiveMoneyInteractor(dataAccess, presenterOutputBoundary);
-        ReceiveMoneyPanel receiveMoneyPanel = new ReceiveMoneyPanel(this, receiveMoneyPresenter);
         ReceiveMoneyPresenter presenter = new ReceiveMoneyPresenter(receiveMoneyPanel, interactor);
         receiveMoneyPanel.setPresenter(presenter);
         switchToPanel(receiveMoneyPanel);
