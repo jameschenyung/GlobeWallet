@@ -26,11 +26,19 @@ public class ReceiveMoneyPresenter implements receiveMoneyOutputBoundary {
     }
 
     public void checkTransaction(Integer transactionId) {
-        interactor.verifyTransaction(transactionId);
+        try {
+            interactor.verifyTransaction(transactionId);
+        } catch (Exception ex) {
+            presentError("Error checking transaction: " + ex.getMessage());
+        }
     }
 
     public void confirmSecurityCode(Integer transactionId, Integer securityCode) {
-        interactor.confirmSecurityCode(transactionId, securityCode);
+        try {
+            interactor.confirmSecurityCode(transactionId, securityCode);
+        } catch (Exception ex) {
+            presentError("Error confirming security code: " + ex.getMessage());
+        }
     }
 
     @Override

@@ -71,5 +71,5 @@ public interface SendMoneyUserDataAccessInterface {
      * @param userId
      * @return full name
      */
-    String getFullName(int userId);
+    String getFullName(Integer userId);
 }
