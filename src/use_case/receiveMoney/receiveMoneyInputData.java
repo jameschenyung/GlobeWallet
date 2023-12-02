@@ -1,47 +1,24 @@
 package use_case.receiveMoney;
 
 import views.ReceiveMoneyPanel;
+import use_case.receiveMoney.receiveMoneyDataAccessInterface;
 
 public class receiveMoneyInputData {
-    private Integer senderId;
-    private Integer receiverId;
-    private double amount;
+    private Integer transactionId;
     private Integer securityCode;
+    private receiveMoneyDataAccessInterface receiveMoneyDataAccess;
 
-    public receiveMoneyInputData(Integer senderId, Integer receiverId, double amount, Integer securityCode) {
-        this.senderId = senderId;
-        this.receiverId = receiverId;
-        this.amount = amount;
+    public receiveMoneyInputData(Integer transactionId, Integer securityCode) {
+        this.transactionId = transactionId;
         this.securityCode = securityCode;
     }
 
-    public Integer getSenderId() {return senderId; }
 
-    public void setSenderId(Integer senderId) {
-        this.senderId = senderId;
-    }
-
-    public Integer getReceiverId() {
-        return receiverId;
-    }
-
-    public void setReceiverId(Integer receiverId) {
-        this.receiverId = receiverId;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public Integer getSecurityCode() {
+    public Integer getInputSecurityCode() {
         return securityCode;
     }
 
-    public void setSecurityCode(Integer securityCode) {
+    public void getInputSecurityCode(Integer securityCode) {
         this.securityCode = securityCode;
     }
 }

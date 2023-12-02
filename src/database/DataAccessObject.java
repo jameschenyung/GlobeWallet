@@ -24,7 +24,9 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         use_case.signup.SignupUserDataAccessInterface,
         use_case.sendmoneytransfer.SendMoneyUserDataAccessInterface,
         use_case.addAccount.AccountDataAccessInterface,
+
         use_case.receiveMoney.receiveMoneyDataAccessInterface{
+
     private static final String DB_URL = "jdbc:sqlite:bank.db";
 
     // Establish database connection
