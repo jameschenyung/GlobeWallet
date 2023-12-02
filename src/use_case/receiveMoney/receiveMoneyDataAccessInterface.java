@@ -1,5 +1,4 @@
 package use_case.receiveMoney;
-import objects.Account;
 import objects.Transaction;
 import java.sql.SQLException;
 
@@ -19,10 +18,11 @@ public interface receiveMoneyDataAccessInterface {
 
     /**
      * Return whether the securityCode matches the one stored in the database.
-     * @param securityCode
+     * @param securityCode security code
+     * @param transactionId transaction id
      * @return True if the securityCode matches, False if it does not.
      */
-    boolean validateSecurityCode(Integer securityCode);
+    boolean validateSecurityCode(Integer securityCode, Integer transactionId);
     /**
      * Get the currency type of an account.
      * @param accountId The ID of the account.
