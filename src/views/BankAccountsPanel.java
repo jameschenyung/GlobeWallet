@@ -57,15 +57,6 @@ public class BankAccountsPanel extends JPanel {
         constraints.gridx = 0;
         constraints.gridy++;
 
-        // User ID Field
-        dialog.add(new JLabel("User ID:"), constraints);
-        constraints.gridx++;
-        JTextField userIdField = new JTextField(10);
-        dialog.add(userIdField, constraints);
-
-        constraints.gridx = 0;
-        constraints.gridy++;
-
         // Add Account Button
         JButton addButton = new JButton("Add");
         addButton.addActionListener(new ActionListener() {
@@ -75,14 +66,13 @@ public class BankAccountsPanel extends JPanel {
                 try {
                     int accountNumber = Integer.parseInt(accountNumberField.getText());
                     String currencyType = currencyTypeField.getText();
-                    int userId = Integer.parseInt(userIdField.getText());
 
-                    AddAccountInputData inputData = new AddAccountInputData(accountNumber, currencyType, userId);
+                    AddAccountInputData inputData = new AddAccountInputData(accountNumber, currencyType);
                     // Process inputData and handle output data
 
                     dialog.dispose();
                 } catch (NumberFormatException nfe) {
-                    JOptionPane.showMessageDialog(dialog, "Please enter valid numbers for account number and user ID.");
+                    JOptionPane.showMessageDialog(dialog, "Please enter valid numbers for account number");
                 }
             }
         });
