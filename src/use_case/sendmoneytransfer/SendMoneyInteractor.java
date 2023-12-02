@@ -1,6 +1,7 @@
 package use_case.sendmoneytransfer;
 
 import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
+import interface_adapter.EmailSender.EmailSenderGateway;
 
 public class SendMoneyInteractor implements SendMoneyInputBoundary {
     private final SendMoneyUserDataAccessInterface userDataAccess;
@@ -34,8 +35,8 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
     @Override
     public void convert(SendMoneyInputData sendMoneyInputData) {
         double amountToSend = conversionGateway.convertCurrency(
-                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
                 userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
+                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
                 sendMoneyInputData.getAmount()
         );
 
@@ -52,8 +53,8 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
     @Override
     public void transfer(SendMoneyInputData sendMoneyInputData) {
         double convertedAmount = conversionGateway.convertCurrency(
-                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
                 userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
+                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
                 sendMoneyInputData.getAmount()
         );
 
@@ -66,7 +67,22 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
             outputBoundary.prepareSuccessTransfer(new SendMoneyOutputData(true, "Transfer successful.",
                     sendMoneyInputData.getSenderId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
                     sendMoneyInputData.getReceiverId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
-                    convertedAmount, sendMoneyInputData.getAmount(), id));
+                    sendMoneyInputData.getAmount(), sendMoneyInputData.getAmount(), id));
+
+            Integer senderId = sendMoneyInputData.getSenderId();
+            Integer receiverId = sendMoneyInputData.getReceiverId();
+
+            String senderCurrency = userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId());
+            String receiverCurrency = userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId());
+            Double amount = sendMoneyInputData.getAmount();
+            String senderName = userDataAccess.getFullName(senderId);
+            String receiverName = userDataAccess.getFullName(receiverId);
+            String senderEmail = userDataAccess.getEmail(senderId);
+            String receiverEmail = userDataAccess.getEmail(receiverId);
+
+            EmailSenderGateway.sendTransactionSender(senderEmail, id, amount, senderCurrency, senderName, receiverName);
+            EmailSenderGateway.sendTransactionReceiver(receiverEmail, id, amount, receiverCurrency, senderName, receiverName);
+
         } catch (Exception e) {
             outputBoundary.prepareFailView("Transfer failed due to an error.");
         }

@@ -59,4 +59,17 @@ public interface SendMoneyUserDataAccessInterface {
      * @return random id
      */
     int generateUniqueTransactionId();
+    /**
+     *
+     * @param userId
+     * @return email
+     */
+    String getEmail(int userId);
+
+    /**
+     *
+     * @param userId
+     * @return full name
+     */
+    String getFullName(int userId);
 }
