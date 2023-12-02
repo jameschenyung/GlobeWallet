@@ -43,8 +43,7 @@ public class receiveMoneyInteractor implements receiveMoneyInputBoundary {
                 Transaction transaction = dataAccess.getTransactionDetails(transactionId);
                 String currency = dataAccess.getCurrencyByAccount(currentUserId);
 
-                // Assume getNewBalance method calculates the new balance after the transaction
-                Double newBalance = dataAccess.getNewBalance(transaction.getReceiverId(), transaction.getAmount());
+                Double newBalance = dataAccess.getAccountBalance(currentUserId) + transaction.getAmount();
                 dataAccess.updateAccountBalance(transaction.getReceiverId(), newBalance);
 
                 outputBoundary.presentTransactionConfirmation(transaction.getAmount(), currency, newBalance);
