@@ -14,7 +14,8 @@ import java.util.Set;
 
 public class DataAccessObject implements use_case.login.LoginUserDataAccessInterface,
         use_case.signup.SignupUserDataAccessInterface,
-        use_case.sendmoneytransfer.SendMoneyUserDataAccessInterface{
+        use_case.sendmoneytransfer.SendMoneyUserDataAccessInterface,
+        use_case.addAccount.AccountDataAccessInterface{
     private static final String DB_URL = "jdbc:sqlite:bank.db";
 
     // Establish database connection
@@ -23,15 +24,37 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
     }
 
     // Save account data
-    public void saveAccount(String accountId, int userId, double balance) throws SQLException {
+    public void saveAccount(Integer accountId, int userId, double balance) throws SQLException {
         String sql = "INSERT INTO accounts (accountId, userId, balance) VALUES (?, ?, ?)";
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, accountId);
+            pstmt.setInt(1, accountId);
             pstmt.setInt(2, userId);
             pstmt.setDouble(3, balance);
             pstmt.executeUpdate();
         }
+    }
+
+    @Override
+    public double generateBalance() {
+        Random random = new Random();
+        return random.nextDouble() * Double.MAX_VALUE;
+    }
+
+    @Override
+    public Integer getCurrentUserId() {
+        Integer userId = null;
+        String query = "SELECT userId FROM current_user WHERE id = 1";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                userId = rs.getInt("userId");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userId;
     }
 
     // Update user data
