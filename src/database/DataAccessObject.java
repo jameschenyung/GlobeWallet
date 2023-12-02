@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.*;
+
+import objects.Transaction;
 import objects.User;
 import objects.Account;
 
@@ -15,7 +17,8 @@ import java.util.Set;
 public class DataAccessObject implements use_case.login.LoginUserDataAccessInterface,
         use_case.signup.SignupUserDataAccessInterface,
         use_case.sendmoneytransfer.SendMoneyUserDataAccessInterface,
-        use_case.addAccount.AccountDataAccessInterface{
+        use_case.addAccount.AccountDataAccessInterface,
+        use_case.receiveMoney.receiveMoneyDataAccessInterface{
     private static final String DB_URL = "jdbc:sqlite:bank.db";
 
     // Establish database connection
@@ -102,6 +105,26 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             pstmt.executeUpdate();
         }
     }
+
+    @Override
+    public boolean validateSecurityCode(Integer securityCode, Integer transactionId) {
+        String sql = "SELECT securityCode FROM transactions WHERE transactionId = ?";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, transactionId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                int storedSecurityCode = rs.getInt("securityCode");
+                return storedSecurityCode == securityCode;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     // validate currency
     @Override
     public boolean isValidCurrency(String currency) {
@@ -160,6 +183,31 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public Transaction getTransactionDetails(Integer transactionId) throws SQLException {
+        String sql = "SELECT * FROM transactions WHERE transactionId = ?";
+        Transaction transaction = null;
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, transactionId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                transaction = new Transaction(
+                        rs.getInt("transactionId"),
+                        rs.getInt("senderId"),
+                        rs.getInt("receiverId"),
+                        rs.getDouble("amount"),
+                        rs.getInt("securityCode"),
+                        rs.getInt("received")
+                );
+            }
+        }
+        return transaction;
     }
 
     @Override
