@@ -12,9 +12,13 @@ public class SendMoneyPresenter implements SendMoneyOutputBoundary {
     private MainFrame frame;
     private SendMoneyInputBoundary sendMoneyInteractor;
 
-    public SendMoneyPresenter(MoneyTransferPanel view, MainFrame frame, SendMoneyInputBoundary interactor) {
+    public SendMoneyPresenter(MoneyTransferPanel view, MainFrame frame) {
         this.moneyTransferView = view;
-        this.sendMoneyInteractor = interactor;
+    }
+
+    public void performTransfer(int userAccountId, int receiverAccountId, double amount, int securityCode) {
+        SendMoneyInputData inputData = new SendMoneyInputData(userAccountId, receiverAccountId, amount, securityCode);
+        sendMoneyInteractor.transfer(inputData);
     }
 
     public void checkAccount(int senderId, int receiverId) {
@@ -50,12 +54,16 @@ public class SendMoneyPresenter implements SendMoneyOutputBoundary {
     @Override
     public void prepareSuccessTransfer(SendMoneyOutputData outputData) {
         SwingUtilities.invokeLater(() -> {
-            String message = "Transfer successful:\n" +
-                    "Amount Sent: " + outputData.getSendSendsAmount() + " " + outputData.getSenderCurrencyType() + "\n" +
-                    "Amount Received: " + outputData.getReceiverReceivesAmount() + " " + outputData.getReceiverCurrencyType();
+            String message = String.format("Transfer successful:\nTransaction ID: %d\nAmount Sent: %.2f %s\nAmount Received: %.2f %s",
+                    outputData.getTransactionId(),
+                    outputData.getSendSendsAmount(),
+                    outputData.getSenderCurrencyType(),
+                    outputData.getReceiverReceivesAmount(),
+                    outputData.getReceiverCurrencyType());
             JOptionPane.showMessageDialog(moneyTransferView, message, "Transfer Successful", JOptionPane.INFORMATION_MESSAGE);
         });
     }
+
 
     @Override
     public void prepareFailView(String errorMessage) {

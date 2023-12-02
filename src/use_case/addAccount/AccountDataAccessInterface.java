@@ -1,7 +1,35 @@
 package use_case.addAccount;
 import objects.Account;
-public interface AccountDataAccessInterface {
-    void saveAccount(Account account);
 
+import java.sql.SQLException;
+
+public interface AccountDataAccessInterface {
+    /**
+     * save the account into database
+     * @param accountId account id to be stored
+     * @param userId user id to be stored
+     * @param balance balance to be stored
+     * @throws SQLException failure
+     */
+    void saveAccount(Integer accountId, int userId, double balance) throws SQLException;
+
+    /**
+     * generate balance for account
+     * @return a positive balance
+     */
+    double generateBalance();
+
+    /**
+     * get current user's id
+     * @return userid from current user table
+     */
+    Integer getCurrentUserId();
+
+    /**
+     * validate account id inputted
+     * @param accountId account id inputted
+     * @return true or false
+     */
+    boolean isValidAccount(Integer accountId);
 }
 

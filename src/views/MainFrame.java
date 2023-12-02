@@ -4,10 +4,16 @@ import javax.swing.*;
 
 import com.sun.tools.javac.Main;
 import database.DataAccessObject;
+import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
+import interface_adapter.CurrencyConverter.PolygonCurrencyConversionGateway;
 import objects.User;
 import presenter.LoginPresenter;
+import presenter.SendMoneyPresenter;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginUserDataAccessInterface;
+import use_case.sendmoneytransfer.SendMoneyInteractor;
+import use_case.sendmoneytransfer.SendMoneyOutputBoundary;
+import use_case.sendmoneytransfer.SendMoneyUserDataAccessInterface;
 import use_case.signup.SignUpInputData;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
@@ -16,8 +22,14 @@ import presenter.SignupPresenter;
 
 public class MainFrame extends JFrame {
     private SignupUserDataAccessInterface userDataAccess = new DataAccessObject();
+    private SendMoneyUserDataAccessInterface sendMoneyUserDataAccess = new DataAccessObject();
     private LoginUserDataAccessInterface loginUserDataAccess = new DataAccessObject();
     private SignupPresenter signupPresenter;
+    private SendMoneyOutputBoundary sendMoneyOutputBoundary;
+
+    private final DataAccessObject dataAccess = new DataAccessObject();
+    private final CurrencyConversionGateway currencyConversionGateway = new PolygonCurrencyConversionGateway();
+
 
     public MainFrame() {
         setTitle("Globe Wallet");
@@ -57,6 +69,16 @@ public class MainFrame extends JFrame {
         HomePanel homePanel = new HomePanel(this);
         switchToPanel(homePanel);
     }
+
+    public void switchToMoneyTransferPanel() {
+        MoneyTransferPanel moneyTransferPanel = new MoneyTransferPanel(this);
+        SendMoneyPresenter sendMoneyPresenter = new SendMoneyPresenter(moneyTransferPanel, this);
+        SendMoneyInteractor sendMoneyInteractor = new SendMoneyInteractor(sendMoneyUserDataAccess, sendMoneyPresenter, currencyConversionGateway);
+        sendMoneyPresenter.setSendMoneyInteractor(sendMoneyInteractor);
+        moneyTransferPanel.setPresenter(sendMoneyPresenter);
+        switchToPanel(moneyTransferPanel);
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainFrame().setVisible(true));
     }

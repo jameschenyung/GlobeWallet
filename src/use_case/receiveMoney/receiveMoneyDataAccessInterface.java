@@ -5,10 +5,10 @@ import java.sql.SQLException;
 
 public interface receiveMoneyDataAccessInterface {
     /**
-     *
+     * get the current user's id
      * @return the id of the current user
      */
-    Integer getCurrentUser();
+    Integer getCurrentUserId();
 
     /**
      * Update the balance of an account.
