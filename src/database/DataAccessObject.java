@@ -43,13 +43,14 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
      * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     // Save account data
-    public void saveAccount(Integer accountId, int userId, double balance) throws SQLException {
-        String sql = "INSERT INTO accounts (accountId, userId, balance) VALUES (?, ?, ?)";
+    public void saveAccount(Integer accountId, int userId, double balance, String currencyType) throws SQLException {
+        String sql = "INSERT INTO accounts (accountId, userId, balance, currencyType) VALUES (?, ?, ?, ?)";
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, accountId);
             pstmt.setInt(2, userId);
             pstmt.setDouble(3, balance);
+            pstmt.setString(4, currencyType);
             pstmt.executeUpdate();
         }
     }
