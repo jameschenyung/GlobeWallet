@@ -1,6 +1,7 @@
 package views;
 
 import presenter.BankAccountPresenter;
+import presenter.SendMoneyPresenter;
 import use_case.addAccount.AddAccountInputData;
 
 import javax.swing.*;
@@ -32,6 +33,10 @@ public class BankAccountsPanel extends JPanel {
             }
         });
         this.add(addAccountButton);
+    }
+
+    public void setPresenter(BankAccountPresenter presenter) {
+        this.bankAccountPresenter = presenter;
     }
 
     private void openAddAccountPopup() {

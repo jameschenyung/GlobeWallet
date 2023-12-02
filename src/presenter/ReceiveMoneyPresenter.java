@@ -13,6 +13,7 @@ import views.ReceiveMoneyPanel;
 public class ReceiveMoneyPresenter implements receiveMoneyOutputBoundary {
     private final ReceiveMoneyPanel view;
     private receiveMoneyInteractor interactor;
+    private BankAccountPresenter presenter;
 
     /**
      * Constructs a ReceiveMoneyPresenter.
@@ -23,6 +24,11 @@ public class ReceiveMoneyPresenter implements receiveMoneyOutputBoundary {
     public ReceiveMoneyPresenter(ReceiveMoneyPanel view, receiveMoneyInteractor interactor) {
         this.interactor = interactor;
         this.view = view;
+    }
+
+
+    public void setPresenter(BankAccountPresenter presenter) {
+        this.presenter = presenter;
     }
 
     public void checkTransaction(Integer transactionId) {

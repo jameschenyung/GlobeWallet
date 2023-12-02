@@ -15,8 +15,8 @@ public class BankAccountPresenter implements AddAccountOutputBoundary {
         this.interactor = interactor;
     }
 
-    public void addAccount(int accountNumber, String currencyType, int userId) {
-        AddAccountInputData inputData = new AddAccountInputData(accountNumber, currencyType, userId);
+    public void addAccount(int accountNumber, String currencyType) {
+        AddAccountInputData inputData = new AddAccountInputData(accountNumber, currencyType);
         interactor.addAccount(inputData);
     }
 
