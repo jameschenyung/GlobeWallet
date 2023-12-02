@@ -7,9 +7,10 @@ import database.DataAccessObject;
 import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
 import interface_adapter.CurrencyConverter.PolygonCurrencyConversionGateway;
 import objects.User;
-import presenter.LoginPresenter;
-import presenter.ReceiveMoneyPresenter;
-import presenter.SendMoneyPresenter;
+import presenter.*;
+import use_case.addAccount.AccountDataAccessInterface;
+import use_case.addAccount.AddAccountInteractor;
+import use_case.addAccount.AddAccountOutputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.receiveMoney.receiveMoneyDataAccessInterface;
@@ -23,7 +24,6 @@ import use_case.signup.SignUpInputData;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
 import use_case.signup.SignupUserDataAccessInterface;
-import presenter.SignupPresenter;
 
 public class MainFrame extends JFrame {
     private SignupUserDataAccessInterface userDataAccess = new DataAccessObject();
@@ -33,7 +33,9 @@ public class MainFrame extends JFrame {
     private SendMoneyOutputBoundary sendMoneyOutputBoundary;
     private ReceiveMoneyPresenter receiveMoneyPresenter;
     private receiveMoneyInteractor receiveMoneyInteractor;
+    private BankAccountPresenter bankAccountPresenter;
     private receiveMoneyDataAccessInterface receiveMoneyDataAccess = new DataAccessObject();
+    private AccountDataAccessInterface accountDataAccess = new DataAccessObject();
     private final DataAccessObject dataAccess = new DataAccessObject();
     private final CurrencyConversionGateway currencyConversionGateway = new PolygonCurrencyConversionGateway();
 
@@ -96,6 +98,14 @@ public class MainFrame extends JFrame {
         switchToPanel(receiveMoneyPanel);
     }
 
+    public void switchToBankAccountsPanel() {
+        BankAccountsPanel bankAccountsPanel = new BankAccountsPanel(this, bankAccountPresenter);
+        AddAccountOutputBoundary addAccountOutputBoundary = bankAccountPresenter;
+        AddAccountInteractor addAccountInteractor = new AddAccountInteractor(dataAccess, addAccountOutputBoundary);
+
+        bankAccountsPanel.setPresenter(bankAccountPresenter);
+        switchToPanel(bankAccountsPanel);
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainFrame().setVisible(true));
     }
