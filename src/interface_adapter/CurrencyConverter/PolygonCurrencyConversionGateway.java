@@ -32,15 +32,19 @@ public class PolygonCurrencyConversionGateway implements CurrencyConversionGatew
                 .build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            // System.out.println(response.statusCode());
-            // System.out.println(response.body());
-
-//            double convertedValue = parseJsonResponse(response.body());
-//
-//            return convertedValue;
             JSONObject jsonObject = new JSONObject(response.body());
-            return (double) jsonObject.get("converted");
 
+            // Log the response for debugging
+            System.out.println("API Response: " + jsonObject.toString());
+
+            if (jsonObject.has("converted")) {
+                return jsonObject.getDouble("converted");
+            } else {
+                // Handle the case where the key is missing or different
+                System.out.println("Key 'converted' not found in JSON response.");
+                // You might want to check for other keys or error messages here
+                return -1.0; // Or handle this situation differently
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return -1.0; // or throw an exception

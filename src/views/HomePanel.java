@@ -39,11 +39,7 @@ public class HomePanel extends JPanel{
         gbc.gridy = 0;
         JButton moneyTransferButton = new JButton("Send Money");
         moneyTransferButton.addActionListener(e -> {
-            SendMoneyInteractor sendMoneyInteractor = new SendMoneyInteractor(sendMoneyUserDataAccess, sendMoneyOutputBoundary, currencyConversionGateway);
-            MoneyTransferPanel moneyTransferPanel = new MoneyTransferPanel(frame, null);
-            SendMoneyPresenter sendMoneyPresenter = new SendMoneyPresenter(moneyTransferPanel, frame, sendMoneyInteractor);
-            moneyTransferPanel.setPresenter(sendMoneyPresenter);
-            frame.switchToPanel(moneyTransferPanel);
+            frame.switchToMoneyTransferPanel();
         });
         add(moneyTransferButton, gbc);
 
