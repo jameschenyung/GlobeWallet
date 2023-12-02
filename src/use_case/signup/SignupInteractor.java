@@ -1,4 +1,5 @@
 package use_case.signup;
+import interface_adapter.EmailSender.EmailSenderGateway;
 
 public class SignupInteractor implements SignupInputBoundary{
 
@@ -40,6 +41,9 @@ public class SignupInteractor implements SignupInputBoundary{
                     true,
                     "Sign up successful!",
                     userDataAccess.getUserByUsername(signupInputData.getUsername()).getUserId()));
+            EmailSenderGateway.sendEmail(signupInputData.getEmail(),
+                    "Welcome to GlobeWallet",
+                    "Thank you for joining us, we ensure you a wonderful experience now that you have joined our group.");
         }
     }
 }

@@ -11,23 +11,12 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailSender {
 
-    public static void main(String[] args) {
+    public static void sendEmail(String recipientEmail, String emailSubject, String emailMessage) {
         // Sender's email and password
         final String username = "globewallet@outlook.com";
         final String password = "Abc12345678!";
 
-        // Recipient's email address
-        String to = "jameschenyung@gmail.com";
-
         // Properties for the mail session
-        /*
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-         */
-
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp-mail.outlook.com"); // Outlook SMTP server
         props.put("mail.smtp.port", "587"); // Default SMTP port for TLS
@@ -49,13 +38,13 @@ public class EmailSender {
             message.setFrom(new InternetAddress(username));
 
             // Set To: header field
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
 
             // Set Subject: header field
-            message.setSubject("Testing JavaMail API");
+            message.setSubject(emailSubject);
 
             // Set the actual message
-            message.setText("Hello, this is a test email sent from Java!");
+            message.setText(emailMessage);
 
             // Send message
             Transport.send(message);
@@ -66,5 +55,13 @@ public class EmailSender {
             throw new RuntimeException(e);
         }
     }
-}
 
+    public static void main(String[] args) {
+        // Example usage
+        String to = "jameschenyung@gmail.com";
+        String subject = "Testing JavaMail API";
+        String message = "Hello, this is a test email sent from Java!";
+
+        sendEmail(to, subject, message);
+    }
+}
