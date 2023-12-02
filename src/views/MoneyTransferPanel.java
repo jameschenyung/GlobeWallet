@@ -11,10 +11,8 @@ public class MoneyTransferPanel extends JPanel {
     private JTextField userAccountNumberField, receiverAccountNumberField, amountField, securityCodeField;
     private JButton checkAccountsButton, checkAmountButton, transferButton;
     private SendMoneyPresenter presenter;
-    private SendMoneyInteractor interactor;
 
-    public MoneyTransferPanel(MainFrame frame, SendMoneyPresenter presenter) {
-        this.presenter = presenter;
+    public MoneyTransferPanel(MainFrame frame) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -36,7 +34,7 @@ public class MoneyTransferPanel extends JPanel {
             try {
                 int userAccountId = Integer.parseInt(userAccountNumberField.getText());
                 int receiverAccountId = Integer.parseInt(receiverAccountNumberField.getText());
-                presenter.checkAccount(userAccountId, receiverAccountId);
+                this.presenter.checkAccount(userAccountId, receiverAccountId);
             } catch (NumberFormatException ex) {
                 showError("Invalid account number format.");
             }
@@ -70,7 +68,7 @@ public class MoneyTransferPanel extends JPanel {
                 int userAccountId = Integer.parseInt(userAccountNumberField.getText());
                 int receiverAccountId = Integer.parseInt(receiverAccountNumberField.getText());
                 int securityCode = Integer.parseInt(securityCodeField.getText());
-                interactor.transfer(new SendMoneyInputData(userAccountId, receiverAccountId, amount, securityCode));
+                presenter.performTransfer(userAccountId, receiverAccountId, amount, securityCode);
             } catch (NumberFormatException ex) {
                 showError("Invalid input format.");
             }
