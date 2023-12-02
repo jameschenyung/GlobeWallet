@@ -1,11 +1,9 @@
 package use_case.addAccount;
 
-import objects.Account;
-import objects.User;
 import database.DataAccessObject;
 
 public class AddAccountInteractor implements AddAccountInputBoundary {
-    private DataAccessObject dataAccess;
+    private AccountDataAccessInterface dataAccess;
     private AddAccountOutputBoundary outputBoundary;
 
     public AddAccountInteractor(DataAccessObject dataAccess, AddAccountOutputBoundary outputBoundary) {
@@ -16,23 +14,12 @@ public class AddAccountInteractor implements AddAccountInputBoundary {
     @Override
     public void addAccount(AddAccountInputData inputData) {
         try {
-
-            User user = dataAccess.getUser(inputData.getUserId());
-            if (user == null) {
-                outputBoundary.presentAddAccountResult(new AddAccountOutputData(false, "User not found"));
-                return;
+            if (dataAccess.isValidAccount(inputData.getAccountNumber())) {
+                dataAccess.saveAccount(inputData.getAccountNumber(),
+                        dataAccess.getCurrentUserId(), dataAccess.generateBalance());
+            } else {
+                outputBoundary.presentAddAccountResult(new AddAccountOutputData(false, "Account number taken."));
             }
-
-
-            Account newAccount = new Account(null, user.getUserId(), 0.0, inputData.getCurrencyType());
-
-
-            user.addAccount(newAccount);
-            String accountId = String.valueOf(newAccount.getAccountId());
-
-            int userId = user.getUserId();
-
-            dataAccess.saveAccount(accountId, userId, newAccount.getBalance());
 
             outputBoundary.presentAddAccountResult(new AddAccountOutputData(true, "Account successfully added"));
         } catch (Exception e) {
