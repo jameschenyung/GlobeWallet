@@ -1,5 +1,6 @@
 package views;
 
+import presenter.BankAccountPresenter;
 import presenter.MyDetailsPresenter;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ import java.awt.*;
 public class AccountPanel extends JPanel {
     private MainFrame frame;
     private JLabel myAccountLabel;
+    private BankAccountPresenter bankAccountPresenter;
 
     public AccountPanel(MainFrame frame) {
         this.frame = frame;
@@ -52,7 +54,7 @@ public class AccountPanel extends JPanel {
     }
 
     private void bankAccountsPanel() {
-        frame.switchToPanel(new BankAccountsPanel(frame));
+        frame.switchToPanel(new BankAccountsPanel(frame, bankAccountPresenter));
     }
 
     private void signOut() {

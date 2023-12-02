@@ -6,12 +6,22 @@ import presenter.ReceiveMoneyPresenter;
 import views.AccountPanel;
 import views.MainFrame;
 
+/**
+ * The panel for receiving money transactions.
+ * This UI component allows users to check and confirm money transactions.
+ */
+
 public class ReceiveMoneyPanel extends JPanel {
     private JTextField transactionIdField, securityCodeField;
     private JButton checkTransactionButton, confirmButton, backButton;
     private ReceiveMoneyPresenter presenter;
     private MainFrame frame;
 
+    /**
+     * Constructs the ReceiveMoneyPanel.
+     *
+     * @param frame The main application frame.
+     */
     public ReceiveMoneyPanel(MainFrame frame, ReceiveMoneyPresenter presenter) {
         this.frame = frame;
         this.presenter = presenter;

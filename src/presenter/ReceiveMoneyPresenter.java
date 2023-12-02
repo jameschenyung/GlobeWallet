@@ -6,10 +6,20 @@ import use_case.receiveMoney.receiveMoneyInteractor;
 import use_case.receiveMoney.receiveMoneyOutputBoundary;
 import views.ReceiveMoneyPanel;
 
+/**
+ * The presenter for the receive money feature.
+ * Handles the presentation logic for receiving money transactions.
+ */
 public class ReceiveMoneyPresenter implements receiveMoneyOutputBoundary {
     private final ReceiveMoneyPanel view;
     private receiveMoneyInteractor interactor;
 
+    /**
+     * Constructs a ReceiveMoneyPresenter.
+     *
+     * @param view      The view associated with this presenter.
+     * @param interactor The interactor used for processing business logic.
+     */
     public ReceiveMoneyPresenter(ReceiveMoneyPanel view, receiveMoneyInteractor interactor) {
         this.interactor = interactor;
         this.view = view;

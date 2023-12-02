@@ -1,5 +1,6 @@
 package views;
 
+import presenter.BankAccountPresenter;
 import use_case.addAccount.AddAccountInputData;
 
 import javax.swing.*;
@@ -9,9 +10,11 @@ import java.awt.event.ActionListener;
 
 public class BankAccountsPanel extends JPanel {
     private MainFrame frame;
+    private BankAccountPresenter bankAccountPresenter;
 
-    public BankAccountsPanel(MainFrame frame) {
+    public BankAccountsPanel(MainFrame frame, BankAccountPresenter bankAccountPresenter) {
         this.frame = frame;
+        this.bankAccountPresenter = bankAccountPresenter;
         JButton addAccountButton = new JButton("Add Account");
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
@@ -21,6 +24,7 @@ public class BankAccountsPanel extends JPanel {
             }
         });
         this.add(backButton);
+
         addAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -91,5 +95,13 @@ public class BankAccountsPanel extends JPanel {
         dialog.pack();
         dialog.setLocationRelativeTo(frame);
         dialog.setVisible(true);
+    }
+
+    public void showSuccess(String message) {
+        JOptionPane.showMessageDialog(this, message, "Success", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void showError(String message) {
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
