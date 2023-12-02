@@ -264,17 +264,6 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return null;
     }
 
-    /**
-     * Creates a new transaction record in the database.
-     *
-     * @param transactionId the unique identifier of the transaction
-     * @param SendId the unique identifier of the sender
-     * @param ReceiverId the unique identifier of the receiver
-     * @param amount the transaction amount
-     * @param SecurityCode the security code of the transaction
-     * @param received a flag indicating whether the transaction was received
-     * @throws RuntimeException if a database access error occurs
-     */
     @Override
     public Transaction getTransactionDetails(Integer transactionId) throws SQLException {
         String sql = "SELECT * FROM transactions WHERE transactionId = ?";
@@ -300,6 +289,17 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return transaction;
     }
 
+    /**
+    * Creates a new transaction record in the database.
+    *
+    * @param transactionId the unique identifier of the transaction
+    * @param SendId the unique identifier of the sender
+    * @param ReceiverId the unique identifier of the receiver
+    * @param amount the transaction amount
+    * @param SecurityCode the security code of the transaction
+    * @param received a flag indicating whether the transaction was received
+    * @throws RuntimeException if a database access error occurs
+    */
     @Override
     public void createTransaction(Integer transactionId, Integer SendId, Integer ReceiverId, Double amount, Integer SecurityCode,
                                   Integer received) {
@@ -426,7 +426,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return null; // Or throw an exception
     }
 
-    public String getFullName(int userId) {
+    public String getFullName(Integer userId) {
         String sql = "SELECT firstName, lastName FROM users WHERE id = ?";
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

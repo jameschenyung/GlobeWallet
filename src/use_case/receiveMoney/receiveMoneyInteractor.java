@@ -7,10 +7,20 @@ import use_case.sendmoneytransfer.SendMoneyOutputData;
 
 import java.sql.SQLException;
 
+/**
+ * The interactor for handling receive money transactions.
+ * Contains the business logic to process money receiving operations.
+ */
 public class receiveMoneyInteractor implements receiveMoneyInputBoundary {
     private final receiveMoneyDataAccessInterface dataAccess;
     private final receiveMoneyOutputBoundary outputBoundary;
 
+    /**
+     * Constructs a receiveMoneyInteractor.
+     *
+     * @param dataAccess    The data access interface for transaction data.
+     * @param outputBoundary The output boundary for sending results back to the presenter.
+     */
     public receiveMoneyInteractor(receiveMoneyDataAccessInterface dataAccess, receiveMoneyOutputBoundary outputBoundary) {
         this.dataAccess = dataAccess;
         this.outputBoundary = outputBoundary;

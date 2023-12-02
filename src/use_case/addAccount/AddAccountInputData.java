@@ -1,7 +1,5 @@
 package use_case.addAccount;
 
-
-
 public class AddAccountInputData {
     private Integer accountNumber;
     private String currencyType;
