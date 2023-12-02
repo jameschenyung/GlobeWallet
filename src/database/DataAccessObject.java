@@ -13,6 +13,12 @@ import objects.Account;
 import java.util.Currency;
 import java.util.Random;
 import java.util.Set;
+    /**
+     * The {@code DataAccessObject} class provides methods for interacting with a banking database.
+     * It implements various interfaces to support operations related to user login, sign-up, money transfers,
+     * account management, and transaction creation.
+     * This class uses SQLite for database interactions.
+     */
 
 public class DataAccessObject implements use_case.login.LoginUserDataAccessInterface,
         use_case.signup.SignupUserDataAccessInterface,
@@ -26,6 +32,14 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return DriverManager.getConnection(DB_URL);
     }
 
+    /**
+     * Saves account data into the database.
+     *
+     * @param accountId the unique identifier of the account
+     * @param userId the unique identifier of the user associated with the account
+     * @param balance the current balance of the account
+     * @throws SQLException if a database access error occurs or this method is called on a closed connection
+     */
     // Save account data
     public void saveAccount(Integer accountId, int userId, double balance) throws SQLException {
         String sql = "INSERT INTO accounts (accountId, userId, balance) VALUES (?, ?, ?)";
@@ -38,12 +52,22 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         }
     }
 
+    /**
+     * Generates a random balance value.
+     *
+     * @return a randomly generated double value representing a balance.
+     */
     @Override
     public double generateBalance() {
         Random random = new Random();
         return random.nextDouble() * Double.MAX_VALUE;
     }
 
+    /**
+     * Retrieves the current user's ID from the database.
+     *
+     * @return the user ID of the currently logged-in user, or {@code null} if no user is logged in.
+     */
     @Override
     public Integer getCurrentUserId() {
         Integer userId = null;
@@ -60,6 +84,16 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return userId;
     }
 
+    /**
+     * Updates a user's information in the database.
+     *
+     * @param id the unique identifier of the user
+     * @param firstName the user's first name
+     * @param lastName the user's last name
+     * @param username the user's username
+     * @param password the user's password
+     * @throws SQLException if a database access error occurs
+     */
     // Update user data
     public void updateUser(int id, String firstName, String lastName, String username, String password) throws SQLException {
         String sql = "UPDATE users SET firstName = ?, lastName = ?, username = ?, password = ? WHERE id = ?";
@@ -74,6 +108,12 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         }
     }
 
+    /**
+     * Retrieves an account by its ID.
+     *
+     * @param accountId the unique identifier of the account
+     * @return an {@code Account} object corresponding to the given ID, or {@code null} if no account is found.
+     */
     @Override
     public Account getAccountById(Integer accountId) {
         String sql = "SELECT * FROM accounts WHERE accountId = ?";
@@ -95,6 +135,15 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         }
         return null; // Or handle accordingly
     }
+
+
+    /**
+     * Updates the balance of a specific account.
+     *
+     * @param accountId the unique identifier of the account
+     * @param newBalance the new balance to be set
+     * @throws SQLException if a database access error occurs
+     */
     // Update account balance
     public void updateAccountBalance(Integer accountId, double newBalance) throws SQLException {
         String sql = "UPDATE accounts SET balance = ? WHERE accountId = ?";
@@ -105,6 +154,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             pstmt.executeUpdate();
         }
     }
+
 
     @Override
     public boolean validateSecurityCode(Integer securityCode, Integer transactionId) {
@@ -125,6 +175,14 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return false;
     }
 
+
+    /**
+     * Validates if a given currency is valid and available.
+     *
+     * @param currency the currency code to validate
+     * @return {@code true} if the currency is valid, {@code false} otherwise.
+     */
+
     // validate currency
     @Override
     public boolean isValidCurrency(String currency) {
@@ -137,6 +195,12 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return false;
     }
 
+    /**
+     * Checks if an account with a given ID exists.
+     *
+     * @param accountId the unique identifier of the account
+     * @return {@code true} if the account exists, {@code false} otherwise.
+     */
     @Override
     public boolean isValidAccount(Integer accountId) {
         String sql = "SELECT COUNT(1) FROM accounts WHERE accountId = ?";
@@ -153,6 +217,13 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return false;
     }
 
+
+    /**
+     * Retrieves the currency type of a specified account.
+     *
+     * @param accountId the unique identifier of the account
+     * @return the currency type of the account as a string, or {@code null} if the account is not found.
+     */
     @Override
     public String getCurrencyByAccount(Integer accountId) {
         String sql = "SELECT currencyType FROM accounts WHERE accountId = ?";
@@ -169,6 +240,12 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return null;
     }
 
+    /**
+     * Gets the balance of a specified account.
+     *
+     * @param accountId the unique identifier of the account
+     * @return the balance of the account, or {@code null} if the account is not found.
+     */
     @Override
     public Double getAccountBalance(Integer accountId) {
         String sql = "SELECT balance FROM accounts WHERE accountId = ?";
@@ -185,6 +262,17 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return null;
     }
 
+    /**
+     * Creates a new transaction record in the database.
+     *
+     * @param transactionId the unique identifier of the transaction
+     * @param SendId the unique identifier of the sender
+     * @param ReceiverId the unique identifier of the receiver
+     * @param amount the transaction amount
+     * @param SecurityCode the security code of the transaction
+     * @param received a flag indicating whether the transaction was received
+     * @throws RuntimeException if a database access error occurs
+     */
     @Override
     public Transaction getTransactionDetails(Integer transactionId) throws SQLException {
         String sql = "SELECT * FROM transactions WHERE transactionId = ?";
@@ -228,6 +316,12 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         }
     }
 
+    /**
+     * Generates a unique transaction ID.
+     *
+     * @return a unique transaction ID
+     * @throws IllegalStateException if an error occurs during the ID generation process
+     */
     public int generateUniqueTransactionId() {
         Random rand = new Random();
         int randomId;
@@ -251,6 +345,13 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         }
     }
 
+    /**
+     * Retrieves user information based on the user ID.
+     *
+     * @param userId the unique identifier of the user
+     * @return a {@code User} object containing the user's information, or {@code null} if the user is not found.
+     * @throws SQLException if a database access error occurs
+     */
     // Get user data
     public User getUser(int userId) throws SQLException {
         String sql = "SELECT * FROM users WHERE id = ?";
@@ -274,6 +375,13 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return null; // Or throw an exception
     }
 
+    /**
+     * Retrieves account information based on the account ID.
+     *
+     * @param accountId the account ID as a string
+     * @return an {@code Account} object containing the account's information, or {@code null} if the account is not found.
+     * @throws SQLException if a database access error occurs
+     */
     // Get account data
     public Account getAccount(String accountId) throws SQLException {
         String sql = "SELECT * FROM accounts WHERE accountId = ?";
@@ -294,6 +402,12 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return null; // Or throw an exception
     }
 
+    /**
+     * Retrieves the email address of a user based on the user ID.
+     *
+     * @param userId the unique identifier of the user
+     * @return the email address of the user, or {@code null} if the user is not found.
+     */
     public String getEmail(int userId) {
         String sql = "SELECT email FROM users WHERE id = ?";
         try (Connection conn = this.connect();
@@ -310,6 +424,12 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return null; // Or throw an exception
     }
 
+    /**
+     * Retrieves a user by their username.
+     *
+     * @param username the username of the user
+     * @return a {@code User} object if a user with the given username exists, otherwise {@code null}.
+     */
     @Override
     public User getUserByUsername(String username) {
         String sql = "SELECT * FROM users WHERE username = ?";
@@ -330,6 +450,13 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return null;
     }
 
+    /**
+     * Checks if the provided password matches the stored password for a given username.
+     *
+     * @param username the username of the user
+     * @param password the password to check
+     * @return {@code true} if the password matches, {@code false} otherwise.
+     */
     @Override
     public boolean checkPassword(String username, String password) {
         // This method should validate the password, possibly using hashing and salt
@@ -349,6 +476,12 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return false;
     }
 
+    /**
+     * Sets the current user in the database.
+     *
+     * @param username the username of the current user
+     * @param userid the user ID of the current user
+     */
     @Override
     public void setCurrentUser(String username, Integer userid) {
         String sql = "INSERT OR REPLACE INTO current_user (id, userId, username) VALUES (1, ?, ?)";
@@ -385,6 +518,18 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         }
     }
 
+    /**
+     * Creates a new user in the database.
+     *
+     * @param firstName the first name of the user
+     * @param lastName the last name of the user
+     * @param username the username of the user
+     * @param password the password of the user
+     * @param currencyType the currency type preferred by the user
+     * @param email the email address of the user
+     * @return a new {@code User} object
+     * @throws RuntimeException if a database operation fails
+     */
     public User createUser(String firstName, String lastName, String username, String password, String currencyType, String email) {
         String sqlInsertUser = "INSERT INTO users (id, firstName, lastName, username, password, currencyType, email) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -415,6 +560,13 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         }
     }
 
+    /**
+     * Checks if the specified username is already taken in the database.
+     *
+     * @param username the username to check
+     * @return {@code true} if the username is already taken, {@code false} otherwise.
+     * @throws SQLException if a database access error occurs
+     */
     @Override
     public boolean isUsernameTaken(String username) {
         String sql = "SELECT COUNT(id) FROM users WHERE username = ?";
@@ -431,6 +583,14 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return false;
     }
 
+    /**
+     * Validates a password based on specified criteria.
+     * The password must contain at least one uppercase letter, one lowercase letter, one digit,
+     * no symbols, and be at least 8 characters long.
+     *
+     * @param password the password to validate
+     * @return {@code true} if the password meets the criteria, {@code false} otherwise.
+     */
     @Override
     public boolean validatePassword(String password) {
         // Regex to check for a password that has at least one uppercase letter,
