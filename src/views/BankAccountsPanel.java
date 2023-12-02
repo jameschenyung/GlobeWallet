@@ -13,6 +13,14 @@ public class BankAccountsPanel extends JPanel {
     public BankAccountsPanel(MainFrame frame) {
         this.frame = frame;
         JButton addAccountButton = new JButton("Add Account");
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.switchToPanel(new AccountPanel(frame));
+            }
+        });
+        this.add(backButton);
         addAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
