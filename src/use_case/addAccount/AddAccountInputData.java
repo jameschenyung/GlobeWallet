@@ -7,7 +7,7 @@ public class AddAccountInputData {
     private String currencyType;
     private Integer userId;
 
-    public AddAccountInputData(Integer accountNumber, String accountHolderName, double balance, String currencyType, Integer userId) {
+    public AddAccountInputData(Integer accountNumber, String currencyType, Integer userId) {
         this.accountNumber = accountNumber;
         this.currencyType = currencyType;
         this.userId = userId;
