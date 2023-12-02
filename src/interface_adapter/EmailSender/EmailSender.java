@@ -9,7 +9,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class EmailSender {
+public class EmailSender implements EmailSenderGateway{
 
     public static void sendEmail(String recipientEmail, String emailSubject, String emailMessage) {
         // Sender's email and password
@@ -56,6 +56,32 @@ public class EmailSender {
         }
     }
 
+    public void sendWelcomeEmail(String email) {
+        sendEmail(email,
+                "Welcome to GlobeWallet",
+                "Thank you for joining us, we ensure you a wonderful experience now that you have joined our group.");
+    }
+
+    public void sendTransactionSender(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
+        sendEmail(
+                email,
+                "Your money transfer to " + receiver + " was sucessful",
+                "Hi " + sender + ", " +
+                        "\n Your money transfer of " + Double.toString(amount) + " " + currency + " to " + receiver + " was successful." +
+                        "\n Your transaction number is " + Integer.toString(transactionId) + "."
+        );
+    }
+
+    public void sendTransactionReceiver(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
+        sendEmail(
+                email,
+                "You have received money from " + sender,
+                "Hi " + receiver + ", " +
+                        "\n You have received " + Double.toString(amount) + " " + currency + " from " + sender + "." +
+                        "\n Your transaction number is " + Integer.toString(transactionId) + "."
+        );
+    }
+
     public static void main(String[] args) {
         // Example usage
         String to = "jameschenyung@gmail.com";
@@ -65,3 +91,4 @@ public class EmailSender {
         sendEmail(to, subject, message);
     }
 }
+
