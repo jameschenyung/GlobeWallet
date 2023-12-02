@@ -47,9 +47,9 @@ public interface receiveMoneyDataAccessInterface {
 
     /**
      * Get the sender name of the transaction.
-     * @param transactionId The ID of the transaction.
+     * @param senderId The ID of the receiver.
      * @return The sender of the transaction.
      */
-    String getSenderName(Integer transactionId);
+    String getFullName(Integer senderId);
 }
 
