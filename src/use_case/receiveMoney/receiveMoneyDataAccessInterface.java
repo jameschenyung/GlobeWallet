@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public interface receiveMoneyDataAccessInterface {
     /**
-     * get the current user's id
+     *
      * @return the id of the current user
      */
     Integer getCurrentUserId();
@@ -44,4 +44,12 @@ public interface receiveMoneyDataAccessInterface {
      * @return The transaction details or null if not found.
      */
     Transaction getTransactionDetails(Integer transactionId) throws SQLException;
+
+    /**
+     * Get the sender name of the transaction.
+     * @param transactionId The ID of the transaction.
+     * @return The sender of the transaction.
+     */
+    String getSenderName(Integer transactionId);
 }
+
