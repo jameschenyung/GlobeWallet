@@ -17,11 +17,11 @@ public class AddAccountInteractor implements AddAccountInputBoundary {
             if (dataAccess.isValidAccount(inputData.getAccountNumber())) {
                 dataAccess.saveAccount(inputData.getAccountNumber(),
                         dataAccess.getCurrentUserId(), dataAccess.generateBalance(), inputData.getCurrencyType());
+                outputBoundary.presentAddAccountResult(new AddAccountOutputData(true, "Account successfully added"));
             } else {
                 outputBoundary.presentAddAccountResult(new AddAccountOutputData(false, "Account number taken."));
             }
 
-            outputBoundary.presentAddAccountResult(new AddAccountOutputData(true, "Account successfully added"));
         } catch (Exception e) {
             outputBoundary.presentAddAccountResult(new AddAccountOutputData(false, e.getMessage()));
         }
