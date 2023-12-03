@@ -29,12 +29,11 @@ public class receiveMoneyInteractor implements receiveMoneyInputBoundary {
 
     @Override
     public void verifyTransaction(receiveMoneyInputData inputData) {
-        Integer currentUserId = dataAccess.getCurrentUserId();
         Integer receiverId = dataAccess.getTransactionReceiverId(inputData.getTransactionId());
 
-        if (dataAccess.hasTransaction(inputData.getTransactionId()) && Objects.equals(currentUserId, receiverId)) {
+        if (dataAccess.hasTransaction(inputData.getTransactionId()) && dataAccess.accountUnderCurrentUser(receiverId)) {
             String senderName = dataAccess.getFullName(dataAccess.getTransactionSenderId(inputData.getTransactionId()));
-            String currency = dataAccess.getCurrencyByAccount(currentUserId);
+            String currency = dataAccess.getCurrencyByAccount(receiverId);
             outputBoundary.presentTransactionDetails(senderName, dataAccess.getTransactionAmount(inputData.getTransactionId()), currency);
         } else {
             outputBoundary.presentError("Transaction not found or you are not the receiver.");
@@ -45,14 +44,14 @@ public class receiveMoneyInteractor implements receiveMoneyInputBoundary {
     @Override
     public void confirmSecurityCode(receiveMoneyInputData inputData) {
         try {
-            Integer currentUserId = dataAccess.getCurrentUserId();
+            Integer receiverId = dataAccess.getTransactionReceiverId(inputData.getTransactionId());
             if (dataAccess.validateSecurityCode(inputData.getSecurityCode(), inputData.getTransactionId())) {
-                String currency = dataAccess.getCurrencyByAccount(currentUserId);
+                String currency = dataAccess.getCurrencyByAccount(receiverId);
 
-                Double newBalance = dataAccess.getAccountBalance(currentUserId) + dataAccess.getTransactionAmount(currentUserId);
-                dataAccess.updateAccountBalance(currentUserId, newBalance);
+                Double newBalance = dataAccess.getAccountBalance(receiverId) + dataAccess.getTransactionAmount(inputData.getTransactionId());
+                dataAccess.updateAccountBalance(receiverId, newBalance);
 
-                outputBoundary.presentTransactionConfirmation(dataAccess.getTransactionAmount(currentUserId), currency, newBalance);
+                outputBoundary.presentTransactionConfirmation(dataAccess.getTransactionAmount(inputData.getTransactionId()), currency, newBalance);
             } else {
                 outputBoundary.presentError("Invalid security code.");
             }
