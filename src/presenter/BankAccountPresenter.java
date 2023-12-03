@@ -1,9 +1,6 @@
 package presenter;
 
-import use_case.addAccount.AddAccountInputData;
-import use_case.addAccount.AddAccountInteractor;
-import use_case.addAccount.AddAccountOutputBoundary;
-import use_case.addAccount.AddAccountOutputData;
+import use_case.addAccount.*;
 import views.BankAccountsPanel;
 
 /**
@@ -24,11 +21,10 @@ public class BankAccountPresenter implements AddAccountOutputBoundary {
      * </p>
      *
      * @param view       The bank accounts panel that this presenter manages.
-     * @param interactor The interactor for adding new bank accounts.
      */
-    public void BankAccountsPresenter(BankAccountsPanel view, AddAccountInteractor interactor) {
+    public BankAccountPresenter(BankAccountsPanel view, AccountDataAccessInterface accountDataAccessInterface) {
         this.view = view;
-        this.interactor = interactor;
+        this.interactor = new AddAccountInteractor(accountDataAccessInterface, this);
     }
 
     /**
@@ -41,9 +37,13 @@ public class BankAccountPresenter implements AddAccountOutputBoundary {
      * @param accountNumber The account number for the new account.
      * @param currencyType  The currency type for the new account.
      */
-    public void addAccount(int accountNumber, String currencyType) {
+    public void addAccount(Integer accountNumber, String currencyType) {
         AddAccountInputData inputData = new AddAccountInputData(accountNumber, currencyType);
         interactor.addAccount(inputData);
+    }
+
+    public void setInteractor(AddAccountInteractor addAccountInteractor) {
+        this.interactor = addAccountInteractor;
     }
 
     /**

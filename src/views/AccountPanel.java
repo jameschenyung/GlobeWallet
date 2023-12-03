@@ -1,7 +1,11 @@
 package views;
 
+import database.DataAccessObject;
 import presenter.BankAccountPresenter;
-import presenter.MyDetailsPresenter;
+import use_case.addAccount.AccountDataAccessInterface;
+import use_case.addAccount.AddAccountInteractor;
+import use_case.addAccount.AddAccountOutputBoundary;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +20,7 @@ public class AccountPanel extends JPanel {
     private MainFrame frame;
     private JLabel myAccountLabel;
     private BankAccountPresenter bankAccountPresenter;
+    private AccountDataAccessInterface accountDataAccessInterface = new DataAccessObject();
 
     /**
      * Constructs an AccountPanel associated with the given MainFrame.
@@ -65,7 +70,12 @@ public class AccountPanel extends JPanel {
     }
 
     private void bankAccountsPanel() {
-        frame.switchToPanel(new BankAccountsPanel(frame, bankAccountPresenter));
+        BankAccountsPanel view = new BankAccountsPanel(frame);
+        BankAccountPresenter bankAccountPresenter = new BankAccountPresenter(view, accountDataAccessInterface);
+        AddAccountInteractor addAccountInteractor = new AddAccountInteractor(accountDataAccessInterface, bankAccountPresenter);
+        view.setPresenter(bankAccountPresenter);
+        bankAccountPresenter.setInteractor(addAccountInteractor);
+        frame.switchToPanel(view);
     }
 
     private void signOut() {

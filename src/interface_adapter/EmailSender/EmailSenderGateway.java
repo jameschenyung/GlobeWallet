@@ -1,59 +1,53 @@
 package interface_adapter.EmailSender;
+
 /**
- * Interface defining the contract for email sending functionalities.
- * This interface should be implemented by classes that provide functionality
- * to send different types of emails, such as welcome emails and transaction notifications.
+ * Interface defining the contract for an email sender gateway.
+ * This interface outlines methods for sending various types of emails, such as welcome emails,
+ * and notifications for transactions both as a sender and a receiver.
  */
 public interface EmailSenderGateway {
 
     /**
-     * Sends an email to a specified recipient.
-     * Implementers should provide the functionality to send an email with a subject and message body.
+     * Sends an email to a specified recipient with a given subject and message.
      *
      * @param recipientEmail The email address of the recipient.
      * @param emailSubject   The subject line of the email.
-     * @param emailMessage   The body of the email.
+     * @param emailMessage   The content of the email message.
      */
-    static void sendEmail(String recipientEmail, String emailSubject, String emailMessage) {
-    }
+    void sendEmail(String recipientEmail, String emailSubject, String emailMessage);
 
     /**
      * Sends a welcome email to a new user.
-     * Implementers should define the content of the welcome email.
      *
-     * @param email The email address of the recipient.
+     * @param email The email address of the new user.
+     * @param name  The name of the new user to personalize the welcome message.
      */
-    static void sendWelcomeEmail(String email) {
-
-    }
+    void sendWelcomeEmail(String email, String name);
 
     /**
-     * Sends an email notification to the sender of a transaction.
-     * The email should contain details of the transaction such as the amount, currency, and recipient.
+     * Sends an email notification to the sender of a transaction, confirming the successful transfer.
      *
-     * @param email          The email address of the sender.
-     * @param transactionId  The ID of the transaction.
-     * @param amount         The amount of the transaction.
-     * @param currency       The currency of the transaction.
-     * @param sender         The name of the sender.
-     * @param receiver       The name of the receiver.
+     * @param email         The email address of the sender.
+     * @param transactionId The unique identifier of the transaction.
+     * @param amount        The amount of money transferred.
+     * @param currency      The currency of the transferred amount.
+     * @param sender        The name of the sender.
+     * @param receiver      The name of the receiver.
      */
-    static void sendTransactionSender(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
+    void sendTransactionSender(String email, Integer transactionId, Double amount, String currency, String sender, String receiver);
 
-    }
 
     /**
-     * Sends an email notification to the receiver of a transaction.
-     * The email should contain details of the transaction such as the amount, currency, and sender.
+     * Sends an email notification to the receiver of a transaction, informing them of the incoming transfer.
      *
-     * @param email          The email address of the receiver.
-     * @param transactionId  The ID of the transaction.
-     * @param amount         The amount of the transaction.
-     * @param currency       The currency of the transaction.
-     * @param sender         The name of the sender.
-     * @param receiver       The name of the receiver.
+     * @param email         The email address of the receiver.
+     * @param transactionId The unique identifier of the transaction.
+     * @param amount        The amount of money received.
+     * @param currency      The currency of the received amount.
+     * @param sender        The name of the sender.
+     * @param receiver      The name of the receiver.
      */
-    static void sendTransactionReceiver(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
+    void sendTransactionReceiver(String email, Integer transactionId, Double amount, String currency, String sender, String receiver);
 
     }
-}
+

@@ -13,6 +13,7 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
     private final SendMoneyUserDataAccessInterface userDataAccess;
     private final SendMoneyOutputBoundary outputBoundary;
     private final CurrencyConversionGateway conversionGateway;
+    private final EmailSenderGateway emailSenderGateway;
 
     /**
      * Constructs a SendMoneyInteractor with the specified data access, output boundary,
@@ -24,10 +25,12 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
      */
     public SendMoneyInteractor(SendMoneyUserDataAccessInterface userDataAccess,
                                SendMoneyOutputBoundary outputBoundary,
-                               CurrencyConversionGateway conversionGateway) {
+                               CurrencyConversionGateway conversionGateway,
+                               EmailSenderGateway emailSenderGateway) {
         this.userDataAccess = userDataAccess;
         this.outputBoundary = outputBoundary;
         this.conversionGateway = conversionGateway;
+        this.emailSenderGateway = emailSenderGateway;
     }
 
     /**
@@ -110,8 +113,8 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
             String senderEmail = userDataAccess.getEmail(senderId);
             String receiverEmail = userDataAccess.getEmail(receiverId);
 
-            EmailSenderGateway.sendTransactionSender(senderEmail, id, amount, senderCurrency, senderName, receiverName);
-            EmailSenderGateway.sendTransactionReceiver(receiverEmail, id, amount, receiverCurrency, senderName, receiverName);
+            emailSenderGateway.sendTransactionSender(senderEmail, id, amount, senderCurrency, senderName, receiverName);
+            emailSenderGateway.sendTransactionReceiver(receiverEmail, id, amount, receiverCurrency, senderName, receiverName);
 
         } catch (Exception e) {
             outputBoundary.prepareFailView("Transfer failed due to an error.");
