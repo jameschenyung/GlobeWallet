@@ -4,10 +4,11 @@ import java.sql.SQLException;
 
 public interface receiveMoneyDataAccessInterface {
     /**
-     *
-     * @return the id of the current user
+     * return if the account is owned by the current user
+     * @param accountId account id
+     * @return true or false
      */
-    Integer getCurrentUserId();
+    boolean accountUnderCurrentUser(Integer accountId);
 
     /**
      * Update the balance of an account.

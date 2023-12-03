@@ -140,7 +140,31 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
     }
 
 
-    /**
+        @Override
+        public boolean accountUnderCurrentUser(Integer accountId) {
+            Integer currentUserId = getCurrentUserId();
+            if (currentUserId == null) {
+                return false; // No user is currently logged in.
+            }
+
+            String sql = "SELECT userId FROM accounts WHERE accountId = ?";
+            try (Connection conn = this.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setInt(1, accountId);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    Integer accountUserId = rs.getInt("userId");
+                    return accountUserId.equals(currentUserId);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false; // Account not found or other error.
+        }
+
+        /**
      * Updates the balance of a specific account.
      *
      * @param accountId the unique identifier of the account
