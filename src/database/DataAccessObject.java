@@ -17,7 +17,6 @@ import java.util.Set;
      * account management, and transaction creation.
      * This class uses SQLite for database interactions.
      */
-
 public class DataAccessObject implements use_case.login.LoginUserDataAccessInterface,
         use_case.signup.SignupUserDataAccessInterface,
         use_case.sendmoneytransfer.SendMoneyUserDataAccessInterface,
