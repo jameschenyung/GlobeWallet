@@ -56,29 +56,29 @@ public class EmailSender implements EmailSenderGateway{
         }
     }
 
-    public void sendWelcomeEmail(String email) {
+    public static void sendWelcomeEmail(String email) {
         sendEmail(email,
                 "Welcome to GlobeWallet",
                 "Thank you for joining us, we ensure you a wonderful experience now that you have joined our group.");
     }
 
-    public void sendTransactionSender(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
+    public static void sendTransactionSender(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
         sendEmail(
                 email,
                 "Your money transfer to " + receiver + " was sucessful",
                 "Hi " + sender + ", " +
-                        "\n Your money transfer of " + Double.toString(amount) + " " + currency + " to " + receiver + " was successful." +
-                        "\n Your transaction number is " + Integer.toString(transactionId) + "."
+                        "\nYour money transfer of " + Double.toString(amount) + " " + currency + " to " + receiver + " was successful." +
+                        "\nYour transaction number is " + Integer.toString(transactionId) + "."
         );
     }
 
-    public void sendTransactionReceiver(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
+    public static void sendTransactionReceiver(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
         sendEmail(
                 email,
                 "You have received money from " + sender,
                 "Hi " + receiver + ", " +
-                        "\n You have received " + Double.toString(amount) + " " + currency + " from " + sender + "." +
-                        "\n Your transaction number is " + Integer.toString(transactionId) + "."
+                        "\nYou have received " + Double.toString(amount) + " " + currency + " from " + sender + "." +
+                        "\nYour transaction number is " + Integer.toString(transactionId) + "."
         );
     }
 
@@ -88,7 +88,9 @@ public class EmailSender implements EmailSenderGateway{
         String subject = "Testing JavaMail API";
         String message = "Hello, this is a test email sent from Java!";
 
-        sendEmail(to, subject, message);
+        // sendEmail(to, subject, message);
+        //sendWelcomeEmail("jameschenyung@gmail.com");
+        sendTransactionReceiver(to, 90, 34.0, "CAD", "James", "Kesier");
     }
 }
 
