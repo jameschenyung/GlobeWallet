@@ -3,7 +3,7 @@ public interface EmailSenderGateway {
     static void sendEmail(String recipientEmail, String emailSubject, String emailMessage) {
     }
 
-    static void sendWelcomeEmail(String email) {
+    static void sendWelcomeEmail(String email, String name) {
 
     }
 
