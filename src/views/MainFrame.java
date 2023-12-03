@@ -97,14 +97,14 @@ public class MainFrame extends JFrame {
         switchToPanel(receiveMoneyPanel);
     }
 
-    public void switchToBankAccountsPanel() {
-        BankAccountsPanel bankAccountsPanel = new BankAccountsPanel(this, bankAccountPresenter);
-        AddAccountOutputBoundary addAccountOutputBoundary = bankAccountPresenter;
-        AddAccountInteractor addAccountInteractor = new AddAccountInteractor(dataAccess, addAccountOutputBoundary);
-
-        bankAccountsPanel.setPresenter(bankAccountPresenter);
-        switchToPanel(bankAccountsPanel);
-    }
+//    public void switchToBankAccountsPanel() {
+//        BankAccountsPanel bankAccountsPanel = new BankAccountsPanel(this);
+//        AddAccountOutputBoundary addAccountOutputBoundary = bankAccountPresenter;
+//        AddAccountInteractor addAccountInteractor = new AddAccountInteractor(dataAccess, addAccountOutputBoundary);
+//
+//        bankAccountsPanel.setPresenter(bankAccountPresenter);
+//        switchToPanel(bankAccountsPanel);
+//    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainFrame().setVisible(true));
     }
