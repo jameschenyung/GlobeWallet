@@ -5,16 +5,15 @@ public interface receiveMoneyInputBoundary {
     /**
      * Verifies if the transaction exists and if the receiver's ID matches the receiver ID of the transaction.
      *
-     * @param transactionId The ID of the transaction to verify.
+     * @param inputData input data
      */
-    void verifyTransaction(Integer transactionId);
+    void verifyTransaction(receiveMoneyInputData inputData);
 
     /**
      * Confirms if the provided security code matches the one associated with the transaction.
      *
-     * @param transactionId The ID of the transaction to confirm.
-     * @param securityCode  The security code provided by the receiver for confirmation.
+     * @param inputData input data
      */
-    void confirmSecurityCode(Integer transactionId, Integer securityCode);
+    void confirmSecurityCode(receiveMoneyInputData inputData);
 }
 

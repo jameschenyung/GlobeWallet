@@ -4,8 +4,9 @@ import javax.swing.*;
 
 import use_case.receiveMoney.receiveMoneyInteractor;
 import use_case.receiveMoney.receiveMoneyOutputBoundary;
+import use_case.sendmoneytransfer.SendMoneyInteractor;
 import views.ReceiveMoneyPanel;
-
+import use_case.receiveMoney.*;
 /**
  * The presenter for the receive money feature.
  * Handles the presentation logic for receiving money transactions.
@@ -19,10 +20,8 @@ public class ReceiveMoneyPresenter implements receiveMoneyOutputBoundary {
      * Constructs a ReceiveMoneyPresenter.
      *
      * @param view      The view associated with this presenter.
-     * @param interactor The interactor used for processing business logic.
      */
-    public ReceiveMoneyPresenter(ReceiveMoneyPanel view, receiveMoneyInteractor interactor) {
-        this.interactor = interactor;
+    public ReceiveMoneyPresenter(ReceiveMoneyPanel view) {
         this.view = view;
     }
 
@@ -31,21 +30,31 @@ public class ReceiveMoneyPresenter implements receiveMoneyOutputBoundary {
         this.presenter = presenter;
     }
 
+    public void setReceiveMoneyInteractor(receiveMoneyInteractor receivemoneyInteractor) {
+        this.interactor = receivemoneyInteractor;
+    }
+
     public void checkTransaction(Integer transactionId) {
         try {
-            interactor.verifyTransaction(transactionId);
+            receiveMoneyInputData inputData = new receiveMoneyInputData(transactionId, null);
+            inputData.setTransactionId(transactionId);
+            interactor.verifyTransaction(inputData);
         } catch (Exception ex) {
             presentError("Error checking transaction: " + ex.getMessage());
         }
     }
 
+
     public void confirmSecurityCode(Integer transactionId, Integer securityCode) {
         try {
-            interactor.confirmSecurityCode(transactionId, securityCode);
+            receiveMoneyInputData inputData = new receiveMoneyInputData(transactionId, securityCode);
+            inputData.setSecurityCode(securityCode);
+            interactor.confirmSecurityCode(inputData);
         } catch (Exception ex) {
             presentError("Error confirming security code: " + ex.getMessage());
         }
     }
+
 
     @Override
     public void presentTransactionDetails(String senderName, Double amount, String currency) {
