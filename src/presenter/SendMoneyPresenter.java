@@ -7,30 +7,69 @@ import views.MoneyTransferPanel;
 
 import javax.swing.*;
 
+/**
+ * Presenter responsible for handling the send money functionality in the application.
+ * <p>
+ * This class communicates with the send money interactor to execute money transfer operations
+ * and updates the MoneyTransferPanel view based on the results of these operations.
+ * </p>
+ */
 public class SendMoneyPresenter implements SendMoneyOutputBoundary {
     private MoneyTransferPanel moneyTransferView;
     private MainFrame frame;
     private SendMoneyInputBoundary sendMoneyInteractor;
 
+    /**
+     * Constructs a SendMoneyPresenter with the specified view and main application frame.
+     *
+     * @param view  The MoneyTransferPanel that this presenter is responsible for.
+     * @param frame The main application window.
+     */
     public SendMoneyPresenter(MoneyTransferPanel view, MainFrame frame) {
         this.moneyTransferView = view;
     }
 
+    /**
+     * Initiates a money transfer operation.
+     *
+     * @param userAccountId      The account ID of the user sending money.
+     * @param receiverAccountId  The account ID of the receiver.
+     * @param amount             The amount of money to send.
+     * @param securityCode       The security code to authorize the transaction.
+     */
     public void performTransfer(int userAccountId, int receiverAccountId, double amount, int securityCode) {
         SendMoneyInputData inputData = new SendMoneyInputData(userAccountId, receiverAccountId, amount, securityCode);
         sendMoneyInteractor.transfer(inputData);
     }
 
+    /**
+     * Checks if the accounts involved in the transaction are valid.
+     *
+     * @param senderId   The account ID of the sender.
+     * @param receiverId The account ID of the receiver.
+     */
     public void checkAccount(int senderId, int receiverId) {
         SendMoneyInputData inputData = new SendMoneyInputData(senderId, receiverId, 0, 0);
         sendMoneyInteractor.checkAccount(inputData);
     }
 
+    /**
+     * Performs a currency conversion for the transfer amount.
+     *
+     * @param senderId   The account ID of the sender.
+     * @param receiverId The account ID of the receiver.
+     * @param amount     The amount of money to convert.
+     */
     public void performConversion(int senderId, int receiverId, double amount) {
         SendMoneyInputData inputData = new SendMoneyInputData(senderId, receiverId, amount, null);
         sendMoneyInteractor.convert(inputData);
     }
 
+    /**
+     * Displays a success message for account balance check in the view.
+     *
+     * @param outputData The data containing information about the successful account check.
+     */
     @Override
     public void prepareSuccessCheckBalance(SendMoneyOutputData outputData) {
         SwingUtilities.invokeLater(() -> {
@@ -41,6 +80,11 @@ public class SendMoneyPresenter implements SendMoneyOutputBoundary {
         });
     }
 
+    /**
+     * Displays a success message for currency conversion in the view.
+     *
+     * @param outputData The data containing information about the successful conversion.
+     */
     @Override
     public void prepareSuccessConvert(SendMoneyOutputData outputData) {
         SwingUtilities.invokeLater(() -> {
@@ -51,6 +95,11 @@ public class SendMoneyPresenter implements SendMoneyOutputBoundary {
         });
     }
 
+    /**
+     * Displays a success message for the money transfer in the view.
+     *
+     * @param outputData The data containing information about the successful transfer.
+     */
     @Override
     public void prepareSuccessTransfer(SendMoneyOutputData outputData) {
         SwingUtilities.invokeLater(() -> {
@@ -64,7 +113,11 @@ public class SendMoneyPresenter implements SendMoneyOutputBoundary {
         });
     }
 
-
+    /**
+     * Displays an error message in the view.
+     *
+     * @param errorMessage The error message to display.
+     */
     @Override
     public void prepareFailView(String errorMessage) {
         SwingUtilities.invokeLater(() -> {
@@ -72,6 +125,11 @@ public class SendMoneyPresenter implements SendMoneyOutputBoundary {
         });
     }
 
+    /**
+     * Sets the SendMoneyInteractor for this presenter.
+     *
+     * @param sendMoneyInteractor The SendMoneyInteractor to be used by this presenter.
+     */
     public void setSendMoneyInteractor(SendMoneyInteractor sendMoneyInteractor) {
         this.sendMoneyInteractor = sendMoneyInteractor;
     }

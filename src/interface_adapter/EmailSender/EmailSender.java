@@ -9,25 +9,14 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class EmailSender {
+public class EmailSender implements EmailSenderGateway{
 
-    public static void main(String[] args) {
+    public static void sendEmail(String recipientEmail, String emailSubject, String emailMessage) {
         // Sender's email and password
         final String username = "globewallet@outlook.com";
         final String password = "Abc12345678!";
 
-        // Recipient's email address
-        String to = "jameschenyung@gmail.com";
-
         // Properties for the mail session
-        /*
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-         */
-
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp-mail.outlook.com"); // Outlook SMTP server
         props.put("mail.smtp.port", "587"); // Default SMTP port for TLS
@@ -49,13 +38,13 @@ public class EmailSender {
             message.setFrom(new InternetAddress(username));
 
             // Set To: header field
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
 
             // Set Subject: header field
-            message.setSubject("Testing JavaMail API");
+            message.setSubject(emailSubject);
 
             // Set the actual message
-            message.setText("Hello, this is a test email sent from Java!");
+            message.setText(emailMessage);
 
             // Send message
             Transport.send(message);
@@ -65,6 +54,41 @@ public class EmailSender {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void sendWelcomeEmail(String email) {
+        sendEmail(email,
+                "Welcome to GlobeWallet",
+                "Thank you for joining us, we ensure you a wonderful experience now that you have joined our group.");
+    }
+
+    public void sendTransactionSender(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
+        sendEmail(
+                email,
+                "Your money transfer to " + receiver + " was sucessful",
+                "Hi " + sender + ", " +
+                        "\n Your money transfer of " + Double.toString(amount) + " " + currency + " to " + receiver + " was successful." +
+                        "\n Your transaction number is " + Integer.toString(transactionId) + "."
+        );
+    }
+
+    public void sendTransactionReceiver(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
+        sendEmail(
+                email,
+                "You have received money from " + sender,
+                "Hi " + receiver + ", " +
+                        "\n You have received " + Double.toString(amount) + " " + currency + " from " + sender + "." +
+                        "\n Your transaction number is " + Integer.toString(transactionId) + "."
+        );
+    }
+
+    public static void main(String[] args) {
+        // Example usage
+        String to = "jameschenyung@gmail.com";
+        String subject = "Testing JavaMail API";
+        String message = "Hello, this is a test email sent from Java!";
+
+        sendEmail(to, subject, message);
     }
 }
 

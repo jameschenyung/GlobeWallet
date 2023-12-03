@@ -2,42 +2,66 @@ package use_case.receiveMoney;
 
 import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
 import objects.Account;
+import objects.Transaction;
 import use_case.sendmoneytransfer.SendMoneyOutputData;
 
-public class receiveMoneyInteractor implements receiveMoneyInputBoundary {
-    private final receiveMoneyDataAccessInterface userDataAccess;
-    private final receiveMoneyOutputBoundary outputBoundary;
-    private final CurrencyConversionGateway conversionGateway;
+import java.sql.SQLException;
+import java.util.Objects;
 
-    public receiveMoneyInteractor(receiveMoneyDataAccessInterface userDataAccess,
-                                  receiveMoneyOutputBoundary outputBoundary,
-                                  CurrencyConversionGateway conversionGateway) {
-        this.userDataAccess = userDataAccess;
+/**
+ * The interactor for handling receive money transactions.
+ * Contains the business logic to process money receiving operations.
+ */
+public class receiveMoneyInteractor implements receiveMoneyInputBoundary {
+    private final receiveMoneyDataAccessInterface dataAccess;
+    private final receiveMoneyOutputBoundary outputBoundary;
+
+    /**
+     * Constructs a receiveMoneyInteractor.
+     *
+     * @param dataAccess    The data access interface for transaction data.
+     * @param outputBoundary The output boundary for sending results back to the presenter.
+     */
+    public receiveMoneyInteractor(receiveMoneyDataAccessInterface dataAccess, receiveMoneyOutputBoundary outputBoundary) {
+        this.dataAccess = dataAccess;
         this.outputBoundary = outputBoundary;
-        this.conversionGateway = conversionGateway;
+    }
+
+    @Override
+    public void verifyTransaction(receiveMoneyInputData inputData) {
+        Integer receiverId = dataAccess.getTransactionReceiverId(inputData.getTransactionId());
+
+        if (dataAccess.hasTransaction(inputData.getTransactionId()) && dataAccess.accountUnderCurrentUser(receiverId)) {
+            String senderName = dataAccess.getFullName(dataAccess.getUserIdbyAccountId(dataAccess.getTransactionSenderId(inputData.getTransactionId())));
+            String currency = dataAccess.getCurrencyByAccount(receiverId);
+            outputBoundary.presentTransactionDetails(new receiveMoneyOutputData(true, "Successful", senderName,
+                    dataAccess.getTransactionReceiverId(inputData.getTransactionId()),currency, dataAccess.getTransactionAmount(inputData.getTransactionId())));
+        } else {
+            outputBoundary.presentError("Transaction not found or you are not the receiver.");
+        }
     }
 
 
     @Override
-    public void receive(receiveMoneyInputData receiveMoneyInputData) {
-        double convertedAmount = conversionGateway.convertCurrency(
-                userDataAccess.getCurrencyByAccount(receiveMoneyInputData.getSenderId()),
-                userDataAccess.getCurrencyByAccount(receiveMoneyInputData.getReceiverId()),
-                receiveMoneyInputData.getAmount()
-        );
-
+    public void confirmSecurityCode(receiveMoneyInputData inputData) {
         try {
-            // Update the receiver's account balance
-            double newBalance = userDataAccess.getAccountBalance(receiveMoneyInputData.getReceiverId()) + convertedAmount;
-            userDataAccess.updateAccountBalance(receiveMoneyInputData.getReceiverId(), newBalance);
+            Integer receiverId = dataAccess.getTransactionReceiverId(inputData.getTransactionId());
+            if (dataAccess.validateSecurityCode(inputData.getSecurityCode(), inputData.getTransactionId())) {
+                String currency = dataAccess.getCurrencyByAccount(receiverId);
 
-            // Prepare a success view with relevant data
-            outputBoundary.prepareSuccessTransfer(new receiveMoneyOutputData(true, "Funds received successfully.",
-                    receiveMoneyInputData.getReceiverId(), userDataAccess.getCurrencyByAccount(receiveMoneyInputData.getReceiverId()),
-                    receiveMoneyInputData.getAmount()));
-        } catch (Exception e) {
-            outputBoundary.prepareFailView("Failed to receive funds due to an error.");
+                Double newBalance = dataAccess.getAccountBalance(receiverId) + dataAccess.getTransactionAmount(inputData.getTransactionId());
+                dataAccess.updateAccountBalance(receiverId, newBalance);
+                dataAccess.transactionReceived(inputData.getTransactionId());
+
+                outputBoundary.presentTransactionConfirmation(dataAccess.getTransactionAmount(inputData.getTransactionId()), currency, newBalance);
+            } else {
+                outputBoundary.presentError("Invalid security code.");
+            }
+        } catch (SQLException e) {
+            outputBoundary.presentError("Database error: " + e.getMessage());
         }
     }
 
 }
+
+

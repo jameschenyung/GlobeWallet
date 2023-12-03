@@ -46,6 +46,9 @@ public class HomePanel extends JPanel{
 
         gbc.gridy = 1;
         JButton receiveMoneyButton = new JButton("Receive Money");
+        receiveMoneyButton.addActionListener(e -> {
+            frame.switchToReceiveMoneyPanel();
+        });
         add(receiveMoneyButton, gbc);
 
         ImageIcon myAccount = new ImageIcon("MyAccount.png");

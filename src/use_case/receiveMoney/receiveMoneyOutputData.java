@@ -3,14 +3,16 @@ package use_case.receiveMoney;
 public class receiveMoneyOutputData {
     private final boolean success;
     private final String message;
+    private final String senderName;
     private final Integer receiverId;
     private final String receiverCurrencyType;
     private final Double amountReceived;
 
-    public receiveMoneyOutputData(boolean success, String message, Integer receiverId,
+    public receiveMoneyOutputData(boolean success, String message, String senderName, Integer receiverId,
                                   String receiverCurrencyType, Double amountReceived) {
         this.success = success;
         this.message = message;
+        this.senderName = senderName;
         this.receiverId = receiverId;
         this.receiverCurrencyType = receiverCurrencyType;
         this.amountReceived = amountReceived;
@@ -28,6 +30,10 @@ public class receiveMoneyOutputData {
         return receiverId;
     }
 
+    public String getSenderName() {
+        return senderName;
+    }
+
     public String getReceiverCurrencyType() {
         return receiverCurrencyType;
     }
@@ -36,4 +42,5 @@ public class receiveMoneyOutputData {
         return amountReceived;
     }
 }
+
 
