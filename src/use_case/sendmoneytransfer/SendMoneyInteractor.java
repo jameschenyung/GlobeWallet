@@ -3,11 +3,25 @@ package use_case.sendmoneytransfer;
 import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
 import interface_adapter.EmailSender.EmailSenderGateway;
 
+/**
+ * Interactor class for handling the process of sending money transactions.
+ * This class manages the business logic associated with sending money, including checking account validity,
+ * currency conversion, and executing the transfer. It interacts with data access layers, conversion gateways,
+ * and communicates results back to the output boundary.
+ */
 public class SendMoneyInteractor implements SendMoneyInputBoundary {
     private final SendMoneyUserDataAccessInterface userDataAccess;
     private final SendMoneyOutputBoundary outputBoundary;
     private final CurrencyConversionGateway conversionGateway;
 
+    /**
+     * Constructs a SendMoneyInteractor with the specified data access, output boundary,
+     * and currency conversion gateway.
+     *
+     * @param userDataAccess     The data access interface for retrieving and updating account data.
+     * @param outputBoundary     The output boundary for presenting results to the user or the system.
+     * @param conversionGateway  The gateway for handling currency conversions.
+     */
     public SendMoneyInteractor(SendMoneyUserDataAccessInterface userDataAccess,
                                SendMoneyOutputBoundary outputBoundary,
                                CurrencyConversionGateway conversionGateway) {
@@ -16,6 +30,11 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
         this.conversionGateway = conversionGateway;
     }
 
+    /**
+     * Checks the validity of the accounts involved in the transaction.
+     *
+     * @param sendMoneyInputData The input data containing details of the sender and receiver.
+     */
     @Override
     public void checkAccount(SendMoneyInputData sendMoneyInputData) {
 
@@ -32,6 +51,11 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
         }
     }
 
+    /**
+     * Handles the conversion of currency for the transaction.
+     *
+     * @param sendMoneyInputData The input data containing transaction details and amount to convert.
+     */
     @Override
     public void convert(SendMoneyInputData sendMoneyInputData) {
         double amountToSend = conversionGateway.convertCurrency(
@@ -51,6 +75,11 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
         }
     }
 
+    /**
+     * Executes the transfer of money from the sender to the receiver.
+     *
+     * @param sendMoneyInputData The input data containing details of the transaction.
+     */
     @Override
     public void transfer(SendMoneyInputData sendMoneyInputData) {
         double convertedAmount = conversionGateway.convertCurrency(
