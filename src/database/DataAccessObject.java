@@ -445,8 +445,84 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return null; // Return null if user not found or if there's an error
     }
 
+        @Override
+        public boolean hasTransaction(Integer transactionId) {
+            String sql = "SELECT COUNT(1) FROM transactions WHERE transactionId = ?";
+            try (Connection conn = this.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-    /**
+                pstmt.setInt(1, transactionId);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        public Integer getTransactionSenderId(Integer transactionId) {
+            String sql = "SELECT senderId FROM transactions WHERE transactionId = ?";
+            try (Connection conn = this.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setInt(1, transactionId);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    return rs.getInt("senderId");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        public Integer getTransactionReceiverId(Integer transactionId) {
+            String sql = "SELECT receiverId FROM transactions WHERE transactionId = ?";
+            try (Connection conn = this.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setInt(1, transactionId);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    return rs.getInt("receiverId");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        public double getTransactionAmount(Integer transactionId) {
+            String sql = "SELECT amount FROM transactions WHERE transactionId = ?";
+            try (Connection conn = this.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setInt(1, transactionId);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    return rs.getDouble("amount");
+                } else {
+                    // Handle the case where the transaction is not found
+                    throw new SQLException("Transaction with ID " + transactionId + " not found.");
+                }
+            } catch (SQLException e) {
+                // You might want to handle this differently based on your error handling strategy
+                e.printStackTrace();
+                return 0; // or you could re-throw the exception
+            }
+        }
+
+
+        /**
      * Retrieves a user by their username.
      *
      * @param username the username of the user
