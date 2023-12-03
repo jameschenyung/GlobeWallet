@@ -11,7 +11,7 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailSender implements EmailSenderGateway{
 
-    public static void sendEmail(String recipientEmail, String emailSubject, String emailMessage) {
+    public void sendEmail(String recipientEmail, String emailSubject, String emailMessage) {
         // Sender's email and password
         final String username = "globewallet@outlook.com";
         final String password = "Abc12345678!";
@@ -56,13 +56,13 @@ public class EmailSender implements EmailSenderGateway{
         }
     }
 
-    public static void sendWelcomeEmail(String email, String name) {
+    public void sendWelcomeEmail(String email, String name) {
         sendEmail(email,
                 "Welcome to GlobeWallet",
                 "Thank you for joining us " + name + ", we ensure you a wonderful experience now that you have joined our group.");
     }
 
-    public static void sendTransactionSender(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
+    public void sendTransactionSender(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
         sendEmail(
                 email,
                 "Your money transfer to " + receiver + " was sucessful",
@@ -72,7 +72,7 @@ public class EmailSender implements EmailSenderGateway{
         );
     }
 
-    public static void sendTransactionReceiver(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
+    public void sendTransactionReceiver(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
         sendEmail(
                 email,
                 "You have received money from " + sender,

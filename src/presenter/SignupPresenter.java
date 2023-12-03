@@ -1,5 +1,6 @@
 package presenter;
 
+import interface_adapter.EmailSender.EmailSenderGateway;
 import use_case.signup.*;
 import views.MainFrame;
 import views.SignupView;
@@ -18,6 +19,7 @@ public class SignupPresenter implements SignupOutputBoundary {
     private final SignupView view;
     private MainFrame frame;
     private SignupInteractor interactor;
+    private EmailSenderGateway emailSenderGateway;
 
     /**
      * Constructs a new SignupPresenter.
@@ -29,7 +31,7 @@ public class SignupPresenter implements SignupOutputBoundary {
     public SignupPresenter(SignupView view, MainFrame frame, SignupUserDataAccessInterface userDataAccess) {
         this.view = view;
         this.frame = frame;
-        this.interactor = new SignupInteractor(userDataAccess, this);
+        this.interactor = new SignupInteractor(userDataAccess, this, emailSenderGateway);
         this.view.setPresenter(this);
     }
 
