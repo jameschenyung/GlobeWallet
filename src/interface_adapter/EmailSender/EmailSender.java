@@ -56,10 +56,10 @@ public class EmailSender implements EmailSenderGateway{
         }
     }
 
-    public static void sendWelcomeEmail(String email) {
+    public static void sendWelcomeEmail(String email, String name) {
         sendEmail(email,
                 "Welcome to GlobeWallet",
-                "Thank you for joining us, we ensure you a wonderful experience now that you have joined our group.");
+                "Thank you for joining us " + name + ", we ensure you a wonderful experience now that you have joined our group.");
     }
 
     public static void sendTransactionSender(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
@@ -88,9 +88,9 @@ public class EmailSender implements EmailSenderGateway{
         String subject = "Testing JavaMail API";
         String message = "Hello, this is a test email sent from Java!";
 
-        // sendEmail(to, subject, message);
-        //sendWelcomeEmail("jameschenyung@gmail.com");
-        sendTransactionReceiver(to, 90, 34.0, "CAD", "James", "Kesier");
+        //sendEmail(to, subject, message);
+        //sendWelcomeEmail("jameschenyung@gmail.com", "James");
+        //sendTransactionReceiver(to, 90, 34.0, "CAD", "James", "Kesier");
     }
 }
 

@@ -34,6 +34,10 @@ public class SignupInteractor implements SignupInputBoundary{
 
         // Assuming the createUser method handles email within the User object creation
         else{
+            String email = signupInputData.getEmail();
+            String name = signupInputData.getFirstName();
+            EmailSenderGateway.sendWelcomeEmail(email, name);
+
             userDataAccess.createUser(signupInputData.getFirstName(), signupInputData.getLastName(),
                     signupInputData.getUsername(), signupInputData.getPassword(), "UNDEFINED",
                     signupInputData.getEmail());
@@ -41,9 +45,6 @@ public class SignupInteractor implements SignupInputBoundary{
                     true,
                     "Sign up successful!",
                     userDataAccess.getUserByUsername(signupInputData.getUsername()).getUserId()));
-
-            String email = signupInputData.getEmail();
-            EmailSenderGateway.sendWelcomeEmail(email);
         }
     }
 }
