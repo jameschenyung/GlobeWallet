@@ -5,8 +5,12 @@ import java.awt.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+
 /**
- * This class represents a notification frame for displaying messages.
+ * A JFrame-based class for displaying notifications.
+ * This class creates a simple user interface for showing messages in a frame.
+ * It includes a text area for message display and a close button.
  */
 public class NotificationFrame extends JFrame {
     private JTextArea messageArea;
