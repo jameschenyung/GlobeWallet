@@ -6,6 +6,8 @@ import com.sun.tools.javac.Main;
 import database.DataAccessObject;
 import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
 import interface_adapter.CurrencyConverter.PolygonCurrencyConversionGateway;
+import interface_adapter.EmailSender.EmailSender;
+import interface_adapter.EmailSender.EmailSenderGateway;
 import objects.User;
 import presenter.*;
 import use_case.addAccount.AccountDataAccessInterface;
@@ -37,6 +39,7 @@ public class MainFrame extends JFrame {
     private AccountDataAccessInterface accountDataAccess = new DataAccessObject();
     private final DataAccessObject dataAccess = new DataAccessObject();
     private final CurrencyConversionGateway currencyConversionGateway = new PolygonCurrencyConversionGateway();
+    private final EmailSenderGateway emailSenderGateway = new EmailSender();
 
 
     public MainFrame() {
@@ -59,7 +62,7 @@ public class MainFrame extends JFrame {
         SignupView signupView = new SignupView(this);
         SignupPresenter signupPresenter = new SignupPresenter(signupView, this, userDataAccess);
         signupView.setPresenter(signupPresenter);
-        SignupInteractor signupInteractor = new SignupInteractor(userDataAccess, signupPresenter);
+        SignupInteractor signupInteractor = new SignupInteractor(userDataAccess, signupPresenter, emailSenderGateway);
         signupPresenter.setInteractor(signupInteractor);
         switchToPanel(signupView);
     }
@@ -81,7 +84,7 @@ public class MainFrame extends JFrame {
     public void switchToMoneyTransferPanel() {
         MoneyTransferPanel moneyTransferPanel = new MoneyTransferPanel(this);
         SendMoneyPresenter sendMoneyPresenter = new SendMoneyPresenter(moneyTransferPanel, this);
-        SendMoneyInteractor sendMoneyInteractor = new SendMoneyInteractor(sendMoneyUserDataAccess, sendMoneyPresenter, currencyConversionGateway);
+        SendMoneyInteractor sendMoneyInteractor = new SendMoneyInteractor(sendMoneyUserDataAccess, sendMoneyPresenter, currencyConversionGateway, emailSenderGateway);
         sendMoneyPresenter.setSendMoneyInteractor(sendMoneyInteractor);
         moneyTransferPanel.setPresenter(sendMoneyPresenter);
         switchToPanel(moneyTransferPanel);
