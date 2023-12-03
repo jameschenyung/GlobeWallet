@@ -13,9 +13,8 @@ public class BankAccountsPanel extends JPanel {
     private MainFrame frame;
     private BankAccountPresenter bankAccountPresenter;
 
-    public BankAccountsPanel(MainFrame frame, BankAccountPresenter bankAccountPresenter) {
+    public BankAccountsPanel(MainFrame frame) {
         this.frame = frame;
-        this.bankAccountPresenter = bankAccountPresenter;
         JButton addAccountButton = new JButton("Add Account");
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
@@ -73,8 +72,9 @@ public class BankAccountsPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // Add Account Logic Here
                 try {
-                    int accountNumber = Integer.parseInt(accountNumberField.getText());
+                    Integer accountNumber = Integer.parseInt(accountNumberField.getText());
                     String currencyType = currencyTypeField.getText();
+                    bankAccountPresenter.addAccount(accountNumber, currencyType);
 
                     AddAccountInputData inputData = new AddAccountInputData(accountNumber, currencyType);
                     // Process inputData and handle output data

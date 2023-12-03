@@ -6,8 +6,6 @@ import objects.User;
 
 
 public class MyDetailsPanel extends JPanel {
-   private MyDetailsViewListener listener;
-
    // UI Components
    private JLabel nameLabel;
    private JLabel emailLabel;
@@ -59,11 +57,6 @@ public class MyDetailsPanel extends JPanel {
       JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
    }
 
-   public void registerListener(MyDetailsViewListener listener) {
-      this.listener = listener;
-      // You can also add action listeners to buttons or other interactive components here
-      // For example: someButton.addActionListener(e -> listener.onSomeAction());
-   }
 
    // Add additional methods if needed, for example, methods for handling button clicks
 }
