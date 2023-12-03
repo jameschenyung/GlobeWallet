@@ -6,11 +6,22 @@ import presenter.MyDetailsPresenter;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * A JPanel representing the account section of the application.
+ * This panel includes options for viewing account details, managing bank accounts,
+ * logging out, and navigating back to the home panel. It serves as a central hub
+ * for account-related interactions within the application.
+ */
 public class AccountPanel extends JPanel {
     private MainFrame frame;
     private JLabel myAccountLabel;
     private BankAccountPresenter bankAccountPresenter;
 
+    /**
+     * Constructs an AccountPanel associated with the given MainFrame.
+     *
+     * @param frame The MainFrame that this panel is a part of.
+     */
     public AccountPanel(MainFrame frame) {
         this.frame = frame;
         setLayout(new GridBagLayout());

@@ -12,6 +12,11 @@ import use_case.sendmoneytransfer.SendMoneyInteractor;
 import use_case.sendmoneytransfer.SendMoneyOutputBoundary;
 import use_case.sendmoneytransfer.SendMoneyUserDataAccessInterface;
 
+/**
+ * A JPanel representing the home screen of the application.
+ * This panel provides access to various features such as sending and receiving money, and managing user accounts.
+ * It displays a background image and buttons for navigating to different parts of the application.
+ */
 public class HomePanel extends JPanel{
     private MainFrame frame;
     private Image backgroundImage;
@@ -19,6 +24,11 @@ public class HomePanel extends JPanel{
     private SendMoneyOutputBoundary sendMoneyOutputBoundary;
     private CurrencyConversionGateway currencyConversionGateway;
 
+    /**
+     * Constructs a HomePanel associated with the given MainFrame.
+     *
+     * @param frame The MainFrame that this panel is a part of.
+     */
     public HomePanel(MainFrame frame) {
         this.frame = frame;
         setLayout(new GridBagLayout());

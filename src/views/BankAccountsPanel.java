@@ -9,16 +9,32 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A JPanel representing the bank accounts section of the application.
+ * This panel allows users to manage their bank accounts, including adding new accounts.
+ * It integrates with a BankAccountPresenter to handle the business logic.
+ */
 public class BankAccountsPanel extends JPanel {
     private MainFrame frame;
     private BankAccountPresenter bankAccountPresenter;
 
+    /**
+     * Constructs a BankAccountsPanel associated with the given MainFrame and BankAccountPresenter.
+     *
+     * @param frame                The MainFrame that this panel is a part of.
+     * @param bankAccountPresenter The presenter handling the business logic for bank account operations.
+     */
     public BankAccountsPanel(MainFrame frame, BankAccountPresenter bankAccountPresenter) {
         this.frame = frame;
         this.bankAccountPresenter = bankAccountPresenter;
         JButton addAccountButton = new JButton("Add Account");
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
+            /**
+             * Sets the BankAccountPresenter for this panel.
+             *
+             * @param presenter The BankAccountPresenter to be associated with this panel.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.switchToPanel(new AccountPanel(frame));
@@ -92,10 +108,20 @@ public class BankAccountsPanel extends JPanel {
         dialog.setVisible(true);
     }
 
+    /**
+     * Displays a success message to the user.
+     *
+     * @param message The success message to be displayed.
+     */
     public void showSuccess(String message) {
         JOptionPane.showMessageDialog(this, message, "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Displays an error message to the user.
+     *
+     * @param message The error message to be displayed.
+     */
     public void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
