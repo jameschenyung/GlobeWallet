@@ -54,7 +54,7 @@ public interface receiveMoneyDataAccessInterface {
     String getFullName(Integer senderId);
 
     /**
-     * return true or false if a transaction exist in the database
+     * return true or false if a transaction exist in the database and if received is 1
      * @param transactionId transaction id
      * @return true of false
      */
@@ -80,5 +80,18 @@ public interface receiveMoneyDataAccessInterface {
      * @return amount
      */
     double getTransactionAmount(Integer transactionId);
+
+    /**
+     * return user id of the user of this account
+     * @param accountId accountid
+     * @return user id
+     */
+    Integer getUserIdbyAccountId(Integer accountId);
+
+    /**
+     * set received to 1
+     * @param transactionId transaction id
+     */
+    void transactionReceived(Integer transactionId);
 }
 

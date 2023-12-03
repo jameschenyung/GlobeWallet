@@ -57,10 +57,11 @@ public class ReceiveMoneyPresenter implements receiveMoneyOutputBoundary {
 
 
     @Override
-    public void presentTransactionDetails(String senderName, Double amount, String currency) {
+    public void presentTransactionDetails(receiveMoneyOutputData outputData) {
         SwingUtilities.invokeLater(() -> {
             // Format the transaction details message
-            String message = String.format("From %s: %.2f %s", senderName, amount, currency);
+            String message = String.format("From %s: %.2f %s", outputData.getSenderName(),
+                    outputData.getAmountReceived(), outputData.getReceiverCurrencyType());
 
             // Display the transaction details in a dialog
             JOptionPane.showMessageDialog(view, message, "Transaction Details", JOptionPane.INFORMATION_MESSAGE);

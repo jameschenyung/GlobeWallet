@@ -32,9 +32,10 @@ public class receiveMoneyInteractor implements receiveMoneyInputBoundary {
         Integer receiverId = dataAccess.getTransactionReceiverId(inputData.getTransactionId());
 
         if (dataAccess.hasTransaction(inputData.getTransactionId()) && dataAccess.accountUnderCurrentUser(receiverId)) {
-            String senderName = dataAccess.getFullName(dataAccess.getTransactionSenderId(inputData.getTransactionId()));
+            String senderName = dataAccess.getFullName(dataAccess.getUserIdbyAccountId(dataAccess.getTransactionSenderId(inputData.getTransactionId())));
             String currency = dataAccess.getCurrencyByAccount(receiverId);
-            outputBoundary.presentTransactionDetails(senderName, dataAccess.getTransactionAmount(inputData.getTransactionId()), currency);
+            outputBoundary.presentTransactionDetails(new receiveMoneyOutputData(true, "Successful", senderName,
+                    dataAccess.getTransactionReceiverId(inputData.getTransactionId()),currency, dataAccess.getTransactionAmount(inputData.getTransactionId())));
         } else {
             outputBoundary.presentError("Transaction not found or you are not the receiver.");
         }
@@ -50,6 +51,7 @@ public class receiveMoneyInteractor implements receiveMoneyInputBoundary {
 
                 Double newBalance = dataAccess.getAccountBalance(receiverId) + dataAccess.getTransactionAmount(inputData.getTransactionId());
                 dataAccess.updateAccountBalance(receiverId, newBalance);
+                dataAccess.transactionReceived(inputData.getTransactionId());
 
                 outputBoundary.presentTransactionConfirmation(dataAccess.getTransactionAmount(inputData.getTransactionId()), currency, newBalance);
             } else {

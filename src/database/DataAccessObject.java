@@ -471,7 +471,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
 
         @Override
         public boolean hasTransaction(Integer transactionId) {
-            String sql = "SELECT COUNT(1) FROM transactions WHERE transactionId = ?";
+            String sql = "SELECT COUNT(1) FROM transactions WHERE transactionId = ? AND received = 0";
             try (Connection conn = this.connect();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -484,7 +484,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            return false;
+            return false; // Transaction not found or error occurred
         }
 
         @Override
@@ -542,6 +542,40 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
                 // You might want to handle this differently based on your error handling strategy
                 e.printStackTrace();
                 return 0; // or you could re-throw the exception
+            }
+        }
+
+        @Override
+        public Integer getUserIdbyAccountId(Integer accountId) {
+            String sql = "SELECT userId FROM accounts WHERE accountId = ?";
+            try (Connection conn = this.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setInt(1, accountId);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    return rs.getInt("userId");
+                } else {
+                    return null; // Account not found
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null; // Error occurred
+            }
+        }
+
+        @Override
+        public void transactionReceived(Integer transactionId) {
+            String sql = "UPDATE transactions SET received = 1 WHERE transactionId = ?";
+            try (Connection conn = this.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setInt(1, transactionId);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Depending on your error handling strategy, you might want to re-throw the exception or handle it differently
             }
         }
 
