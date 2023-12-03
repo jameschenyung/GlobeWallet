@@ -230,13 +230,19 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
      */
     @Override
     public boolean isValidAccount(Integer accountId) {
-        String sql = "SELECT COUNT(1) FROM accounts WHERE accountId = ?";
+        if (accountId == null) {
+            return false;
+        }
+
+        String sql = "SELECT EXISTS (SELECT 1 FROM accounts WHERE accountId = ?)";
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
             pstmt.setInt(1, accountId);
             ResultSet rs = pstmt.executeQuery();
+
             if (rs.next()) {
-                return rs.getInt(1) > 0;
+                return !rs.getBoolean(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
