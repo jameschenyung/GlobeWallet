@@ -27,6 +27,13 @@ public class receiveMoneyInteractor implements receiveMoneyInputBoundary {
         this.outputBoundary = outputBoundary;
     }
 
+
+    /**
+     * Verifies the details of a transaction based on the given input data.
+     * Checks if the transaction exists and if the current user is the intended receiver.
+     *
+     * @param inputData The input data containing transaction details to be verified.
+     */
     @Override
     public void verifyTransaction(receiveMoneyInputData inputData) {
         Integer receiverId = dataAccess.getTransactionReceiverId(inputData.getTransactionId());
@@ -42,6 +49,12 @@ public class receiveMoneyInteractor implements receiveMoneyInputBoundary {
     }
 
 
+    /**
+     * Confirms the security code for a transaction and processes the transaction if valid.
+     * Updates the receiver's account balance and marks the transaction as received upon successful validation.
+     *
+     * @param inputData The input data containing the transaction ID and security code to be confirmed.
+     */
     @Override
     public void confirmSecurityCode(receiveMoneyInputData inputData) {
         try {
