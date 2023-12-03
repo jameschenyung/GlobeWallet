@@ -9,8 +9,21 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * Provides email sending capabilities for various purposes.
+ * This class uses the JavaMail API to send emails for different scenarios such as
+ * welcoming a new user or notifying about transactions.
+ */
 public class EmailSender implements EmailSenderGateway{
-
+    /**
+     * Sends an email to a specified recipient with a given subject and message body.
+     * This static method sets up the email properties, session, and sends the email.
+     *
+     * @param recipientEmail The email address of the recipient.
+     * @param emailSubject   The subject line of the email.
+     * @param emailMessage   The body of the email.
+     * @throws RuntimeException If a MessagingException occurs during email sending.
+     */
     public static void sendEmail(String recipientEmail, String emailSubject, String emailMessage) {
         // Sender's email and password
         final String username = "globewallet@outlook.com";
@@ -56,12 +69,27 @@ public class EmailSender implements EmailSenderGateway{
         }
     }
 
+    /**
+     * Sends a welcome email to a new user.
+     *
+     * @param email The email address of the recipient.
+     */
     public void sendWelcomeEmail(String email) {
         sendEmail(email,
                 "Welcome to GlobeWallet",
                 "Thank you for joining us, we ensure you a wonderful experience now that you have joined our group.");
     }
 
+    /**
+     * Sends an email to notify a user about a successful transaction they initiated.
+     *
+     * @param email        The email address of the sender.
+     * @param transactionId The transaction ID.
+     * @param amount       The amount transferred.
+     * @param currency     The currency of the transaction.
+     * @param sender       The name of the sender.
+     * @param receiver     The name of the receiver.
+     */
     public void sendTransactionSender(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
         sendEmail(
                 email,
@@ -72,6 +100,16 @@ public class EmailSender implements EmailSenderGateway{
         );
     }
 
+    /**
+     * Sends an email to notify a user about a transaction in which they are the receiver.
+     *
+     * @param email        The email address of the receiver.
+     * @param transactionId The transaction ID.
+     * @param amount       The amount received.
+     * @param currency     The currency of the transaction.
+     * @param sender       The name of the sender.
+     * @param receiver     The name of the receiver.
+     */
     public void sendTransactionReceiver(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
         sendEmail(
                 email,
@@ -82,6 +120,11 @@ public class EmailSender implements EmailSenderGateway{
         );
     }
 
+    /**
+     * Main method for demonstration and testing of the email sending functionality.
+     *
+     * @param args Command line arguments (not used in this application).
+     */
     public static void main(String[] args) {
         // Example usage
         String to = "jameschenyung@gmail.com";
