@@ -51,5 +51,9 @@ public interface receiveMoneyDataAccessInterface {
      * @return The sender of the transaction.
      */
     String getFullName(Integer senderId);
+
+    boolean hasTransaction(Integer transactionId);
+    Integer getTransactionSenderId(Integer transactionId);
+    Integer getTransactionReceiverId(Integer transactionId);
 }
 

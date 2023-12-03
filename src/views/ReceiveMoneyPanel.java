@@ -22,9 +22,8 @@ public class ReceiveMoneyPanel extends JPanel {
      *
      * @param frame The main application frame.
      */
-    public ReceiveMoneyPanel(MainFrame frame, ReceiveMoneyPresenter presenter) {
+    public ReceiveMoneyPanel(MainFrame frame) {
         this.frame = frame;
-        this.presenter = presenter;
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -52,7 +51,7 @@ public class ReceiveMoneyPanel extends JPanel {
         // Check Transaction Button
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 2; // Span across two columns
+        gbc.gridwidth = 2;
         checkTransactionButton = new JButton("Check Transaction");
         checkTransactionButton.addActionListener(e -> {
             try {

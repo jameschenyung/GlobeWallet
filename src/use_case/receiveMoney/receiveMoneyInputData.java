@@ -13,12 +13,19 @@ public class receiveMoneyInputData {
         this.securityCode = securityCode;
     }
 
+    public void setSecurityCode(Integer securityCode) {
+        this.securityCode = securityCode;
+    }
 
-    public Integer getInputSecurityCode() {
+    public Integer getSecurityCode() {
         return securityCode;
     }
 
-    public void getInputSecurityCode(Integer securityCode) {
-        this.securityCode = securityCode;
+    public void setTransactionId(Integer transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public Integer getTransactionId() {
+        return transactionId;
     }
 }

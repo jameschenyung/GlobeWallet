@@ -35,8 +35,9 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
     @Override
     public void convert(SendMoneyInputData sendMoneyInputData) {
         double amountToSend = conversionGateway.convertCurrency(
-                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
                 userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
+                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
+
                 sendMoneyInputData.getAmount()
         );
 
@@ -53,8 +54,8 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
     @Override
     public void transfer(SendMoneyInputData sendMoneyInputData) {
         double convertedAmount = conversionGateway.convertCurrency(
-                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
                 userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
+                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
                 sendMoneyInputData.getAmount()
         );
 
@@ -67,7 +68,7 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
             outputBoundary.prepareSuccessTransfer(new SendMoneyOutputData(true, "Transfer successful.",
                     sendMoneyInputData.getSenderId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
                     sendMoneyInputData.getReceiverId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
-                    sendMoneyInputData.getAmount(), sendMoneyInputData.getAmount(), id));
+                    convertedAmount, sendMoneyInputData.getAmount(), id));
 
             Integer senderId = sendMoneyInputData.getSenderId();
             Integer receiverId = sendMoneyInputData.getReceiverId();

@@ -27,10 +27,10 @@ public class receiveMoneyInteractor implements receiveMoneyInputBoundary {
     }
 
     @Override
-    public void verifyTransaction(Integer transactionId) {
+    public void verifyTransaction(receiveMoneyInputData inputData) {
         try {
             Integer currentUserId = dataAccess.getCurrentUserId();
-            Transaction transaction = dataAccess.getTransactionDetails(transactionId);
+            Transaction transaction = dataAccess.getTransactionDetails(inputData.getTransactionId());
 
             if (transaction != null && transaction.getReceiverId().equals(currentUserId)) {
                 String senderName = dataAccess.getFullName(transaction.getSenderId());
@@ -46,11 +46,11 @@ public class receiveMoneyInteractor implements receiveMoneyInputBoundary {
 
 
     @Override
-    public void confirmSecurityCode(Integer transactionId, Integer securityCode) {
+    public void confirmSecurityCode(receiveMoneyInputData inputData) {
         try {
             Integer currentUserId = dataAccess.getCurrentUserId();
-            if (dataAccess.validateSecurityCode(securityCode, transactionId)) {
-                Transaction transaction = dataAccess.getTransactionDetails(transactionId);
+            if (dataAccess.validateSecurityCode(inputData.getSecurityCode(), inputData.getTransactionId())) {
+                Transaction transaction = dataAccess.getTransactionDetails(inputData.getTransactionId());
                 String currency = dataAccess.getCurrencyByAccount(currentUserId);
 
                 Double newBalance = dataAccess.getAccountBalance(currentUserId) + transaction.getAmount();
