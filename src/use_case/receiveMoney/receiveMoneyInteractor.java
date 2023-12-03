@@ -6,6 +6,7 @@ import objects.Transaction;
 import use_case.sendmoneytransfer.SendMoneyOutputData;
 
 import java.sql.SQLException;
+import java.util.Objects;
 
 /**
  * The interactor for handling receive money transactions.
@@ -28,19 +29,15 @@ public class receiveMoneyInteractor implements receiveMoneyInputBoundary {
 
     @Override
     public void verifyTransaction(receiveMoneyInputData inputData) {
-        try {
-            Integer currentUserId = dataAccess.getCurrentUserId();
-            Transaction transaction = dataAccess.getTransactionDetails(inputData.getTransactionId());
+        Integer currentUserId = dataAccess.getCurrentUserId();
+        Integer receiverId = dataAccess.getTransactionReceiverId(inputData.getTransactionId());
 
-            if (transaction != null && transaction.getReceiverId().equals(currentUserId)) {
-                String senderName = dataAccess.getFullName(transaction.getSenderId());
-                String currency = dataAccess.getCurrencyByAccount(currentUserId);
-                outputBoundary.presentTransactionDetails(senderName, transaction.getAmount(), currency);
-            } else {
-                outputBoundary.presentError("Transaction not found or you are not the receiver.");
-            }
-        } catch (SQLException e) {
-            outputBoundary.presentError("Database error: " + e.getMessage());
+        if (dataAccess.hasTransaction(inputData.getTransactionId()) && Objects.equals(currentUserId, receiverId)) {
+            String senderName = dataAccess.getFullName(dataAccess.getTransactionSenderId(inputData.getTransactionId()));
+            String currency = dataAccess.getCurrencyByAccount(currentUserId);
+            outputBoundary.presentTransactionDetails(senderName, dataAccess.getTransactionAmount(inputData.getTransactionId()), currency);
+        } else {
+            outputBoundary.presentError("Transaction not found or you are not the receiver.");
         }
     }
 
@@ -50,13 +47,12 @@ public class receiveMoneyInteractor implements receiveMoneyInputBoundary {
         try {
             Integer currentUserId = dataAccess.getCurrentUserId();
             if (dataAccess.validateSecurityCode(inputData.getSecurityCode(), inputData.getTransactionId())) {
-                Transaction transaction = dataAccess.getTransactionDetails(inputData.getTransactionId());
                 String currency = dataAccess.getCurrencyByAccount(currentUserId);
 
-                Double newBalance = dataAccess.getAccountBalance(currentUserId) + transaction.getAmount();
-                dataAccess.updateAccountBalance(transaction.getReceiverId(), newBalance);
+                Double newBalance = dataAccess.getAccountBalance(currentUserId) + dataAccess.getTransactionAmount(currentUserId);
+                dataAccess.updateAccountBalance(currentUserId, newBalance);
 
-                outputBoundary.presentTransactionConfirmation(transaction.getAmount(), currency, newBalance);
+                outputBoundary.presentTransactionConfirmation(dataAccess.getTransactionAmount(currentUserId), currency, newBalance);
             } else {
                 outputBoundary.presentError("Invalid security code.");
             }
