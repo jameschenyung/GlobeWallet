@@ -14,6 +14,11 @@ public class AddAccountInteractor implements AddAccountInputBoundary {
     @Override
     public void addAccount(AddAccountInputData inputData) {
         try {
+            if (!dataAccess.isValidCurrency(inputData.getCurrencyType())) {
+                outputBoundary.presentAddAccountResult(new AddAccountOutputData(false, "Invalid currency type."));
+                return;
+            }
+
             if (dataAccess.isValidAccount(inputData.getAccountNumber())) {
                 dataAccess.saveAccount(inputData.getAccountNumber(),
                         dataAccess.getCurrentUserId(), dataAccess.generateBalance(), inputData.getCurrencyType());

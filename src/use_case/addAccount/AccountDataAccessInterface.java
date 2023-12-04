@@ -31,5 +31,12 @@ public interface AccountDataAccessInterface {
      * @return true or false
      */
     boolean isValidAccount(Integer accountId);
+
+    /**
+     * return true or false if this currency is valid
+     * @param currency currencyType
+     * @return true or false
+     */
+    boolean isValidCurrency(String currency);
 }
 
