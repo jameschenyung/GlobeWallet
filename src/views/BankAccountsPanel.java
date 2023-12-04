@@ -1,8 +1,6 @@
 package views;
 
 import presenter.BankAccountPresenter;
-import presenter.SendMoneyPresenter;
-import use_case.addAccount.AddAccountInputData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,20 +15,11 @@ public class BankAccountsPanel extends JPanel {
         this.frame = frame;
         JButton addAccountButton = new JButton("Add Account");
         JButton backButton = new JButton("Back");
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.switchToPanel(new AccountPanel(frame));
-            }
-        });
-        this.add(backButton);
 
-        addAccountButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openAddAccountPopup();
-            }
-        });
+        backButton.addActionListener(e -> frame.switchToPanel(new AccountPanel(frame)));
+        addAccountButton.addActionListener(e -> openAddAccountPopup());
+
+        this.add(backButton);
         this.add(addAccountButton);
     }
 
@@ -40,6 +29,7 @@ public class BankAccountsPanel extends JPanel {
 
     private void openAddAccountPopup() {
         JDialog dialog = new JDialog(frame, "Add Account", true);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -51,8 +41,6 @@ public class BankAccountsPanel extends JPanel {
         constraints.gridx++;
         JTextField accountNumberField = new JTextField(10);
         dialog.add(accountNumberField, constraints);
-
-        // Reset for next row
         constraints.gridx = 0;
         constraints.gridy++;
 
@@ -61,28 +49,19 @@ public class BankAccountsPanel extends JPanel {
         constraints.gridx++;
         JTextField currencyTypeField = new JTextField(10);
         dialog.add(currencyTypeField, constraints);
-
         constraints.gridx = 0;
         constraints.gridy++;
 
         // Add Account Button
         JButton addButton = new JButton("Add");
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Add Account Logic Here
-                try {
-                    Integer accountNumber = Integer.parseInt(accountNumberField.getText());
-                    String currencyType = currencyTypeField.getText();
-                    bankAccountPresenter.addAccount(accountNumber, currencyType);
-
-                    AddAccountInputData inputData = new AddAccountInputData(accountNumber, currencyType);
-                    // Process inputData and handle output data
-
-                    dialog.dispose();
-                } catch (NumberFormatException nfe) {
-                    JOptionPane.showMessageDialog(dialog, "Please enter valid numbers for account number");
-                }
+        constraints.gridwidth = 2;
+        addButton.addActionListener(e -> {
+            try {
+                int accountNumber = Integer.parseInt(accountNumberField.getText());
+                String currencyType = currencyTypeField.getText();
+                bankAccountPresenter.addAccount(accountNumber, currencyType);
+            } catch (NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(dialog, "Please enter valid numbers for account number and currency type.", "Input Error", JOptionPane.ERROR_MESSAGE);
             }
         });
         dialog.add(addButton, constraints);
@@ -93,10 +72,10 @@ public class BankAccountsPanel extends JPanel {
     }
 
     public void showSuccess(String message) {
-        JOptionPane.showMessageDialog(this, message, "Success", JOptionPane.INFORMATION_MESSAGE);
+        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(frame, message, "Success", JOptionPane.INFORMATION_MESSAGE));
     }
 
     public void showError(String message) {
-        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
+        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(frame, message, "Error", JOptionPane.ERROR_MESSAGE));
     }
 }

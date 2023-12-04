@@ -232,6 +232,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
     public boolean isValidAccount(Integer accountId) {
         if (accountId == null) {
             return false; // Account ID should not be null.
+
         }
 
         String sql = "SELECT EXISTS (SELECT 1 FROM accounts WHERE accountId = ?)";
