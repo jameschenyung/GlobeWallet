@@ -2,9 +2,11 @@ package views;
 
 import database.DataAccessObject;
 import presenter.BankAccountPresenter;
+import presenter.UpdateUserPresenter;
 import use_case.addAccount.AccountDataAccessInterface;
 import use_case.addAccount.AddAccountInteractor;
 import use_case.addAccount.AddAccountOutputBoundary;
+import use_case.updateUser.UpdateUserDataAccessInterface;
 
 
 import javax.swing.*;
@@ -20,7 +22,9 @@ public class AccountPanel extends JPanel {
     private MainFrame frame;
     private JLabel myAccountLabel;
     private BankAccountPresenter bankAccountPresenter;
+    private UpdateUserPresenter updateUserPresenter;
     private AccountDataAccessInterface accountDataAccessInterface = new DataAccessObject();
+    private UpdateUserDataAccessInterface updateUserDataAccess = new DataAccessObject();
 
     /**
      * Constructs an AccountPanel associated with the given MainFrame.
@@ -42,8 +46,8 @@ public class AccountPanel extends JPanel {
 
         gbc.gridy++;
 
-        JButton detailsButton = new JButton("My Details");
-        detailsButton.addActionListener(e -> showDetailsPanel());
+        JButton detailsButton = new JButton("Update Profile");
+        detailsButton.addActionListener(e -> switchToUserProfilePanel());
         add(detailsButton, gbc);
 
         JButton bankAccountsButton = new JButton("Bank Accounts");
@@ -65,8 +69,11 @@ public class AccountPanel extends JPanel {
         add(Box.createGlue(), gbc);
     }
 
-    private void showDetailsPanel() {
-        frame.switchToPanel(new MyDetailsPanel(frame));
+    private void switchToUserProfilePanel() {
+        UserProfilePanel userProfilePanel = new UserProfilePanel(frame);
+        updateUserPresenter = new UpdateUserPresenter(userProfilePanel, updateUserDataAccess);
+        userProfilePanel.setPresenter(updateUserPresenter);
+        frame.switchToPanel(userProfilePanel);
     }
 
     private void switchToBankAccountsPanel() {
