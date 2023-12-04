@@ -2,6 +2,7 @@ package use_case.addAccount;
 import objects.Account;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public interface AccountDataAccessInterface {
     /**
@@ -38,5 +39,16 @@ public interface AccountDataAccessInterface {
      * @return true or false
      */
     boolean isValidCurrency(String currency);
+
+    /**
+     * Retrieves bank accounts for a given user ID.
+     * @param currentUserId The user ID for which to retrieve accounts.
+     * @return A list of account IDs.
+     */
+    ArrayList<Integer> getUserBankAccounts(Integer currentUserId);
+
+    Account getAccount(String currentUserAccountId);
+
+    Double getAccountBalance(Integer accountId);
 }
 

@@ -47,7 +47,7 @@ public class AccountPanel extends JPanel {
         add(detailsButton, gbc);
 
         JButton bankAccountsButton = new JButton("Bank Accounts");
-        bankAccountsButton.addActionListener(e -> bankAccountsPanel());
+        bankAccountsButton.addActionListener(e -> switchToBankAccountsPanel());
         gbc.gridy++;
         add(bankAccountsButton, gbc);
 
@@ -69,13 +69,11 @@ public class AccountPanel extends JPanel {
         frame.switchToPanel(new MyDetailsPanel(frame));
     }
 
-    private void bankAccountsPanel() {
-        BankAccountsPanel view = new BankAccountsPanel(frame);
-        BankAccountPresenter bankAccountPresenter = new BankAccountPresenter(view, accountDataAccessInterface);
-        AddAccountInteractor addAccountInteractor = new AddAccountInteractor(accountDataAccessInterface, bankAccountPresenter);
-        view.setPresenter(bankAccountPresenter);
-        bankAccountPresenter.setInteractor(addAccountInteractor);
-        frame.switchToPanel(view);
+    private void switchToBankAccountsPanel() {
+        BankAccountsPanel bankAccountsPanel = new BankAccountsPanel(frame);
+        bankAccountPresenter = new BankAccountPresenter(bankAccountsPanel, accountDataAccessInterface);
+        bankAccountsPanel.setPresenter(bankAccountPresenter);
+        frame.switchToPanel(bankAccountsPanel);
     }
 
     private void signOut() {

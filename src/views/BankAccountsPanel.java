@@ -1,47 +1,65 @@
 package views;
 
+import database.DataAccessObject;
 import presenter.BankAccountPresenter;
+import objects.Account;
+import use_case.addAccount.AccountDataAccessInterface;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-/**
- * A JPanel representing the bank accounts management section of the application.
- * This panel provides functionalities to add new bank accounts and navigate back to the account panel.
- * It is connected with a BankAccountPresenter to handle the logic for bank account operations.
- */
 public class BankAccountsPanel extends JPanel {
     private MainFrame frame;
     private BankAccountPresenter bankAccountPresenter;
+    private AccountDataAccessInterface dataAccess;
 
-    /**
-     * Constructs a BankAccountsPanel associated with the given MainFrame.
-     * Initializes the panel with buttons for adding new accounts and navigating back.
-     *
-     * @param frame The MainFrame that this panel is a part of.
-     */
     public BankAccountsPanel(MainFrame frame) {
         this.frame = frame;
+        this.dataAccess = new DataAccessObject();
+
         JButton addAccountButton = new JButton("Add Account");
-        JButton backButton = new JButton("Back");
-
-        backButton.addActionListener(e -> frame.switchToPanel(new AccountPanel(frame)));
         addAccountButton.addActionListener(e -> openAddAccountPopup());
-
-        this.add(backButton);
         this.add(addAccountButton);
+
+        JButton checkAccountsButton = new JButton("Check Accounts");
+        checkAccountsButton.addActionListener(e -> displayAccounts());
+        this.add(checkAccountsButton);
+
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(e -> frame.switchToPanel(new AccountPanel(frame)));
+        this.add(backButton);
     }
 
-    /**
-     * Sets the BankAccountPresenter for this panel.
-     *
-     * @param presenter The BankAccountPresenter to handle bank account actions and logic.
-     */
+    private void displayAccounts() {
+        ArrayList<Integer> accountIds = bankAccountPresenter.getAccountIds();
+        for (Integer accountId : accountIds) {
+            JPanel accountPanel = new JPanel();
+            accountPanel.add(new JLabel("Account ID: " + accountId));
+
+            JButton checkButton = new JButton("Check Details");
+            checkButton.addActionListener(e -> bankAccountPresenter.checkAccountDetails(accountId));
+            accountPanel.add(checkButton);
+
+            this.add(accountPanel);
+        }
+        this.revalidate();
+        this.repaint();
+    }
+
     public void setPresenter(BankAccountPresenter presenter) {
         this.bankAccountPresenter = presenter;
     }
+
+    public void displayAccountDetails(Account accountDetails) {
+        JOptionPane.showMessageDialog(this,
+                "Account ID: " + accountDetails.getAccountId() +
+                        "\nBalance: " + dataAccess.getAccountBalance(accountDetails.getAccountId()) +
+                        "\nCurrency: " + accountDetails.getCurrencyType(),
+                "Account Details",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
 
     private void openAddAccountPopup() {
         JDialog dialog = new JDialog(frame, "Add Account", true);

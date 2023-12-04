@@ -41,6 +41,10 @@ public class Account {
         return balance;
     }
 
+    public String getCurrencyType() {
+        return CurrencyType;
+    }
+
     /**
      * Deposits the specified amount into the account.
      * The amount should be positive; otherwise, the deposit is not performed.

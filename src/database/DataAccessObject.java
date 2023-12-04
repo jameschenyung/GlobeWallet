@@ -452,7 +452,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
      * @throws SQLException if a database access error occurs
      */
     // Get account data
-    public Account getAccount(String accountId) throws SQLException {
+    public Account getAccount(String accountId) {
         String sql = "SELECT * FROM accounts WHERE accountId = ?";
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -467,6 +467,8 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
                         rs.getString("CurrencyType")
                 );
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null; // Or throw an exception
     }
@@ -854,7 +856,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
          * @param currentUserId account id inputted
          * @return list
          */
-        ArrayList<Integer> getUserBankAccounts(Integer currentUserId) throws SQLException {
+        public ArrayList<Integer> getUserBankAccounts(Integer currentUserId) {
             ArrayList<Integer> userAccounts = new ArrayList<>();
             String sql = "SELECT accountId FROM accounts WHERE userId = ?";
 
@@ -867,6 +869,8 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
                     int accountId = rs.getInt("accountId");
                     userAccounts.add(accountId);
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
             return userAccounts;
         };

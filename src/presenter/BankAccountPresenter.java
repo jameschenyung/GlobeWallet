@@ -1,7 +1,11 @@
 package presenter;
 
+import objects.Account;
 import use_case.addAccount.*;
+import use_case.receiveMoney.receiveMoneyInteractor;
 import views.BankAccountsPanel;
+
+import java.util.ArrayList;
 
 /**
  * Presenter for the bank accounts panel.
@@ -13,6 +17,7 @@ import views.BankAccountsPanel;
 public class BankAccountPresenter implements AddAccountOutputBoundary {
     private BankAccountsPanel view;
     private AddAccountInteractor interactor;
+    private AccountDataAccessInterface dataAccess;
 
     /**
      * Constructor for BankAccountPresenter.
@@ -20,11 +25,16 @@ public class BankAccountPresenter implements AddAccountOutputBoundary {
      * Initializes the presenter with a view and an add account interactor.
      * </p>
      *
-     * @param view       The bank accounts panel that this presenter manages.
+     * @param view The bank accounts panel that this presenter manages.
      */
     public BankAccountPresenter(BankAccountsPanel view, AccountDataAccessInterface accountDataAccessInterface) {
         this.view = view;
         this.interactor = new AddAccountInteractor(accountDataAccessInterface, this);
+        this.dataAccess = accountDataAccessInterface; // Assign the data access interface
+    }
+
+    public void setAddAccountInteractor(AddAccountInteractor addAccountInteractor) {
+        this.interactor = addAccountInteractor;
     }
 
     /**
@@ -42,19 +52,24 @@ public class BankAccountPresenter implements AddAccountOutputBoundary {
         interactor.addAccount(inputData);
     }
 
-    public void setInteractor(AddAccountInteractor addAccountInteractor) {
-        this.interactor = addAccountInteractor;
+    public ArrayList<Integer> getAccountIds() {
+        Integer currentUserId = interactor.getCurrentUserId();
+        return dataAccess.getUserBankAccounts(currentUserId);
     }
 
-    /**
-     * Presents the result of an attempt to add a new bank account.
-     * <p>
-     * This method is invoked by the interactor to deliver the outcome of the add account operation.
-     * Depending on the result, it will display either a success or error message.
-     * </p>
-     *
-     * @param outputData The data containing the result of the add account operation.
-     */
+    public void checkAccountDetails(Integer accountId) {
+        try {
+            Account accountDetails = dataAccess.getAccount(accountId.toString());
+            if (accountDetails != null) {
+                view.displayAccountDetails(accountDetails);
+            } else {
+                view.showError("No details found for account ID: " + accountId);
+            }
+        } catch (Exception e) {
+            view.showError("Error fetching account details: " + e.getMessage());
+        }
+    }
+
     @Override
     public void presentAddAccountResult(AddAccountOutputData outputData) {
         if (outputData.isSuccess()) {
