@@ -1,17 +1,12 @@
 package interface_adapter.EmailSender;
 public interface EmailSenderGateway {
-    static void sendEmail(String recipientEmail, String emailSubject, String emailMessage) {
-    }
+    void sendEmail(String recipientEmail, String emailSubject, String emailMessage);
 
-    static void sendWelcomeEmail(String email) {
+    void sendWelcomeEmail(String email, String name);
 
-    }
+    void sendTransactionSender(String email, Integer transactionId, Double amount, String currency, String sender, String receiver);
 
-    static void sendTransactionSender(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
-
-    }
-
-    static void sendTransactionReceiver(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
+    void sendTransactionReceiver(String email, Integer transactionId, Double amount, String currency, String sender, String receiver);
 
     }
-}
+

@@ -19,7 +19,6 @@ import java.util.Set;
      * account management, and transaction creation.
      * This class uses SQLite for database interactions.
      */
-
 public class DataAccessObject implements use_case.login.LoginUserDataAccessInterface,
         use_case.signup.SignupUserDataAccessInterface,
         use_case.sendmoneytransfer.SendMoneyUserDataAccessInterface,
@@ -43,7 +42,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
      * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     // Save account data
-    public void saveAccount(Integer accountId, int userId, double balance, String currencyType) throws SQLException {
+    public void saveAccount(Integer accountId, Integer userId, double balance, String currencyType) throws SQLException {
         String sql = "INSERT INTO accounts (accountId, userId, balance, currencyType) VALUES (?, ?, ?, ?)";
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -56,14 +55,15 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
     }
 
     /**
-     * Generates a random balance value.
+     * Generates a random balance value range from 1-1000000.
      *
      * @return a randomly generated double value representing a balance.
      */
     @Override
     public double generateBalance() {
         Random random = new Random();
-        return random.nextDouble() * Double.MAX_VALUE;
+        // Generate a random double value within the range 1 to 1000000
+        return 1 + (999999 * random.nextDouble());
     }
 
     /**
@@ -231,7 +231,8 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
     @Override
     public boolean isValidAccount(Integer accountId) {
         if (accountId == null) {
-            return false;
+            return false; // Account ID should not be null.
+
         }
 
         String sql = "SELECT EXISTS (SELECT 1 FROM accounts WHERE accountId = ?)";
@@ -242,10 +243,12 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                return !rs.getBoolean(1);
+                return !rs.getBoolean(1); // Returns true if the account exists, false otherwise
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            // Depending on your application's error handling strategy,
+            // you might want to log this error or rethrow a custom exception.
         }
         return false;
     }
@@ -457,6 +460,14 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return null; // Or throw an exception
     }
 
+    /**
+     * Retrieves the full name of a user given their user ID.
+     * The method queries the database to find the user's first and last name.
+     *
+     * @param userId The user ID for which the full name is to be retrieved.
+     * @return The full name of the user (firstName + " " + lastName) or {@code null} if the user is not found or in case of an SQL exception.
+     * @throws SQLException If a database access error occurs or this method is called on a closed connection.
+     */
     public String getFullName(Integer userId) {
         String sql = "SELECT firstName, lastName FROM users WHERE id = ?";
         try (Connection conn = this.connect();
@@ -475,6 +486,14 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         return null; // Return null if user not found or if there's an error
     }
 
+
+        /**
+         * Checks if a transaction exists and is not yet received.
+         *
+         * @param transactionId The ID of the transaction to check.
+         * @return {@code true} if the transaction exists and is not received, {@code false} otherwise.
+         * @throws SQLException If there is a database access error or the method is called on a closed connection.
+         */
         @Override
         public boolean hasTransaction(Integer transactionId) {
             String sql = "SELECT COUNT(1) FROM transactions WHERE transactionId = ? AND received = 0";
@@ -493,6 +512,13 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             return false; // Transaction not found or error occurred
         }
 
+        /**
+         * Retrieves the sender ID of a specified transaction.
+         *
+         * @param transactionId The transaction ID for which the sender ID is to be retrieved.
+         * @return The sender ID of the transaction or {@code null} if the transaction is not found or in case of an SQL exception.
+         * @throws SQLException If a database access error occurs or this method is called on a closed connection.
+         */
         @Override
         public Integer getTransactionSenderId(Integer transactionId) {
             String sql = "SELECT senderId FROM transactions WHERE transactionId = ?";
@@ -511,6 +537,13 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             return null;
         }
 
+        /**
+         * Retrieves the receiver ID of a specified transaction.
+         *
+         * @param transactionId The transaction ID for which the receiver ID is to be retrieved.
+         * @return The receiver ID of the transaction or {@code null} if the transaction is not found or in case of an SQL exception.
+         * @throws SQLException If a database access error occurs or this method is called on a closed connection.
+         */
         @Override
         public Integer getTransactionReceiverId(Integer transactionId) {
             String sql = "SELECT receiverId FROM transactions WHERE transactionId = ?";
@@ -529,6 +562,13 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             return null;
         }
 
+        /**
+         * Retrieves the receiver ID of a specified transaction.
+         *
+         * @param transactionId The transaction ID for which the receiver ID is to be retrieved.
+         * @return The receiver ID of the transaction or {@code null} if the transaction is not found or in case of an SQL exception.
+         * @throws SQLException If a database access error occurs or this method is called on a closed connection.
+         */
         @Override
         public double getTransactionAmount(Integer transactionId) {
             String sql = "SELECT amount FROM transactions WHERE transactionId = ?";
@@ -551,6 +591,13 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             }
         }
 
+        /**
+         * Retrieves the user ID associated with a given account ID.
+         *
+         * @param accountId The account ID for which the user ID is to be retrieved.
+         * @return The user ID associated with the account or {@code null} if the account is not found or in case of an SQL exception.
+         * @throws SQLException If a database access error occurs or this method is called on a closed connection.
+         */
         @Override
         public Integer getUserIdbyAccountId(Integer accountId) {
             String sql = "SELECT userId FROM accounts WHERE accountId = ?";
@@ -571,6 +618,12 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             }
         }
 
+        /**
+         * Marks a transaction as received in the database.
+         *
+         * @param transactionId The ID of the transaction to be marked as received.
+         * @throws SQLException If there is a database access error, this method is called on a closed connection, or an update fails.
+         */
         @Override
         public void transactionReceived(Integer transactionId) {
             String sql = "UPDATE transactions SET received = 1 WHERE transactionId = ?";
@@ -585,8 +638,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
             }
         }
 
-
-        /**
+     /**
      * Retrieves a user by their username.
      *
      * @param username the username of the user

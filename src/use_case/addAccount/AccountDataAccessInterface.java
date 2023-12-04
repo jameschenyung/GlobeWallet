@@ -11,7 +11,7 @@ public interface AccountDataAccessInterface {
      * @param balance balance to be stored
      * @throws SQLException failure
      */
-    void saveAccount(Integer accountId, int userId, double balance, String currencyType) throws SQLException;
+    void saveAccount(Integer accountId, Integer userId, double balance, String currencyType) throws SQLException;
 
     /**
      * generate balance for account

@@ -8,6 +8,12 @@ import java.sql.ResultSet;
 public class TestDatabase {
     private static final String DB_URL = "jdbc:sqlite:bank.db";
 
+    /**
+     * Main method to perform a series of database operations for testing purposes.
+     * This method sequentially adds a user and an account, then displays all users and accounts.
+     *
+     * @param args Command line arguments (not used in this application).
+     */
     public static void main(String[] args) {
         addUser("John", "Doe", "johndoe", "password123");
         addAccount("johndoe", "ACC001", 500.0);

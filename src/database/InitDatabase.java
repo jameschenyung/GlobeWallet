@@ -3,7 +3,14 @@ package database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-
+/**
+ * Initializes the bank database and its associated tables.
+ * This class is responsible for setting up the database with the necessary tables
+ * for users, accounts, transactions, and the current user session.
+ *
+ * The database is created using SQLite and includes tables for users, accounts,
+ * transactions, and current_user with appropriate fields and constraints.
+ */
 public class InitDatabase {
     private static final String DB_URL = "jdbc:sqlite:bank.db";
 

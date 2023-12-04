@@ -11,7 +11,7 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailSender implements EmailSenderGateway{
 
-    public static void sendEmail(String recipientEmail, String emailSubject, String emailMessage) {
+    public void sendEmail(String recipientEmail, String emailSubject, String emailMessage) {
         // Sender's email and password
         final String username = "globewallet@outlook.com";
         final String password = "Abc12345678!";
@@ -56,10 +56,10 @@ public class EmailSender implements EmailSenderGateway{
         }
     }
 
-    public void sendWelcomeEmail(String email) {
+    public void sendWelcomeEmail(String email, String name) {
         sendEmail(email,
                 "Welcome to GlobeWallet",
-                "Thank you for joining us, we ensure you a wonderful experience now that you have joined our group.");
+                "Thank you for joining us " + name + ", we ensure you a wonderful experience now that you have joined our group.");
     }
 
     public void sendTransactionSender(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
@@ -67,8 +67,8 @@ public class EmailSender implements EmailSenderGateway{
                 email,
                 "Your money transfer to " + receiver + " was sucessful",
                 "Hi " + sender + ", " +
-                        "\n Your money transfer of " + Double.toString(amount) + " " + currency + " to " + receiver + " was successful." +
-                        "\n Your transaction number is " + Integer.toString(transactionId) + "."
+                        "\nYour money transfer of " + Double.toString(amount) + " " + currency + " to " + receiver + " was successful." +
+                        "\nYour transaction number is " + Integer.toString(transactionId) + "."
         );
     }
 
@@ -77,8 +77,8 @@ public class EmailSender implements EmailSenderGateway{
                 email,
                 "You have received money from " + sender,
                 "Hi " + receiver + ", " +
-                        "\n You have received " + Double.toString(amount) + " " + currency + " from " + sender + "." +
-                        "\n Your transaction number is " + Integer.toString(transactionId) + "."
+                        "\nYou have received " + Double.toString(amount) + " " + currency + " from " + sender + "." +
+                        "\nYour transaction number is " + Integer.toString(transactionId) + "."
         );
     }
 
@@ -88,7 +88,9 @@ public class EmailSender implements EmailSenderGateway{
         String subject = "Testing JavaMail API";
         String message = "Hello, this is a test email sent from Java!";
 
-        sendEmail(to, subject, message);
+        //sendEmail(to, subject, message);
+        //sendWelcomeEmail("jameschenyung@gmail.com", "James");
+        //sendTransactionReceiver(to, 90, 34.0, "CAD", "James", "Kesier");
     }
 }
 
