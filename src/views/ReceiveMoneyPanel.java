@@ -108,7 +108,11 @@ public class ReceiveMoneyPanel extends JPanel {
         });
         add(backButton, gbc);
     }
-
+    /**
+     * Sets the ReceiveMoneyPresenter for this panel.
+     *
+     * @param presenter The ReceiveMoneyPresenter to handle the actions and business logic.
+     */
     public void setPresenter(ReceiveMoneyPresenter presenter) {
         this.presenter = presenter;
     }

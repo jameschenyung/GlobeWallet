@@ -2,8 +2,17 @@ package interface_adapter.EmailSender;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for EmailSender.
+ * This class uses JUnit tests to verify that the methods of the EmailSender class do not throw exceptions
+ * during their execution. Each test corresponds to a different method in the EmailSender class.
+ */
 public class EmailSenderTest {
 
+    /**
+     * Tests the sendEmail method of the EmailSender.
+     * Ensures that calling sendEmail with valid parameters does not result in an exception.
+     */
     @Test
     void testSendEmail() {
         // Arrange
@@ -15,6 +24,10 @@ public class EmailSenderTest {
         assertDoesNotThrow(() -> EmailSender.sendEmail(to, subject, message));
     }
 
+    /**
+     * Tests the sendWelcomeEmail method of the EmailSender.
+     * Ensures that calling sendWelcomeEmail with valid parameters does not result in an exception.
+     */
     @Test
     void testSendWelcomeEmail() {
         // Arrange
@@ -25,6 +38,11 @@ public class EmailSenderTest {
         assertDoesNotThrow(() -> EmailSender.sendWelcomeEmail(to, name));
     }
 
+
+    /**
+     * Tests the sendTransactionReceiver method of the EmailSender.
+     * Ensures that calling sendTransactionReceiver with valid parameters does not result in an exception.
+     */
     @Test
     void testSendTransactionReceiver() {
         // Arrange
@@ -39,6 +57,10 @@ public class EmailSenderTest {
         assertDoesNotThrow(() -> EmailSender.sendTransactionReceiver(to, transactionId, amount, currency, senderName, receiverName));
     }
 
+    /**
+     * Tests the sendTransactionSender method of the EmailSender.
+     * Ensures that calling sendTransactionSender with valid parameters does not result in an exception.
+     */
     @Test
     void testSendTransactionSender() {
         // Arrange

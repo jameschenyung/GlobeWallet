@@ -7,7 +7,12 @@ import java.awt.event.ActionListener;
 import presenter.SignupPresenter;
 import use_case.signup.SignupOutputBoundary;
 import use_case.signup.SignupOutputData;
-
+/**
+ * A JPanel representing the signup screen of the application.
+ * This panel provides input fields for user registration details such as name, username, email, and password,
+ * along with a signup button to initiate the registration process. It is linked with a SignupPresenter
+ * to handle the signup logic.
+ */
 public class SignupView extends JPanel {
     private JTextField firstNameField, lastNameField, usernameField, emailField, repeatEmailField;
     private JPasswordField passwordField, repeatPasswordField;
@@ -16,6 +21,12 @@ public class SignupView extends JPanel {
     private SignupPresenter presenter;
     private JButton backButton;
 
+    /**
+     * Constructs a SignupView associated with the given MainFrame.
+     * Initializes the panel with UI components for user registration inputs and a signup button.
+     *
+     * @param frame The MainFrame that this panel is a part of.
+     */
     public SignupView(MainFrame frame) {
         setLayout(new GridLayout(0, 2));
 
@@ -49,6 +60,7 @@ public class SignupView extends JPanel {
         add(errorLabel);
         add(backButton);
 
+
         signupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,14 +79,29 @@ public class SignupView extends JPanel {
         });
     }
 
+    /**
+     * Sets the SignupPresenter for this panel.
+     *
+     * @param presenter The SignupPresenter to handle the signup actions and logic.
+     */
     public void setPresenter(SignupPresenter presenter) {
         this.presenter = presenter;
     }
 
+    /**
+     * Displays a success message dialog upon successful signup.
+     *
+     * @param message The success message to be displayed.
+     */
     public void showSuccess(String message) {
         JOptionPane.showMessageDialog(this, message, "Signup Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Displays an error message dialog in case of a signup error.
+     *
+     * @param errorMessage The error message to be displayed.
+     */
     public void showError(String errorMessage) {
         JOptionPane.showMessageDialog(this, errorMessage, "Signup Error", JOptionPane.ERROR_MESSAGE);
     }

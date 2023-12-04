@@ -1,5 +1,10 @@
 package use_case.signup;
 
+/**
+ * Data class that encapsulates the input data required for a user signup operation.
+ * This class holds information necessary for registering a new user, including personal details
+ * and credentials such as username, email, and password.
+ */
 public class SignUpInputData {
     private String firstName;
     private String lastName;
@@ -9,6 +14,17 @@ public class SignUpInputData {
     private String password;
     private String repeatPassword;
 
+    /**
+     * Constructs a SignUpInputData instance with specified user details and credentials.
+     *
+     * @param firstName      The first name of the user.
+     * @param lastName       The last name of the user.
+     * @param username       The desired username for the new account.
+     * @param email          The email address of the user.
+     * @param repeatEmail    The repeated email address for verification.
+     * @param password       The password for the new account.
+     * @param repeatPassword The repeated password for verification.
+     */
     public SignUpInputData(String firstName, String lastName, String username, String email,
                            String repeatEmail, String password, String repeatPassword) {
         this.firstName = firstName;

@@ -26,14 +26,29 @@ public class ReceiveMoneyPresenter implements receiveMoneyOutputBoundary {
     }
 
 
+    /**
+     * Sets the presenter for bank account operations.
+     *
+     * @param presenter The BankAccountPresenter to be associated with this presenter.
+     */
     public void setPresenter(BankAccountPresenter presenter) {
         this.presenter = presenter;
     }
 
+    /**
+     * Sets the interactor for receiving money operations.
+     *
+     * @param receivemoneyInteractor The receiveMoneyInteractor to handle the business logic.
+     */
     public void setReceiveMoneyInteractor(receiveMoneyInteractor receivemoneyInteractor) {
         this.interactor = receivemoneyInteractor;
     }
 
+    /**
+     * Initiates a check for a transaction based on the given transaction ID.
+     *
+     * @param transactionId The ID of the transaction to be checked.
+     */
     public void checkTransaction(Integer transactionId) {
         try {
             receiveMoneyInputData inputData = new receiveMoneyInputData(transactionId, null);
@@ -44,7 +59,12 @@ public class ReceiveMoneyPresenter implements receiveMoneyOutputBoundary {
         }
     }
 
-
+    /**
+     * Confirms the security code for a transaction.
+     *
+     * @param transactionId The ID of the transaction.
+     * @param securityCode  The security code to confirm the transaction.
+     */
     public void confirmSecurityCode(Integer transactionId, Integer securityCode) {
         try {
             receiveMoneyInputData inputData = new receiveMoneyInputData(transactionId, securityCode);
@@ -55,6 +75,8 @@ public class ReceiveMoneyPresenter implements receiveMoneyOutputBoundary {
         }
     }
 
+
+    // Overridden methods from receiveMoneyOutputBoundary
 
     @Override
     public void presentTransactionDetails(receiveMoneyOutputData outputData) {

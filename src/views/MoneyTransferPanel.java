@@ -7,11 +7,22 @@ import use_case.sendmoneytransfer.SendMoneyInteractor;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * A JPanel representing the money transfer section of the application.
+ * This panel allows users to perform money transfer operations, including entering account numbers,
+ * amounts, and security codes. It is linked with a SendMoneyPresenter to handle the business logic.
+ */
 public class MoneyTransferPanel extends JPanel {
     private JTextField userAccountNumberField, receiverAccountNumberField, amountField, securityCodeField;
     private JButton checkAccountsButton, checkAmountButton, transferButton;
     private SendMoneyPresenter presenter;
 
+    /**
+     * Constructs a MoneyTransferPanel associated with the given MainFrame.
+     * The panel includes fields for user input and buttons for performing transfer-related actions.
+     *
+     * @param frame The MainFrame that this panel is a part of.
+     */
     public MoneyTransferPanel(MainFrame frame) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -81,14 +92,29 @@ public class MoneyTransferPanel extends JPanel {
         add(backButton, gbc);
     }
 
+    /**
+     * Sets the SendMoneyPresenter for this panel.
+     *
+     * @param presenter The SendMoneyPresenter to be used for handling transfer operations.
+     */
     public void setPresenter(SendMoneyPresenter presenter) {
         this.presenter = presenter;
     }
 
+    /**
+     * Displays a success message dialog.
+     *
+     * @param message The success message to be displayed.
+     */
     public void showSuccess(String message) {
         JOptionPane.showMessageDialog(this, message, "Transfer Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Displays an error message dialog.
+     *
+     * @param errorMessage The error message to be displayed.
+     */
     public void showError(String errorMessage) {
         JOptionPane.showMessageDialog(this, errorMessage, "Transfer Error", JOptionPane.ERROR_MESSAGE);
     }
