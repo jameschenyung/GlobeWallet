@@ -8,6 +8,27 @@ import static org.junit.jupiter.api.Assertions.*;
  * during their execution. Each test corresponds to a different method in the EmailSender class.
  */
 public class EmailSenderTest {
+    EmailSenderGateway emailSenderGateway = new EmailSenderGateway() {
+        @Override
+        public void sendEmail(String recipientEmail, String emailSubject, String emailMessage) {
+
+        }
+
+        @Override
+        public void sendWelcomeEmail(String email, String name) {
+
+        }
+
+        @Override
+        public void sendTransactionSender(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
+
+        }
+
+        @Override
+        public void sendTransactionReceiver(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
+
+        }
+    };
 
     /**
      * Tests the sendEmail method of the EmailSender.
@@ -21,7 +42,7 @@ public class EmailSenderTest {
         String message = "Hello, this is a test email sent from Java!";
 
         // Act & Assert
-        assertDoesNotThrow(() -> EmailSender.sendEmail(to, subject, message));
+        assertDoesNotThrow(() -> emailSenderGateway.sendEmail(to, subject, message));
     }
 
     /**
@@ -35,7 +56,7 @@ public class EmailSenderTest {
         String name = "James";
 
         // Act & Assert
-        assertDoesNotThrow(() -> EmailSender.sendWelcomeEmail(to, name));
+        assertDoesNotThrow(() -> emailSenderGateway.sendWelcomeEmail(to, name));
     }
 
 
@@ -54,7 +75,7 @@ public class EmailSenderTest {
         String receiverName = "Kesier";
 
         // Act & Assert
-        assertDoesNotThrow(() -> EmailSender.sendTransactionReceiver(to, transactionId, amount, currency, senderName, receiverName));
+        assertDoesNotThrow(() -> emailSenderGateway.sendTransactionReceiver(to, transactionId, amount, currency, senderName, receiverName));
     }
 
     /**
@@ -72,6 +93,6 @@ public class EmailSenderTest {
         String receiverName = "Kesier";
 
         // Act & Assert
-        assertDoesNotThrow(() -> EmailSender.sendTransactionSender(to, transactionId, amount, currency, senderName, receiverName));
+        assertDoesNotThrow(() -> emailSenderGateway.sendTransactionSender(to, transactionId, amount, currency, senderName, receiverName));
     }
 }
