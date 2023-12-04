@@ -6,7 +6,7 @@ public class UpdateUserInputData {
     private String newPassword;
     private String repeatNewPassword;
 
-    public UpdateUserInputData(Integer id, String newEmail, String newUsername, String newPassword, String repeatNewPassword) {
+    public UpdateUserInputData(String newEmail, String newUsername, String newPassword, String repeatNewPassword) {
         this.newEmail = newEmail;
         this.newUsername = newUsername;
         this.newPassword = newPassword;
