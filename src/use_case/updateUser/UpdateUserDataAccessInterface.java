@@ -2,6 +2,8 @@ package use_case.updateUser;
 
 import objects.User;
 
+import java.sql.SQLException;
+
 public interface UpdateUserDataAccessInterface {
     /**
      * Checks if the username is already taken.
@@ -17,7 +19,21 @@ public interface UpdateUserDataAccessInterface {
      */
     boolean validatePassword(String password);
 
-    void updateUser(int id, String email, String username, String password);
+    /**
+     * update user with new input
+     * @param id userid of user being updated
+     * @param email new email
+     * @param username new username
+     * @param password new password
+     */
+    void updateUser(int id, String email, String username, String password) throws SQLException;
 
     User getUserByUsername(String username);
+
+    /**
+     * Retrieves the current user's ID from the database.
+     *
+     * @return the user ID of the currently logged-in user, or {@code null} if no user is logged in.
+     */
+    Integer getCurrentUserId();
 }

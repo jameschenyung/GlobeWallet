@@ -1,14 +1,12 @@
 package use_case.updateUser;
 
 public class UpdateUserInputData {
-    private Integer id;
     private String newEmail;
     private String newUsername;
     private String newPassword;
     private String repeatNewPassword;
 
     public UpdateUserInputData(Integer id, String newEmail, String newUsername, String newPassword, String repeatNewPassword) {
-        this.id = id;
         this.newEmail = newEmail;
         this.newUsername = newUsername;
         this.newPassword = newPassword;
@@ -16,10 +14,6 @@ public class UpdateUserInputData {
     }
 
     // getters
-    public int getId() {
-        return id;
-    }
-
     public String getNewEmail() {
 
         return newEmail;
@@ -49,5 +43,9 @@ public class UpdateUserInputData {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public void setRepeatNewPassword(String repeatNewPassword) {
+        this.repeatNewPassword = repeatNewPassword;
     }
 }
