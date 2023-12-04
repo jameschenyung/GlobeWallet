@@ -68,17 +68,20 @@ public class EmailSender implements EmailSenderGateway{
                 "Your money transfer to " + receiver + " was sucessful",
                 "Hi " + sender + ", " +
                         "\nYour money transfer of " + Double.toString(amount) + " " + currency + " to " + receiver + " was successful." +
-                        "\nYour transaction number is " + Integer.toString(transactionId) + "."
+                        "\nYour transaction number is " + Integer.toString(transactionId) + "." +
+                        "\n GlobeWallet Team"
         );
     }
 
     public void sendTransactionReceiver(String email, Integer transactionId, Double amount, String currency, String sender, String receiver) {
         sendEmail(
                 email,
-                "You have received money from " + sender,
+                "You have a pending transaction from " + sender,
                 "Hi " + receiver + ", " +
                         "\nYou have received " + Double.toString(amount) + " " + currency + " from " + sender + "." +
-                        "\nYour transaction number is " + Integer.toString(transactionId) + "."
+                        "\nYour transaction number is " + Integer.toString(transactionId) + "." +
+                        "\nPlease refer to the application to claim your money ^_^ Thank you!" +
+                        "\nGlobeWallet Team"
         );
     }
 

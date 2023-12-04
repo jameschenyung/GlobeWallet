@@ -13,6 +13,7 @@ import objects.Account;
 import java.util.Currency;
 import java.util.Random;
 import java.util.Set;
+import java.math.BigDecimal;
     /**
      * The {@code DataAccessObject} class provides methods for interacting with a banking database.
      * It implements various interfaces to support operations related to user login, sign-up, money transfers,
@@ -62,8 +63,15 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
     @Override
     public double generateBalance() {
         Random random = new Random();
-        // Generate a random double value within the range 1 to 1000000
-        return 1 + (999999 * random.nextDouble());
+        double rangeMin = 1.00;
+        double rangeMax = 1000000.00;
+
+        // Generate a random double within the range
+        double randomBalance = rangeMin + (rangeMax - rangeMin) * random.nextDouble();
+
+        // Use BigDecimal for precise rounding to two decimal places
+        BigDecimal roundedBalance = new BigDecimal(randomBalance).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return roundedBalance.doubleValue();
     }
 
     /**

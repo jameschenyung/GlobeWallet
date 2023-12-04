@@ -73,16 +73,13 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
                     sendMoneyInputData.getReceiverId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
                     convertedAmount, sendMoneyInputData.getAmount(), id));
 
-            Integer senderId = sendMoneyInputData.getSenderId();
-            Integer receiverId = sendMoneyInputData.getReceiverId();
-
             String senderCurrency = userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId());
             String receiverCurrency = userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId());
             Double amount = sendMoneyInputData.getAmount();
-            String senderName = userDataAccess.getFullName(senderId);
-            String receiverName = userDataAccess.getFullName(receiverId);
-            String senderEmail = userDataAccess.getEmail(senderId);
-            String receiverEmail = userDataAccess.getEmail(receiverId);
+            String senderName = userDataAccess.getFullName(userDataAccess.getUserIdbyAccountId(sendMoneyInputData.getSenderId()));
+            String receiverName = userDataAccess.getFullName(userDataAccess.getUserIdbyAccountId(sendMoneyInputData.getReceiverId()));
+            String senderEmail = userDataAccess.getEmail(userDataAccess.getUserIdbyAccountId(sendMoneyInputData.getSenderId()));
+            String receiverEmail = userDataAccess.getEmail(userDataAccess.getUserIdbyAccountId(sendMoneyInputData.getReceiverId()));
 
             emailSenderGateway.sendTransactionSender(senderEmail, id, amount, senderCurrency, senderName, receiverName);
             emailSenderGateway.sendTransactionReceiver(receiverEmail, id, amount, receiverCurrency, senderName, receiverName);
