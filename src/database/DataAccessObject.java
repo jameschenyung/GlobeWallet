@@ -13,6 +13,7 @@ import objects.Account;
 import java.util.Currency;
 import java.util.Random;
 import java.util.Set;
+import java.util.ArrayList;
 import java.math.BigDecimal;
     /**
      * The {@code DataAccessObject} class provides methods for interacting with a banking database.
@@ -821,4 +822,26 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         // Check if the password matches the regex
         return password != null && password.matches(passwordRegex);
     }
+
+        /**
+         * return the list of all the bank accounts that the user has
+         * @param currentUserId account id inputted
+         * @return list
+         */
+        ArrayList<Integer> getUserBankAccounts(Integer currentUserId) throws SQLException {
+            ArrayList<Integer> userAccounts = new ArrayList<>();
+            String sql = "SELECT accountId FROM accounts WHERE userId = ?";
+
+            try (Connection conn = this.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, currentUserId);
+                ResultSet rs = pstmt.executeQuery();
+
+                while (rs.next()) {
+                    int accountId = rs.getInt("accountId");
+                    userAccounts.add(accountId);
+                }
+            }
+            return userAccounts;
+        };
 }
