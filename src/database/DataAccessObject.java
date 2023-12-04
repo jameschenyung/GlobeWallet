@@ -85,22 +85,20 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
      * Updates a user's information in the database.
      *
      * @param id the unique identifier of the user
-     * @param firstName the user's first name
-     * @param lastName the user's last name
+     * @param email the user's email
      * @param username the user's username
      * @param password the user's password
      * @throws SQLException if a database access error occurs
      */
     // Update user data
-    public void updateUser(int id, String firstName, String lastName, String username, String password) throws SQLException {
-        String sql = "UPDATE users SET firstName = ?, lastName = ?, username = ?, password = ? WHERE id = ?";
+    public void updateUser(int id, String email, String username, String password) throws SQLException {
+        String sql = "UPDATE users SET email = ?, username = ?, password = ? WHERE id = ?";
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, firstName);
-            pstmt.setString(2, lastName);
-            pstmt.setString(3, username);
-            pstmt.setString(4, password);
-            pstmt.setInt(5, id);
+            pstmt.setString(1, email);
+            pstmt.setString(2, username);
+            pstmt.setString(3, password);
+            pstmt.setInt(4, id);
             pstmt.executeUpdate();
         }
     }
