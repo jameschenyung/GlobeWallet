@@ -11,7 +11,7 @@ public class UpdateUserInteractor implements UpdateUserInputBoundary{
         this.UpdateUserOutputBoundary = UpdateUserOutputBoundary;
     }
     @Override
-    public void execute(UpdateUserInputData updateUserInputData) {
+    public void execute(UpdateUserInputData updateUserInputData) throws Exception {
         if (!(updateUserInputData.getRepeatNewPassword().equals(updateUserInputData.getNewPassword()))){
             UpdateUserOutputBoundary.prepareFailView("Passwords don't match");
         }
@@ -25,7 +25,7 @@ public class UpdateUserInteractor implements UpdateUserInputBoundary{
         }
         else {
             userDataAccess.updateUser(
-                    updateUserInputData.getId(),
+                    userDataAccess.getCurrentUserId(),
                     updateUserInputData.getNewEmail(),
                     updateUserInputData.getNewUsername(),
                     updateUserInputData.getNewPassword()

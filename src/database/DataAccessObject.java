@@ -25,7 +25,7 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
         use_case.signup.SignupUserDataAccessInterface,
         use_case.sendmoneytransfer.SendMoneyUserDataAccessInterface,
         use_case.addAccount.AccountDataAccessInterface,
-
+        use_case.updateUser.UpdateUserDataAccessInterface,
         use_case.receiveMoney.receiveMoneyDataAccessInterface{
 
     private static final String DB_URL = "jdbc:sqlite:bank.db";
@@ -107,14 +107,40 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
      */
     // Update user data
     public void updateUser(int id, String email, String username, String password) throws SQLException {
-        String sql = "UPDATE users SET email = ?, username = ?, password = ? WHERE id = ?";
-        try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, email);
-            pstmt.setString(2, username);
-            pstmt.setString(3, password);
-            pstmt.setInt(4, id);
-            pstmt.executeUpdate();
+        StringBuilder sql = new StringBuilder("UPDATE users SET ");
+        ArrayList<Object> params = new ArrayList<>();
+
+        if (email != null && !email.isEmpty()) {
+            sql.append("email = ?, ");
+            params.add(email);
+        }
+        if (username != null && !username.isEmpty()) {
+            sql.append("username = ?, ");
+            params.add(username);
+        }
+        if (password != null && !password.isEmpty()) {
+            sql.append("password = ?, ");
+            params.add(password);
+        }
+
+        // Remove the last comma and space
+        if (params.size() > 0) {
+            sql.delete(sql.length() - 2, sql.length());
+            sql.append(" WHERE id = ?");
+            params.add(id);
+
+            try (Connection conn = this.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+
+                for (int i = 0; i < params.size(); i++) {
+                    pstmt.setObject(i + 1, params.get(i));
+                }
+
+                pstmt.executeUpdate();
+            }
+        } else {
+            // Handle the case where no fields are provided for update
+            throw new IllegalArgumentException("No fields provided for update.");
         }
     }
 
