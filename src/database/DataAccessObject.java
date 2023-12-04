@@ -55,14 +55,15 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
     }
 
     /**
-     * Generates a random balance value.
+     * Generates a random balance value range from 1-1000000.
      *
      * @return a randomly generated double value representing a balance.
      */
     @Override
     public double generateBalance() {
         Random random = new Random();
-        return random.nextDouble() * Double.MAX_VALUE;
+        // Generate a random double value within the range 1 to 1000000
+        return 1 + (999999 * random.nextDouble());
     }
 
     /**
@@ -229,16 +230,25 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
      */
     @Override
     public boolean isValidAccount(Integer accountId) {
-        String sql = "SELECT COUNT(1) FROM accounts WHERE accountId = ?";
+        if (accountId == null) {
+            return false; // Account ID should not be null.
+
+        }
+
+        String sql = "SELECT EXISTS (SELECT 1 FROM accounts WHERE accountId = ?)";
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
             pstmt.setInt(1, accountId);
             ResultSet rs = pstmt.executeQuery();
+
             if (rs.next()) {
-                return rs.getInt(1) > 0;
+                return !rs.getBoolean(1); // Returns true if the account exists, false otherwise
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            // Depending on your application's error handling strategy,
+            // you might want to log this error or rethrow a custom exception.
         }
         return false;
     }
