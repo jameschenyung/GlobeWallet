@@ -5,7 +5,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import use_case.login.*;
 
-
 public class LoginTest {
 
     private LoginInteractor loginInteractor;
@@ -43,13 +42,14 @@ public class LoginTest {
 
 
 
-    @After
-    public void tearDown() {
-
-    }
-
     public static class LoginOutputBoundaryStub implements LoginOutputBoundary {
         private LoginOutputData outputData;
+        private boolean successViewPrepared = false;
+        private boolean failViewPrepared = false;
+
+        public LoginOutputBoundaryStub() {
+            this.outputData = new LoginOutputData(false, "Default message");
+        }
 
         @Override
         public void present(LoginOutputData outputData) {
@@ -60,15 +60,29 @@ public class LoginTest {
             return outputData;
         }
 
+
+
         @Override
         public void prepareSuccessView(LoginOutputData user) {
-
+            // Set the flag to true to indicate that the success view has been prepared
+            this.successViewPrepared = true;
         }
 
         @Override
         public void prepareFailView(String error) {
 
+            this.failViewPrepared = true;
+        }
+
+
+        public boolean isSuccessViewPrepared() {
+            return successViewPrepared;
+        }
+
+
+        public boolean isFailViewPrepared() {
+            return failViewPrepared;
         }
     }
-}
+    }
 
