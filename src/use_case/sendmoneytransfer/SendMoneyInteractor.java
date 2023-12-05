@@ -94,11 +94,17 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
      */
     @Override
     public void transfer(SendMoneyInputData sendMoneyInputData) {
-        double convertedAmount = conversionGateway.convertCurrency(
-                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
-                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
-                sendMoneyInputData.getAmount()
-        );
+        double convertedAmount;
+        if (Objects.equals(userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
+                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()))){
+            convertedAmount = sendMoneyInputData.getAmount();
+        } else {
+            convertedAmount = conversionGateway.convertCurrency(
+                    userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
+                    userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
+                    sendMoneyInputData.getAmount()
+            );
+        }
 
         try {
             userDataAccess.updateAccountBalance(sendMoneyInputData.getSenderId(),
