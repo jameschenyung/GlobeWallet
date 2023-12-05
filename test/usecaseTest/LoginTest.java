@@ -41,11 +41,11 @@ public class LoginTest {
         assertFalse(outputBoundary.getOutputData().isSuccess());
     }
 
-    // Additional test cases...
+
 
     @After
     public void tearDown() {
-        // Clean-up code, if needed
+
     }
 
     public static class LoginOutputBoundaryStub implements LoginOutputBoundary {
