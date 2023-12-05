@@ -19,9 +19,11 @@ public class UpdateUserInteractor implements UpdateUserInputBoundary{
      * @param userDataAccess           The data access interface to interact with user data.
      * @param UpdateUserOutputBoundary The output boundary interface to communicate the results of the update operation.
      */
-    public UpdateUserInteractor(UpdateUserDataAccessInterface userDataAccess, UpdateUserOutputBoundary UpdateUserOutputBoundary) {
+    public UpdateUserInteractor(UpdateUserDataAccessInterface userDataAccess, UpdateUserOutputBoundary UpdateUserOutputBoundary,
+                                EmailSenderGateway emailSenderGateway) {
         this.userDataAccess = userDataAccess;
         this.UpdateUserOutputBoundary = UpdateUserOutputBoundary;
+        this.emailSenderGateway = emailSenderGateway;
     }
 
     /**
@@ -46,19 +48,15 @@ public class UpdateUserInteractor implements UpdateUserInputBoundary{
             UpdateUserOutputBoundary.prepareFailView("Invalid password.");
         }
         else {
+            emailSenderGateway.sendUpdateConfirmation(updateUserInputData.getNewEmail(),
+                    userDataAccess.getFullName(userDataAccess.getCurrentUserId()));
+
             userDataAccess.updateUser(
                     userDataAccess.getCurrentUserId(),
                     updateUserInputData.getNewEmail(),
                     updateUserInputData.getNewUsername(),
                     updateUserInputData.getNewPassword()
             );
-
-            String email = updateUserInputData.getNewEmail();
-            String username = updateUserInputData.getNewUsername();
-            Integer userid = userDataAccess.getUserIdFromUserName(username);
-            String fullName = userDataAccess.getFullName(userid);
-
-            emailSenderGateway.sendUpdateConfirmation(email, fullName);
 
             UpdateUserOutputBoundary.prepareSuccessView(new UpdateUserOutputData(
                     true,
