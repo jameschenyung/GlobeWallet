@@ -97,7 +97,7 @@ public class AccountPanel extends JPanel {
 
         if (response == JOptionPane.YES_OPTION) {
             clearSessionData();
-            frame.switchToPanel(new SignInPanel(frame));
+            frame.switchToPanel(new InitPanel(frame));
         }
     }
 

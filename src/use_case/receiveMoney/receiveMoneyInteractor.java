@@ -59,7 +59,8 @@ public class receiveMoneyInteractor implements receiveMoneyInputBoundary {
     public void confirmSecurityCode(receiveMoneyInputData inputData) {
         try {
             Integer receiverId = dataAccess.getTransactionReceiverId(inputData.getTransactionId());
-            if (dataAccess.validateSecurityCode(inputData.getSecurityCode(), inputData.getTransactionId())) {
+            if (dataAccess.validateSecurityCode(inputData.getSecurityCode(), inputData.getTransactionId()) &&
+            dataAccess.hasTransaction(inputData.getTransactionId()) && dataAccess.accountUnderCurrentUser(receiverId)) {
                 String currency = dataAccess.getCurrencyByAccount(receiverId);
 
                 Double newBalance = dataAccess.getAccountBalance(receiverId) + dataAccess.getTransactionAmount(inputData.getTransactionId());
