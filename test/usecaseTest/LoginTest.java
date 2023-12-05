@@ -70,16 +70,16 @@ public class LoginTest {
 
         @Override
         public void prepareFailView(String error) {
-            // Set the flag to true to indicate that the fail view has been prepared
+
             this.failViewPrepared = true;
         }
 
-        // Method to check if the success view was prepared
+
         public boolean isSuccessViewPrepared() {
             return successViewPrepared;
         }
 
-        // Method to check if the fail view was prepared
+
         public boolean isFailViewPrepared() {
             return failViewPrepared;
         }
