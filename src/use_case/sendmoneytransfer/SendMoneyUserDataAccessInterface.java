@@ -72,4 +72,13 @@ public interface SendMoneyUserDataAccessInterface {
      * @return full name
      */
     String getFullName(int userId);
+
+
+    void createUser(String firstName, String lastName, String username, String password, String currencyType, String email);
+
+    void saveAccount(Integer accountId, Integer userId, double balance, String currencyType);
+
+    Integer getUserIdFromUserName(String user1);
+
+    boolean isUsernameTaken(String user1);
 }
