@@ -1,6 +1,8 @@
 package views;
 
 import database.DataAccessObject;
+import database.UpdateUserDataAccessObject;
+import database.addAccountDataAccessObject;
 import presenter.BankAccountPresenter;
 import presenter.UpdateUserPresenter;
 import use_case.addAccount.AccountDataAccessInterface;
@@ -23,8 +25,8 @@ public class AccountPanel extends JPanel {
     private JLabel myAccountLabel;
     private BankAccountPresenter bankAccountPresenter;
     private UpdateUserPresenter updateUserPresenter;
-    private AccountDataAccessInterface accountDataAccessInterface = new DataAccessObject();
-    private UpdateUserDataAccessInterface updateUserDataAccess = new DataAccessObject();
+    private AccountDataAccessInterface accountDataAccessInterface = new addAccountDataAccessObject();
+    private UpdateUserDataAccessInterface updateUserDataAccess = new UpdateUserDataAccessObject();
 
     /**
      * Constructs an AccountPanel associated with the given MainFrame.
@@ -99,4 +101,5 @@ public class AccountPanel extends JPanel {
     private void clearSessionData(){
 
     }
+
 }
