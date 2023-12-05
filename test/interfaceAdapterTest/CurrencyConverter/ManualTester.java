@@ -1,4 +1,6 @@
-package interface_adapter.CurrencyConverter;
+package interfaceAdapterTest.CurrencyConverter;
+
+import interface_adapter.CurrencyConverter.PolygonCurrencyConversionGateway;
 
 /**
  * This class serves as a manual tester for currency conversion functionality.

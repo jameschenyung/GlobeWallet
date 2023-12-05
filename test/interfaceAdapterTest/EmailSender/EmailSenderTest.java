@@ -1,6 +1,8 @@
-package interface_adapter.EmailSender;
-import org.junit.jupiter.api.Test;
+package interfaceAdapterTest.EmailSender;
+
+import org.testng.annotations.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import interface_adapter.EmailSender.*;
 
 /**
  * Test class for EmailSender.
