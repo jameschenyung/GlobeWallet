@@ -873,5 +873,25 @@ public class DataAccessObject implements use_case.login.LoginUserDataAccessInter
                 e.printStackTrace();
             }
             return userAccounts;
-        };
-}
+        }
+
+        /**
+         * return userId from username
+         * @param username username of the user
+         * @return userId
+         */
+        public Integer getUserIdFromUserName(String username) throws SQLException {
+            String sql = "SELECT id FROM users WHERE username = ?";
+            try (Connection conn = this.connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setString(1, username);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    return rs.getInt("id");
+                }
+            }
+            return null;
+        }
+    }
