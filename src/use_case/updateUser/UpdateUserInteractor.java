@@ -1,5 +1,6 @@
 package use_case.updateUser;
 
+import interface_adapter.EmailSender.EmailSenderGateway;
 import use_case.signup.SignupOutputData;
 
 /**
@@ -10,6 +11,7 @@ import use_case.signup.SignupOutputData;
 public class UpdateUserInteractor implements UpdateUserInputBoundary{
     private final UpdateUserDataAccessInterface userDataAccess;
     private UpdateUserOutputBoundary UpdateUserOutputBoundary;
+    private EmailSenderGateway emailSenderGateway;
 
     /**
      * Constructs an {@code UpdateUserInteractor} with the specified data access and output boundary interfaces.
@@ -50,6 +52,13 @@ public class UpdateUserInteractor implements UpdateUserInputBoundary{
                     updateUserInputData.getNewUsername(),
                     updateUserInputData.getNewPassword()
             );
+
+            String email = updateUserInputData.getNewEmail();
+            String username = updateUserInputData.getNewUsername();
+            Integer userid = userDataAccess.getUserIdFromUserName(username);
+            String fullName = userDataAccess.getFullName(userid);
+
+            emailSenderGateway.sendUpdateConfirmation(email, fullName);
 
             UpdateUserOutputBoundary.prepareSuccessView(new UpdateUserOutputData(
                     true,

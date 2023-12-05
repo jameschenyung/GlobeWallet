@@ -49,5 +49,13 @@ public interface EmailSenderGateway {
      */
     void sendTransactionReceiver(String email, Integer transactionId, Double amount, String currency, String sender, String receiver);
 
-    }
+    /**
+     *
+     * @param email
+     * @param name
+     */
+    void sendUpdateConfirmation(String email, String name);
+}
+
+
 
