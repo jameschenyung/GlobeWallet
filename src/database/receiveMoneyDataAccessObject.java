@@ -33,7 +33,7 @@ public class receiveMoneyDataAccessObject implements
 
     /**
      Retrieves the current user's ID from the database.*
-     @return the user ID of the currently logged-in user, or {@code null} if no user is logged in.*/@Override
+     @return the user ID of the currently logged-in user, or {@code null} if no user is logged in.*/
     public Integer getCurrentUserId() {
         Integer userId = null;
         String query = "SELECT userId FROM current_user WHERE id = 1";
