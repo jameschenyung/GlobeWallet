@@ -3,6 +3,8 @@ package views;
 import database.DataAccessObject;
 import database.UpdateUserDataAccessObject;
 import database.addAccountDataAccessObject;
+import interface_adapter.EmailSender.EmailSender;
+import interface_adapter.EmailSender.EmailSenderGateway;
 import presenter.BankAccountPresenter;
 import presenter.UpdateUserPresenter;
 import use_case.addAccount.AccountDataAccessInterface;
@@ -27,6 +29,7 @@ public class AccountPanel extends JPanel {
     private UpdateUserPresenter updateUserPresenter;
     private AccountDataAccessInterface accountDataAccessInterface = new addAccountDataAccessObject();
     private UpdateUserDataAccessInterface updateUserDataAccess = new UpdateUserDataAccessObject();
+    private EmailSenderGateway emailSenderGateway = new EmailSender();
 
     /**
      * Constructs an AccountPanel associated with the given MainFrame.
@@ -73,7 +76,7 @@ public class AccountPanel extends JPanel {
 
     private void switchToUserProfilePanel() {
         UserProfilePanel userProfilePanel = new UserProfilePanel(frame);
-        updateUserPresenter = new UpdateUserPresenter(userProfilePanel, updateUserDataAccess);
+        updateUserPresenter = new UpdateUserPresenter(userProfilePanel, updateUserDataAccess, emailSenderGateway);
         userProfilePanel.setPresenter(updateUserPresenter);
         frame.switchToPanel(userProfilePanel);
     }

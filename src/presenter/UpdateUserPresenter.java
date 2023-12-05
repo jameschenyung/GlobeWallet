@@ -1,5 +1,6 @@
 package presenter;
 
+import interface_adapter.EmailSender.EmailSenderGateway;
 import use_case.updateUser.*;
 import views.UserProfilePanel;
 
@@ -14,6 +15,7 @@ import javax.swing.*;
 public class UpdateUserPresenter implements UpdateUserOutputBoundary {
     private UserProfilePanel view;
     private UpdateUserInputBoundary interactor;
+    private EmailSenderGateway emailSenderGateway;
 
     /**
      * Constructs an {@code UpdateUserPresenter} with the specified user profile view and data access interface.
@@ -22,9 +24,11 @@ public class UpdateUserPresenter implements UpdateUserOutputBoundary {
      * @param updateUserDataAccess   An implementation of {@code UpdateUserDataAccessInterface} to interact with
      *                               user data storage.
      */
-    public UpdateUserPresenter(UserProfilePanel view, UpdateUserDataAccessInterface updateUserDataAccess) {
+    public UpdateUserPresenter(UserProfilePanel view, UpdateUserDataAccessInterface updateUserDataAccess, EmailSenderGateway emailSenderGateway) {
         this.view = view;
-        this.interactor = new UpdateUserInteractor(updateUserDataAccess, this);
+        this.emailSenderGateway = emailSenderGateway;
+        this.interactor = new UpdateUserInteractor(updateUserDataAccess, this, emailSenderGateway);
+        this.view.setPresenter(this);
     }
 
     /**
