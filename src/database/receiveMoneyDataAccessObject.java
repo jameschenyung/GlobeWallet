@@ -210,7 +210,7 @@ public class receiveMoneyDataAccessObject implements
      */
     @Override
     public boolean hasTransaction(Integer transactionId) {
-        String sql = "SELECT COUNT(1) FROM transactions WHERE transactionId = ? AND received = 0";
+        String sql = "SELECT COUNT(1) FROM transactions WHERE transactionId = ? AND received = 1";
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -218,7 +218,7 @@ public class receiveMoneyDataAccessObject implements
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                return rs.getInt(1) > 0;
+                return rs.getInt(1) == 0;
             }
         } catch (SQLException e) {
             e.printStackTrace();
