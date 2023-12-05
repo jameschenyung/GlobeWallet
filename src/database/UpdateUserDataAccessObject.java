@@ -160,4 +160,52 @@ public class UpdateUserDataAccessObject implements use_case.updateUser.UpdateUse
         }
         return userId;
     }
+
+    @Override
+    public Integer getUserIdFromUserName(String username) {
+        String sql = "SELECT id FROM users WHERE username = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, username);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            // Handle SQL exceptions (e.g., log the error)
+            e.printStackTrace();
+        }
+        return null; // User ID not found or there was an error
+    }
+
+    /**
+     * Retrieves the full name of a user given their user ID.
+     * The method queries the database to find the user's first and last name.
+     *
+     * @param userId The user ID for which the full name is to be retrieved.
+     * @return The full name of the user (firstName + " " + lastName) or {@code null} if the user is not found or in case of an SQL exception.
+     * @throws SQLException If a database access error occurs or this method is called on a closed connection.
+     */
+    public String getFullName(Integer userId) {
+        String sql = "SELECT firstName, lastName FROM users WHERE id = ?";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
+                return firstName + " " + lastName;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Return null if user not found or if there's an error
+    }
+
+
 }
