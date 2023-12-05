@@ -3,7 +3,7 @@ package views;
 import javax.swing.*;
 
 import com.sun.tools.javac.Main;
-import database.DataAccessObject;
+import database.*;
 import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
 import interface_adapter.CurrencyConverter.PolygonCurrencyConversionGateway;
 import interface_adapter.EmailSender.EmailSender;
@@ -33,15 +33,15 @@ import use_case.signup.SignupUserDataAccessInterface;
  * It is responsible for initializing and orchestrating the navigation between different views based on user actions.
  */
 public class MainFrame extends JFrame {
-    private SignupUserDataAccessInterface userDataAccess = new DataAccessObject();
-    private SendMoneyUserDataAccessInterface sendMoneyUserDataAccess = new DataAccessObject();
-    private LoginUserDataAccessInterface loginUserDataAccess = new DataAccessObject();
+    private SignupUserDataAccessInterface userDataAccess = new signupDataAccessObject();
+    private SendMoneyUserDataAccessInterface sendMoneyUserDataAccess = new sendMoneyDataAccessObject();
+    private LoginUserDataAccessInterface loginUserDataAccess = new loginDataAccessObject();
     private SignupPresenter signupPresenter;
     private SendMoneyOutputBoundary sendMoneyOutputBoundary;
     private receiveMoneyInteractor receiveMoneyInteractor;
     private BankAccountPresenter bankAccountPresenter;
-    private receiveMoneyDataAccessInterface receiveMoneyDataAccess = new DataAccessObject();
-    private AccountDataAccessInterface accountDataAccess = new DataAccessObject();
+    private receiveMoneyDataAccessInterface receiveMoneyDataAccess = new receiveMoneyDataAccessObject();
+    private AccountDataAccessInterface accountDataAccess = new addAccountDataAccessObject();
     private final DataAccessObject dataAccess = new DataAccessObject();
     private final CurrencyConversionGateway currencyConversionGateway = new PolygonCurrencyConversionGateway();
     private final EmailSenderGateway emailSenderGateway = new EmailSender();

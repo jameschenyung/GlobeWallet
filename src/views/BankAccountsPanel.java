@@ -1,6 +1,7 @@
 package views;
 
 import database.DataAccessObject;
+import database.addAccountDataAccessObject;
 import presenter.BankAccountPresenter;
 import objects.Account;
 import use_case.addAccount.AccountDataAccessInterface;
@@ -16,7 +17,7 @@ public class BankAccountsPanel extends JPanel {
 
     public BankAccountsPanel(MainFrame frame) {
         this.frame = frame;
-        this.dataAccess = new DataAccessObject();
+        this.dataAccess = new addAccountDataAccessObject();
 
         JButton addAccountButton = new JButton("Add Account");
         addAccountButton.addActionListener(e -> openAddAccountPopup());
