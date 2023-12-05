@@ -6,14 +6,6 @@ import static org.junit.Assert.*;
 import use_case.login.*;
 
 
-import use_case.login.LoginUserDataAccessInterface;
-import objects.User;
-import java.util.Map;
-import java.util.HashMap;
-import use_case.login.LoginUserDataAccessInterface;
-import objects.User;
-
-
 public class LoginTest {
 
     private LoginInteractor loginInteractor;
@@ -54,6 +46,29 @@ public class LoginTest {
     @After
     public void tearDown() {
         // Clean-up code, if needed
+    }
+
+    public static class LoginOutputBoundaryStub implements LoginOutputBoundary {
+        private LoginOutputData outputData;
+
+        @Override
+        public void present(LoginOutputData outputData) {
+            this.outputData = outputData;
+        }
+
+        public LoginOutputData getOutputData() {
+            return outputData;
+        }
+
+        @Override
+        public void prepareSuccessView(LoginOutputData user) {
+
+        }
+
+        @Override
+        public void prepareFailView(String error) {
+
+        }
     }
 }
 
