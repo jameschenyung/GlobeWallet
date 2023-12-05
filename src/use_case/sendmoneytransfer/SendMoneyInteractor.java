@@ -3,6 +3,8 @@ package use_case.sendmoneytransfer;
 import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
 import interface_adapter.EmailSender.EmailSenderGateway;
 
+import java.util.Objects;
+
 /**
  * Interactor class for handling the process of sending money transactions.
  * This class manages the business logic associated with sending money, including checking account validity,
@@ -61,12 +63,17 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
      */
     @Override
     public void convert(SendMoneyInputData sendMoneyInputData) {
-        double amountToSend = conversionGateway.convertCurrency(
-                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
-                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
-
-                sendMoneyInputData.getAmount()
-        );
+        double amountToSend;
+        if (Objects.equals(userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
+                userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()))){
+            amountToSend = sendMoneyInputData.getAmount();
+        } else {
+            amountToSend = conversionGateway.convertCurrency(
+                    userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
+                    userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
+                    sendMoneyInputData.getAmount()
+            );
+        }
 
         if (userDataAccess.getAccountBalance(sendMoneyInputData.getSenderId()) < amountToSend) {
             outputBoundary.prepareFailView("Insufficient funds for the transfer.");
@@ -75,6 +82,8 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
                     sendMoneyInputData.getSenderId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getSenderId()),
                     sendMoneyInputData.getReceiverId(), userDataAccess.getCurrencyByAccount(sendMoneyInputData.getReceiverId()),
                     amountToSend, sendMoneyInputData.getAmount(), null));
+            // Assuming prepareSuccessConvert method and SendMoneyOutputData constructor are implemented correctly
+            // Additional steps to complete the transfer would go here, e.g., updating account balances
         }
     }
 
