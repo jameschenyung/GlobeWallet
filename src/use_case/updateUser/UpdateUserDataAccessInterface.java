@@ -36,4 +36,18 @@ public interface UpdateUserDataAccessInterface {
      * @return the user ID of the currently logged-in user, or {@code null} if no user is logged in.
      */
     Integer getCurrentUserId();
+
+    /**
+     *
+     * @param username
+     * @return the User's Id
+     */
+    Integer getUserIdFromUserName(String username);
+
+    /**
+     *
+     * @param userid
+     * @return the User's Full Name
+     */
+    String getFullName(Integer userid);
 }

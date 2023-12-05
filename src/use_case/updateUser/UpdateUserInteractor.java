@@ -1,10 +1,12 @@
 package use_case.updateUser;
 
+import interface_adapter.EmailSender.EmailSenderGateway;
 import use_case.signup.SignupOutputData;
 
 public class UpdateUserInteractor implements UpdateUserInputBoundary{
     private final UpdateUserDataAccessInterface userDataAccess;
     private UpdateUserOutputBoundary UpdateUserOutputBoundary;
+    private EmailSenderGateway emailSenderGateway;
 
     public UpdateUserInteractor(UpdateUserDataAccessInterface userDataAccess, UpdateUserOutputBoundary UpdateUserOutputBoundary) {
         this.userDataAccess = userDataAccess;
@@ -30,6 +32,13 @@ public class UpdateUserInteractor implements UpdateUserInputBoundary{
                     updateUserInputData.getNewUsername(),
                     updateUserInputData.getNewPassword()
             );
+
+            String email = updateUserInputData.getNewEmail();
+            String username = updateUserInputData.getNewUsername();
+            Integer userid = userDataAccess.getUserIdFromUserName(username);
+            String fullName = userDataAccess.getFullName(userid);
+
+            emailSenderGateway.sendUpdateConfirmation(email, fullName);
 
             UpdateUserOutputBoundary.prepareSuccessView(new UpdateUserOutputData(
                     true,

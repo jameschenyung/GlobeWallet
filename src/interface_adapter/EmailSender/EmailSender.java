@@ -126,20 +126,12 @@ public class EmailSender implements EmailSenderGateway{
         );
     }
 
-    /**
-     * Main method for demonstration and testing of the email sending functionality.
-     *
-     * @param args Command line arguments (not used in this application).
-     */
-    public static void main(String[] args) {
-        // Example usage
-        String to = "jameschenyung@gmail.com";
-        String subject = "Testing JavaMail API";
-        String message = "Hello, this is a test email sent from Java!";
-
-        //sendEmail(to, subject, message);
-        //sendWelcomeEmail("jameschenyung@gmail.com", "James");
-        //sendTransactionReceiver(to, 90, 34.0, "CAD", "James", "Kesier");
+    public void sendUpdateConfirmation(String email, String name) {
+        sendEmail(
+                email,
+                "Your profile has been updated",
+                "Hi " + name + " we would like to inform you that your profile update request has been successful"
+        );
     }
 }
 
