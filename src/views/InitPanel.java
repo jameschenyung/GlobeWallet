@@ -1,10 +1,5 @@
 package views;
 
-import database.DataAccessObject;
-import presenter.SignupPresenter;
-import use_case.signup.SignupInteractor;
-import use_case.signup.SignupUserDataAccessInterface;
-
 import javax.swing.JPanel;
 import javax.swing.JButton;
 

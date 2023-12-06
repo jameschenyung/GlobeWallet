@@ -1,8 +1,7 @@
 package views;
 
-import database.DataAccessObject;
 import database.addAccountDataAccessObject;
-import presenter.BankAccountPresenter;
+import interface_adapter.presenter.BankAccountPresenter;
 import Entity.Account;
 import use_case.addAccount.AccountDataAccessInterface;
 

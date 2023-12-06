@@ -4,9 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import presenter.SignupPresenter;
-import use_case.signup.SignupOutputBoundary;
-import use_case.signup.SignupOutputData;
+import interface_adapter.presenter.SignupPresenter;
+
 /**
  * A JPanel representing the signup screen of the application.
  * This panel provides input fields for user registration details such as name, username, email, and password,

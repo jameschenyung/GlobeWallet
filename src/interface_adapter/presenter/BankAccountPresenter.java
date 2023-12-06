@@ -1,4 +1,4 @@
-package presenter;
+package interface_adapter.presenter;
 
 import Entity.Account;
 import use_case.addAccount.*;
