@@ -24,6 +24,7 @@ public class LoginTest {
         LoginInputData inputData = new LoginInputData("validUser", "validPass");
         loginInteractor.execute(inputData);
         assertFalse(outputBoundary.getOutputData().isSuccess());
+
     }
 
     @Test
