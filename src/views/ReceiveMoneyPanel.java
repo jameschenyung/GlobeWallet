@@ -2,9 +2,7 @@ package views;
 
 import javax.swing.*;
 import java.awt.*;
-import presenter.ReceiveMoneyPresenter;
-import views.AccountPanel;
-import views.MainFrame;
+import interface_adapter.presenter.ReceiveMoneyPresenter;
 
 /**
  * The panel for receiving money transactions.

@@ -1,10 +1,9 @@
-package presenter;
+package interface_adapter.presenter;
 
 import javax.swing.*;
 
 import use_case.receiveMoney.receiveMoneyInteractor;
 import use_case.receiveMoney.receiveMoneyOutputBoundary;
-import use_case.sendmoneytransfer.SendMoneyInteractor;
 import views.ReceiveMoneyPanel;
 import use_case.receiveMoney.*;
 /**

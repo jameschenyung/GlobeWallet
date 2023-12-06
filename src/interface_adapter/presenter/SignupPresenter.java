@@ -1,4 +1,4 @@
-package presenter;
+package interface_adapter.presenter;
 
 import interface_adapter.EmailSender.EmailSenderGateway;
 import use_case.signup.*;

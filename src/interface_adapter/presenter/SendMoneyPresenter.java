@@ -1,4 +1,4 @@
-package presenter;
+package interface_adapter.presenter;
 
 import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
 import use_case.sendmoneytransfer.*;

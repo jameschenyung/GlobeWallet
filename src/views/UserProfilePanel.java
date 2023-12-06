@@ -1,6 +1,6 @@
 package views;
 
-import presenter.UpdateUserPresenter;
+import interface_adapter.presenter.UpdateUserPresenter;
 
 import javax.swing.*;
 import java.awt.*;

@@ -7,8 +7,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
-import presenter.SendMoneyPresenter;
-import use_case.sendmoneytransfer.SendMoneyInteractor;
 import use_case.sendmoneytransfer.SendMoneyOutputBoundary;
 import use_case.sendmoneytransfer.SendMoneyUserDataAccessInterface;
 

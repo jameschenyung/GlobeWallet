@@ -1,15 +1,12 @@
 package views;
 
-import database.DataAccessObject;
 import database.UpdateUserDataAccessObject;
 import database.addAccountDataAccessObject;
 import interface_adapter.EmailSender.EmailSender;
 import interface_adapter.EmailSender.EmailSenderGateway;
-import presenter.BankAccountPresenter;
-import presenter.UpdateUserPresenter;
+import interface_adapter.presenter.BankAccountPresenter;
+import interface_adapter.presenter.UpdateUserPresenter;
 import use_case.addAccount.AccountDataAccessInterface;
-import use_case.addAccount.AddAccountInteractor;
-import use_case.addAccount.AddAccountOutputBoundary;
 import use_case.updateUser.UpdateUserDataAccessInterface;
 
 

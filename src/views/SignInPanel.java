@@ -1,11 +1,10 @@
 package views;
 
-import presenter.LoginPresenter;
+import interface_adapter.presenter.LoginPresenter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 /**
  * A JPanel representing the sign-in screen of the application.
  * This panel allows users to enter their username and password and attempt to log in.
