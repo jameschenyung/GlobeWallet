@@ -6,9 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.*;
 
-import objects.Transaction;
-import objects.User;
-import objects.Account;
+import Entity.Transaction;
+import Entity.User;
+import Entity.Account;
 
 import java.util.Currency;
 import java.util.Random;

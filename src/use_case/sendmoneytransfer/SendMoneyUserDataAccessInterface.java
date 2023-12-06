@@ -1,6 +1,6 @@
 package use_case.sendmoneytransfer;
 
-import objects.Account;
+import Entity.Account;
 
 import java.sql.SQLException;
 

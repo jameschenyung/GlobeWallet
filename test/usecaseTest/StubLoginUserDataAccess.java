@@ -1,6 +1,6 @@
 package usecaseTest;
 
-import objects.User;
+import Entity.User;
 import use_case.login.LoginUserDataAccessInterface;
 
 import java.util.HashMap;

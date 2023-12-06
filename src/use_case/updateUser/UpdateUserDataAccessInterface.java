@@ -1,6 +1,6 @@
 package use_case.updateUser;
 
-import objects.User;
+import Entity.User;
 
 import java.sql.SQLException;
 

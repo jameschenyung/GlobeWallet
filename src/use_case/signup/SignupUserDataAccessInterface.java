@@ -1,5 +1,5 @@
 package use_case.signup;
-import objects.User;
+import Entity.User;
 public interface SignupUserDataAccessInterface {
     /**
      * Creates a new user with the given details.

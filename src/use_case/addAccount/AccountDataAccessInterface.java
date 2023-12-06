@@ -1,5 +1,5 @@
 package use_case.addAccount;
-import objects.Account;
+import Entity.Account;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

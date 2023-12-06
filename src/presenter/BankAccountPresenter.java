@@ -1,6 +1,6 @@
 package presenter;
 
-import objects.Account;
+import Entity.Account;
 import use_case.addAccount.*;
 import use_case.receiveMoney.receiveMoneyInteractor;
 import views.BankAccountsPanel;

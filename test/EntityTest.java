@@ -57,7 +57,7 @@ public class EntityTest {
     @Test
     void addAccount() {
         user.addAccount(account);
-        assertTrue(user.getAccounts().isEmpty());
+        assertFalse(user.getAccounts().isEmpty());
     }
 
     @Test
@@ -73,7 +73,7 @@ public class EntityTest {
 
     @Test
     void getBalance() {
-        assertEquals(50.0, account.getBalance());
+        assertEquals(0.0, account.getBalance());
     }
 
     @Test
@@ -89,6 +89,21 @@ public class EntityTest {
     @Test
     void getTransactionId() {
         assertEquals(3, transaction.getTransactionId());
+    }
+
+    @Test
+    void getSenderId() {
+        assertEquals(1, transaction.getSenderId());
+    }
+
+    @Test
+    void getReceiverId() {
+        assertEquals(2, transaction.getReceiverId());
+    }
+
+    @Test
+    void isReceived() {
+        assertEquals(0, transaction.isReceived());
     }
 
     @Test
