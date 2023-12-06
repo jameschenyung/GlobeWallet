@@ -11,10 +11,6 @@ public class AddAccountInteractor implements AddAccountInputBoundary {
         this.outputBoundary = outputBoundary;
     }
 
-    public Integer getCurrentUserId() {
-        return dataAccess.getCurrentUserId();
-    }
-
     @Override
     public void addAccount(AddAccountInputData inputData) {
         try {

@@ -53,7 +53,7 @@ public class BankAccountPresenter implements AddAccountOutputBoundary {
     }
 
     public ArrayList<Integer> getAccountIds() {
-        Integer currentUserId = interactor.getCurrentUserId();
+        Integer currentUserId = dataAccess.getCurrentUserId();
         return dataAccess.getUserBankAccounts(currentUserId);
     }
 
