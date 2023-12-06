@@ -1,4 +1,4 @@
-package objects;
+package Entity;
 
 /**
  * Represents a bank account with basic transactional functionalities.

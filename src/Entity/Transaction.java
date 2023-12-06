@@ -1,4 +1,4 @@
-package objects;
+package Entity;
 
 /**
  * Represents a financial transaction between two parties.
