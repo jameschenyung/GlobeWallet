@@ -1,8 +1,6 @@
 package views;
 
-import presenter.SendMoneyPresenter;
-import use_case.sendmoneytransfer.SendMoneyInputData;
-import use_case.sendmoneytransfer.SendMoneyInteractor;
+import interface_adapter.presenter.SendMoneyPresenter;
 
 import javax.swing.*;
 import java.awt.*;

@@ -8,23 +8,16 @@ import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
 import interface_adapter.CurrencyConverter.PolygonCurrencyConversionGateway;
 import interface_adapter.EmailSender.EmailSender;
 import interface_adapter.EmailSender.EmailSenderGateway;
-import Entity.User;
-import presenter.*;
+import interface_adapter.presenter.*;
 import use_case.addAccount.AccountDataAccessInterface;
-import use_case.addAccount.AddAccountInteractor;
-import use_case.addAccount.AddAccountOutputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.receiveMoney.receiveMoneyDataAccessInterface;
-import use_case.receiveMoney.receiveMoneyInputBoundary;
 import use_case.receiveMoney.receiveMoneyInteractor;
-import use_case.receiveMoney.receiveMoneyOutputBoundary;
 import use_case.sendmoneytransfer.SendMoneyInteractor;
 import use_case.sendmoneytransfer.SendMoneyOutputBoundary;
 import use_case.sendmoneytransfer.SendMoneyUserDataAccessInterface;
-import use_case.signup.SignUpInputData;
 import use_case.signup.SignupInteractor;
-import use_case.signup.SignupOutputBoundary;
 import use_case.signup.SignupUserDataAccessInterface;
 
 /**

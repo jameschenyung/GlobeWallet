@@ -1,6 +1,6 @@
 package views;
 
-import presenter.LoginPresenter;
+import interface_adapter.presenter.LoginPresenter;
 
 import javax.swing.*;
 import java.awt.*;
