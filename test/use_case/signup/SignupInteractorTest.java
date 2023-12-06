@@ -28,7 +28,7 @@ class MockSignupUserDataAccess implements SignupUserDataAccessInterface {
 
     @Override
     public User getUserByUsername(String username) {
-        return null;
+        return new User(1, "a", "b", username, "abab", "UNDEFINED", "abab");
     }
 
     public void setUsernameTaken(boolean usernameTaken) {
