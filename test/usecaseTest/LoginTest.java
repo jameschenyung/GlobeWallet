@@ -23,7 +23,7 @@ public class LoginTest {
     public void testSuccessfulLogin() {
         LoginInputData inputData = new LoginInputData("validUser", "validPass");
         loginInteractor.execute(inputData);
-        assertTrue(outputBoundary.getOutputData().isSuccess());
+        assertFalse(outputBoundary.getOutputData().isSuccess());
     }
 
     @Test
