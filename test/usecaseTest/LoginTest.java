@@ -51,10 +51,10 @@ public class LoginTest {
             this.outputData = new LoginOutputData(false, "Default message");
         }
 
-        @Override
-        public void present(LoginOutputData outputData) {
-            this.outputData = outputData;
-        }
+//        @Override
+//        public void present(LoginOutputData outputData) {
+//            this.outputData = outputData;
+//        }
 
         public LoginOutputData getOutputData() {
             return outputData;

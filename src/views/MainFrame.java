@@ -8,7 +8,7 @@ import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
 import interface_adapter.CurrencyConverter.PolygonCurrencyConversionGateway;
 import interface_adapter.EmailSender.EmailSender;
 import interface_adapter.EmailSender.EmailSenderGateway;
-import objects.User;
+import Entity.User;
 import presenter.*;
 import use_case.addAccount.AccountDataAccessInterface;
 import use_case.addAccount.AddAccountInteractor;

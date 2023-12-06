@@ -1,5 +1,5 @@
 package use_case.receiveMoney;
-import objects.Transaction;
+import Entity.Transaction;
 import java.sql.SQLException;
 
 public interface receiveMoneyDataAccessInterface {

@@ -1,6 +1,6 @@
 package use_case.login;
 
-import objects.User;
+import Entity.User;
 
 public interface LoginUserDataAccessInterface {
     /**

@@ -1,8 +1,8 @@
 package use_case.receiveMoney;
 
 import interface_adapter.CurrencyConverter.CurrencyConversionGateway;
-import objects.Account;
-import objects.Transaction;
+import Entity.Account;
+import Entity.Transaction;
 import use_case.sendmoneytransfer.SendMoneyOutputData;
 
 import java.sql.SQLException;

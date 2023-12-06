@@ -3,7 +3,7 @@ package views;
 import database.DataAccessObject;
 import database.addAccountDataAccessObject;
 import presenter.BankAccountPresenter;
-import objects.Account;
+import Entity.Account;
 import use_case.addAccount.AccountDataAccessInterface;
 
 import javax.swing.*;

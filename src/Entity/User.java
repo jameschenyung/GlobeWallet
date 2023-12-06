@@ -44,37 +44,6 @@ public class User {
         this.email = email;
     }
 
-    /**
-     * Checks if the provided password meets specific criteria.
-     * The password must contain at least one uppercase letter, one lowercase letter, one number,
-     * and be at least 8 characters long.
-     *
-     * @param pass The password to be checked.
-     * @return True if the password meets the criteria, false otherwise.
-     */
-    public Boolean passwordChecker(String pass) {
-        boolean upper = false;
-        boolean lower = false;
-        boolean number = false;
-
-        for (int i = 0; i < pass.length(); i++) {
-            char element = pass.charAt(i);
-            if (Character.isUpperCase(element)) {
-                upper = true;
-            }
-            else if (Character.isLowerCase(element)) {
-                lower = true;
-            }
-            else if (Character.isDigit(element)) {
-                number = true;
-            }
-
-            if (upper && lower && number) {
-                break;
-            }
-        }
-        return (pass.length() >= 8) && upper && lower && number;
-    }
 
     public int getUserId() {
         return userId;
@@ -92,11 +61,4 @@ public class User {
         return accounts;
     }
 
-    /**
-     * Retrieves the user's password.
-     * Note: Exposing a password through a getter can be a security risk.
-     *
-     * @return The password of the user.
-     */
-    public Object getPassword() {return getPassword();}
 }
