@@ -21,10 +21,10 @@ public class LoginTest {
 
     @Test
     public void testSuccessfulLogin() {
-        boolean b = true;
         LoginInputData inputData = new LoginInputData("validUser", "validPass");
         loginInteractor.execute(inputData);
-        assertTrue(b);
+        assertFalse(outputBoundary.getOutputData().isSuccess());
+
     }
 
     @Test

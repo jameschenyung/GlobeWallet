@@ -43,6 +43,10 @@ public class SendMoneyOutputData {
         this.transactionId = transactionId;
     }
 
+    public boolean isSuccess() {
+        return success;
+    }
+
     public Integer getSenderId() {
         return senderId;
     }
