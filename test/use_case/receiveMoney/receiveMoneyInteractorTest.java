@@ -6,6 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * A mock implementation of the {@link receiveMoneyDataAccessInterface} for testing purposes.
+ * This class provides simulated data and behavior to be used in testing the receive money use case.
+ */
+
 class MockReceiveMoneyDataAccess implements receiveMoneyDataAccessInterface {
     // Assuming these are the sample values for testing
     private final int validTransactionId = 12345;
@@ -81,6 +86,11 @@ class MockReceiveMoneyDataAccess implements receiveMoneyDataAccessInterface {
     }
 }
 
+/**
+ * A mock implementation of the {@link receiveMoneyOutputBoundary} for testing purposes.
+ * This class captures the results presented by the interactor for verification in test cases.
+ */
+
 class MockReceiveMoneyOutputBoundary implements receiveMoneyOutputBoundary {
     private boolean successful;
     private String message;
@@ -111,6 +121,11 @@ class MockReceiveMoneyOutputBoundary implements receiveMoneyOutputBoundary {
     }
 }
 
+/**
+ * Unit tests for the {@link receiveMoneyInteractor} class.
+ * These tests cover the functionality of the receiveMoneyInteractor class,
+ * focusing on verifying transactions and confirming security codes.
+ */
 
 class receiveMoneyInteractorTest {
 
@@ -118,6 +133,9 @@ class receiveMoneyInteractorTest {
     private MockReceiveMoneyDataAccess dataAccess;
     private MockReceiveMoneyOutputBoundary outputBoundary;
 
+    /**
+     * Set up the test environment before each test case.
+     */
     @BeforeEach
     void setUp() {
         dataAccess = new MockReceiveMoneyDataAccess();
@@ -125,6 +143,11 @@ class receiveMoneyInteractorTest {
         interactor = new receiveMoneyInteractor(dataAccess, outputBoundary);
     }
 
+    /**
+     * Test the {@link receiveMoneyInteractor#verifyTransaction(receiveMoneyInputData)} method
+     * with a valid transaction input.
+     * Verifies that the output boundary receives a success signal and the correct message.
+     */
     @Test
     void verifyTransaction_ValidTransaction() {
         receiveMoneyInputData inputData = new receiveMoneyInputData(12345, 123);
@@ -134,6 +157,11 @@ class receiveMoneyInteractorTest {
         assertEquals("Successful", outputBoundary.getMessage());
     }
 
+    /**
+     * Test the {@link receiveMoneyInteractor#confirmSecurityCode(receiveMoneyInputData)} method
+     * with a valid security code input.
+     * Verifies that the method returns true, indicating successful confirmation.
+     */
     @Test
     void confirmSecurityCode_ValidCode() {
         receiveMoneyInputData inputData = new receiveMoneyInputData(12345, 67890);

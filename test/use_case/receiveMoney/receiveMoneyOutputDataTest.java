@@ -3,8 +3,16 @@ package use_case.receiveMoney;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * JUnit tests for the {@link receiveMoneyOutputData} class.
+ * These tests focus on ensuring the correctness of the receiveMoneyOutputData class,
+ * specifically verifying that the getters return the expected values.
+ */
 class receiveMoneyOutputDataTest {
-
+    /**
+     * Test the constructor and getters of the {@link receiveMoneyOutputData} class.
+     * Verifies that the instance is constructed with the correct values and the getters return them.
+     */
     @Test
     void testReceiveMoneyOutputData() {
         // Sample data for testing

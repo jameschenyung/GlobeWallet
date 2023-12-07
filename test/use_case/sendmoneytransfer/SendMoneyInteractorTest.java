@@ -10,6 +10,10 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Mock implementation of the {@link SendMoneyUserDataAccessInterface} for testing purposes.
+ * This class simulates data access operations related to user accounts and transactions.
+ */
 class MockSendMoneyUserDataAccess implements SendMoneyUserDataAccessInterface {
     private Map<Integer, Double> accountBalances = new HashMap<>();
     private Map<Integer, String> accountCurrencies = new HashMap<>();
@@ -85,6 +89,10 @@ class MockSendMoneyUserDataAccess implements SendMoneyUserDataAccessInterface {
     // Other methods...
 }
 
+/**
+ * Mock implementation of the {@link SendMoneyOutputBoundary} for testing purposes.
+ * This class captures and provides information about the output prepared by the interactor.
+ */
 class MockSendMoneyOutputBoundary implements SendMoneyOutputBoundary {
     private String lastMessage;
     private SendMoneyOutputData lastData;
@@ -120,6 +128,10 @@ class MockSendMoneyOutputBoundary implements SendMoneyOutputBoundary {
     // Other methods...
 }
 
+/**
+ * Mock implementation of the {@link CurrencyConversionGateway} for testing purposes.
+ * This class simulates currency conversion operations.
+ */
 class MockCurrencyConversionGateway implements CurrencyConversionGateway {
     @Override
     public double convertCurrency(String fromCurrency, String toCurrency, double amount) {
@@ -133,6 +145,10 @@ class MockCurrencyConversionGateway implements CurrencyConversionGateway {
     // Other methods...
 }
 
+/**
+ * Mock implementation of the {@link EmailSenderGateway} for testing purposes.
+ * This class captures information about emails sent during testing.
+ */
 class MockEmailSenderGateway implements EmailSenderGateway {
     private List<String> sentEmails = new ArrayList<>();
 
@@ -168,6 +184,10 @@ class MockEmailSenderGateway implements EmailSenderGateway {
     // Other methods...
 }
 
+/**
+ * JUnit tests for the {@link SendMoneyInteractor} class.
+ * These tests focus on verifying the behavior of the SendMoneyInteractor.
+ */
 class SendMoneyInteractorTest {
 
     private MockSendMoneyUserDataAccess userDataAccess;
@@ -231,5 +251,4 @@ class SendMoneyInteractorTest {
         assertTrue(condition);
     }
 
-    // Additional test cases...
 }
