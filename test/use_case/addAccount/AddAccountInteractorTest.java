@@ -10,12 +10,18 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test for AddAccount
+ */
 class AddAccountInteractorTest {
 
     private AddAccountInteractor interactor;
     private MockAccountDataAccess dataAccess;
     private MockAddAccountOutputBoundary outputBoundary;
 
+    /**
+     * Set up the test environment by initializing necessary objects.
+     */
     @BeforeEach
     void setUp() {
         dataAccess = new MockAccountDataAccess();
@@ -23,6 +29,9 @@ class AddAccountInteractorTest {
         interactor = new AddAccountInteractor(dataAccess, outputBoundary);
     }
 
+    /**
+     * Test the behavior of adding a valid account.
+     */
     @Test
     void addAccount_ValidAccount() {
         AddAccountInputData inputData = new AddAccountInputData(987654, "USD");
@@ -34,6 +43,9 @@ class AddAccountInteractorTest {
         assertEquals("Account successfully added", outputBoundary.getMessage());
     }
 
+    /**
+     * Test the behavior of adding an account with an invalid currency.
+     */
     @Test
     void addAccount_InvalidCurrency() {
         AddAccountInputData inputData = new AddAccountInputData(987654, "XYZ");
@@ -45,6 +57,9 @@ class AddAccountInteractorTest {
         assertEquals("Invalid currency type.", outputBoundary.getMessage());
     }
 
+    /**
+     * Test the behavior of adding an account with a number that is already taken.
+     */
     @Test
     void addAccount_AccountNumberTaken() {
         AddAccountInputData inputData = new AddAccountInputData(123456, "USD");
@@ -56,6 +71,9 @@ class AddAccountInteractorTest {
         assertEquals("Account number taken.", outputBoundary.getMessage());
     }
 
+    /**
+     * Mock implementation of {@link AccountDataAccessInterface} for testing purposes.
+     */
     private static class MockAccountDataAccess implements AccountDataAccessInterface {
         private final ArrayList<Integer> validAccountIds = new ArrayList<>(Arrays.asList(987654));
 
@@ -99,9 +117,11 @@ class AddAccountInteractorTest {
             return null;
         }
 
-        // Implement other methods as needed for the test
     }
 
+    /**
+     * Mock implementation of {@link AddAccountOutputBoundary} for testing purposes.
+     */
     private static class MockAddAccountOutputBoundary implements AddAccountOutputBoundary {
         private boolean success;
         private String message;
@@ -120,6 +140,4 @@ class AddAccountInteractorTest {
             return message;
         }
     }
-
-    // Additional test cases...
 }
