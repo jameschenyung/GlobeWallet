@@ -125,7 +125,7 @@ public class SendMoneyInteractor implements SendMoneyInputBoundary {
             String senderEmail = userDataAccess.getEmail(userDataAccess.getUserIdbyAccountId(sendMoneyInputData.getSenderId()));
             String receiverEmail = userDataAccess.getEmail(userDataAccess.getUserIdbyAccountId(sendMoneyInputData.getReceiverId()));
 
-            emailSenderGateway.sendTransactionSender(senderEmail, id, amount, senderCurrency, senderName, receiverName);
+            emailSenderGateway.sendTransactionSender(senderEmail, id, amount, receiverCurrency, senderName, receiverName);
             emailSenderGateway.sendTransactionReceiver(receiverEmail, id, amount, receiverCurrency, senderName, receiverName);
 
         } catch (Exception e) {
